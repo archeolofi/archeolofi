@@ -1,0 +1,4 @@
+import json
+import requests
+u = {"name": "Plauto", "psw": 34}
+r = requests.post("http://localhost:5000/api/indiana_user", data=json.dumps(u), headers={"content-type":"application/json"})
