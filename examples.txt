@@ -1,3 +1,13 @@
+### accesso al database
+sudo -u postgres psql
+\c indiana
+\d
+SELECT * FROM indiana_user;
+
+NOTA: se si fanno delle modifiche alla struttura del database, non è escluso che per vederle applicate si debba droppare le cose, prima.
+
+
+### chiamate con requests
 import json
 import requests
 u = {"name": "Plauto", "psw": 34}

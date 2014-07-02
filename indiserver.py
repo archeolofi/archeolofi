@@ -14,7 +14,7 @@ import flask.ext.restless
 #         String, Integer, Float, Text
 # from sqlalchemy.ext.declarative import declarative_base
 # from sqlalchemy.orm import sessionmaker, relationship, backref
-# from sqlalchemy_imageattach.entity import Image, image_attachment
+from sqlalchemy_imageattach.entity import Image, image_attachment
 
 # HTTP service codes
 HTTP_OK = 200
@@ -71,16 +71,15 @@ class IndianaUser(db.Model):
         # TODO: crea l'utente
 
 
-# class OpenData(Base, Resource):
-#     # radius of data scanning
-#     RADIUS = 300        # TODO: settarlo a modino
+class OpenData(db.Model):
+    # radius of data scanning
+    RADIUS = 300        # TODO: settarlo a modino
 
-#     __tablename__ = "opendata"
-
-#     lat = Column(Float, primary_key=True)
-#     lon = Column(Float, primary_key=True)
-#     name = Column(String(80))
-#     # etc.
+    id = db.Column(db.Integer, primary_key=True)
+    lat = db.Column(db.Float, nullable=False)
+    lon = db.Column(db.Float, nullable=False)
+    name = db.Column(db.String(80))
+    # etc.
 #     contents = relationship("CustomContent")
 
 #     def __repr__(self):
@@ -108,18 +107,15 @@ class IndianaUser(db.Model):
 #         return to_return, HTTP_OK
 
 
-# class CustomContent(Base, Resource):
-#     __tablename__ = "usercontents"
-
-#     id_ = Column(Integer, primary_key=True)
-#     name = Column(String(50), ForeignKey("User.name"), nullable=False)
-#     lat = Column(Float, nullable=False)
-#     lon = Column(Float, nullable=False)
-#     comment = Column(Text, convert_unicode=True)
-#     picture = image_attachment("Photo")
-#     ForeignKeyConstraint(["lat", "lon"], ["OpenData.lat", "OpenData.lon"])
-#     # TODO: check that any comment or picture are present
-#     likes = relationship("Like")
+class CustomContent(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.Unicode, db.ForeignKey("indiana_user.name"), nullable=False)
+    poi = db.Column(db.Integer, db.ForeignKey("open_data.id"), nullable=False)
+    comment = db.Column(db.Text)
+    picture = image_attachment("Photo")
+    db.ForeignKeyConstraint(["lat", "lon"], ["open_data.lat", "open_data.lon"])
+    # TODO: check that any comment or picture are present
+    likes = db.relationship("like")
 
 #     @auth.login_required
 #     def post(self):
@@ -175,20 +171,20 @@ class IndianaUser(db.Model):
 #         # TODO:     cancella l'oggetto
 
 
-# class Photo(Base, Image):
+class Photo(db.Model):
 #     __tablename__ = "pictures"
 
-#     content_id = Column(
-#         Integer,
-#         ForeignKey("CustomContent.id"),
-#         primary_key=True
-#     )
-#     user = relationship("CustomContent")
+    content_id = db.Column(
+        db.Integer,
+        db.ForeignKey("custom_content.id"),
+        primary_key=True
+    )
+    user = db.relationship("custom_content")
 
 
-# class Like(Base, Resource):
-#     user = Column(String(50), ForeignKey("User.name"), primary_key=True)
-#     id_ = Column(Integer, ForeignKey("CustomContent.id_"), primary_key=True)
+class Like(db.Model):
+    user = db.Column(db.String(50), db.ForeignKey("indiana_user.name"), primary_key=True)
+    content_id = db.Column(db.Integer, db.ForeignKey("custom_content.id"), primary_key=True)
     
 #     # True is a like, False is an unlike
 #     vote = Column(Boolean, nullable=False)
@@ -215,15 +211,10 @@ manager = flask.ext.restless.APIManager(app, flask_sqlalchemy_db=db)
 # Create API endpoints, which will be available at /api/<tablename> by
 # default. Allowed HTTP methods can be specified as well
 #manager.create_api(Person, methods=['GET', 'POST', 'DELETE'])
-manager.create_api(IndianaUser, methods=['POST'])
-
-
-# # start the flask loop
-# app.run()
-# api.add_resource(User, "{}create_user".format(API_PREFIX))
-# api.add_resource(OpenData, "{}infos_from_map".format(API_PREFIX))
-# api.add_resource(CustomContent, "{}contents".format(API_PREFIX))
-# api.add_resource(Like, "{}like".format(API_PREFIX))
+manager.create_api(IndianaUser, methods=["POST"])
+manager.create_api(OpenData, methods=["GET"])
+manager.create_api(CustomContent, methods=["GET", "POST", "DELETE"])
+manager.create_api(Like, methods=["POST"])
 
 
 if __name__ == "__main__":
