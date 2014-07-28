@@ -8,9 +8,8 @@ import flask.ext.sqlalchemy
 import flask.ext.restless
 from sqlalchemy_imageattach.entity import Image, image_attachment
 
-# local imports
-from credentials import DATABASE_URL
 
+DATABASE_URL = "postgresql://$OPENSHIFT_POSTGRESQL_DB_HOST:$OPENSHIFT_POSTGRESQL_DB_PORT"
 
 # HTTP service codes
 HTTP_OK = 200
