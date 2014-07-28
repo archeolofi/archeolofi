@@ -10,7 +10,7 @@ db = {
 }
 
 
-_DATABASE_URL = ''.join([
+DATABASE_URL = ''.join([
     "postgresql://",
     db["username"],
     ":",

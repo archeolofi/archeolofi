@@ -1,15 +1,16 @@
 #!/usr/bin/env python
 #-*- coding: utf-8 -*-
 
-# internal imports
-from credentials import DATABASE_URL
-
 # library imports
 from flask import Flask, request, abort
 from flask.ext.httpauth import HTTPBasicAuth
 import flask.ext.sqlalchemy
 import flask.ext.restless
 from sqlalchemy_imageattach.entity import Image, image_attachment
+
+# local imports
+from credentials import DATABASE_URL
+
 
 # HTTP service codes
 HTTP_OK = 200
