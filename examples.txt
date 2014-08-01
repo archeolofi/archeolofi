@@ -4,11 +4,27 @@ sudo -u postgres psql
 \d
 SELECT * FROM indiana_user;
 
-NOTA: se si fanno delle modifiche alla struttura del database, non è escluso che per vederle applicate si debba droppare le cose, prima.
+NOTA: se si fanno delle modifiche alla struttura del database, non è escluso che,
+per vederle applicate, si debba prima droppare le cose.
 
 
 ### chiamate con requests
 import json
 import requests
 u = {"name": "Plauto", "psw": 34}
-r = requests.post("http://localhost:5000/api/indiana_user", data=json.dumps(u), headers={"content-type":"application/json"})
+r = requests.post(
+    "http://localhost:5000/api/indiana_user",
+    data=json.dumps(u),
+    headers={"content-type":"application/json"}
+)
+
+
+url = 'http://firenzearcheo-feedingaliencat.rhcloud.com/api/indiana_user'
+
+u = {'name': 'Plauto', 'psw': 34}
+
+r = requests.post(
+        url,
+        data=u,
+        headers={"content-type":"application/json"}
+)
