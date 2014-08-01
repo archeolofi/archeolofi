@@ -8,8 +8,11 @@ import flask.ext.sqlalchemy
 import flask.ext.restless
 from sqlalchemy_imageattach.entity import Image, image_attachment
 
+# local imports
+from credentials import DATABASE_URL
 
-DATABASE_URL = "postgresql://$OPENSHIFT_POSTGRESQL_DB_HOST:$OPENSHIFT_POSTGRESQL_DB_PORT"
+#in Openshift will be:
+#DATABASE_URL = "postgresql://$OPENSHIFT_POSTGRESQL_DB_HOST:$OPENSHIFT_POSTGRESQL_DB_PORT"
 
 # HTTP service codes
 HTTP_OK = 200
@@ -208,8 +211,8 @@ manager = flask.ext.restless.APIManager(app, flask_sqlalchemy_db=db)
 # Create API endpoints, which will be available at /api/<tablename> by
 # default. Allowed HTTP methods can be specified as well
 manager.create_api(IndianaUser, methods=["POST"])
-manager.create_api(CustomContent, methods=["GET", "POST", "PUT", "DELETE"])
-manager.create_api(Like, methods=["POST"])
+# manager.create_api(CustomContent, methods=["GET", "POST", "PUT", "DELETE"])
+# manager.create_api(Like, methods=["POST"])
 
 
 if __name__ == "__main__":
