@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 #-*- coding: utf-8 -*-
 
-# internal imports
-import indiserver
-from credentials import DATABASE_URL
-
 # library imports
 from base64 import b64encode
 import unittest
@@ -17,6 +13,9 @@ from sqlalchemy import create_engine, \
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship, backref
 
+# local imports
+import indiserver
+from credentials import DATABASE_URL
 
 # access to the database
 engine = create_engine(DATABASE_URL, echo=True)

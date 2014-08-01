@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 #-*- coding: utf-8 -*-
 
-# internal imports
-from credentials import DATABASE_URL
-
 # library imports
 from flask import Flask, request, abort
 from flask.ext.httpauth import HTTPBasicAuth
@@ -11,15 +8,15 @@ import flask.ext.sqlalchemy
 import flask.ext.restless
 from sqlalchemy_imageattach.entity import Image, image_attachment
 
+
+DATABASE_URL = "postgresql://$OPENSHIFT_POSTGRESQL_DB_HOST:$OPENSHIFT_POSTGRESQL_DB_PORT"
+
 # HTTP service codes
 HTTP_OK = 200
 HTTP_CREATED = 201
 HTTP_BAD_REQUEST = 400
 HTTP_NOT_FOUND = 404
 HTTP_CONFLICT = 409
-
-# api prefix, common in all the requests
-#API_PREFIX = "/api/v1/"
 
 # Flask and database setup
 app = Flask(__name__)
@@ -210,11 +207,9 @@ manager = flask.ext.restless.APIManager(app, flask_sqlalchemy_db=db)
 
 # Create API endpoints, which will be available at /api/<tablename> by
 # default. Allowed HTTP methods can be specified as well
-#manager.create_api(Person, methods=['GET', 'POST', 'DELETE'])
 manager.create_api(IndianaUser, methods=["POST"])
-# manager.create_api(OpenData, methods=["GET"])
-# manager.create_api(CustomContent, methods=["GET", "POST", "DELETE"])
-# manager.create_api(Like, methods=["POST"])
+manager.create_api(CustomContent, methods=["GET", "POST", "PUT", "DELETE"])
+manager.create_api(Like, methods=["POST"])
 
 
 if __name__ == "__main__":
