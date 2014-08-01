@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <link rel="stylesheet" type="text/css" href="libs/jquery.mobile-1.4.2/jquery.mobile-1.4.2.css">
+        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+        <link rel="stylesheet" type="text/css" href="style.css" />
+        <script src="libs/jquery-1.11.1.min.js"></script>
+	    <script src="libs/jquery.mobile-1.4.2/jquery.mobile-1.4.2.js"></script>
+        <script type="text/javascript" src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+        
+        
+        <!-- <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=no; target-densityDpi=device-dpi" /> -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    </head>
+    <body>
+        
+        <div data-role="page" id="home"  >
+            <div data-role="header" data-position="inline">
+                <h1>Pagina principale</h1>
+                <a href="#login" data-role="button" class="ui-btn-right" >Login</a>
+            </div>
+            
+            <div data-role="content" >
+               <div id="map" class="map" ></div>
+                
+                <script>
+                    /* var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                    osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                    osm = L.tileLayer(osmUrl, {maxZoom: 18, attribution: osmAttrib}); */
+                    
+                    var map = L.map('map')
+
+                    L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                                attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+                                maxZoom: 25
+                    }).addTo(map);
+                    
+                   
+                    map.locate({setView: true, maxZoom: 16});
+                    
+                    function onLocationFound(e) {
+                        var radius = e.accuracy / 2;
+
+                        L.circle(e.latlng, radius).addTo(map).bindPopup("You are within " + radius + " meters from this point").openPopup();
+                        console.log(e);
+                    }
+                    
+                    
+                    map.on('locationfound', onLocationFound);
+                    
+                    function onLocationError(e) {
+                        alert(e.message);
+                    }
+
+                    map.on('locationerror', onLocationError);
+                    
+                 
+                    </script>
+                    <script type="text/javascript" src="punti_coordinate.js"></script>
+                    <script type="text/javascript" src="aree_coordinate.js"></script>
+                    <script> 
+                    
+                    var point_style = {
+                        radius: 8,
+                        fillColor: "#ff7800",
+                        color: "#000",
+                        weight: 1,
+                        opacity: 1,
+                        fillOpacity: 0.8
+                        
+                    }
+                        
+                    var area_style = {
+                        "color": "#993300"
+                        
+                        
+                    };
+                    
+                    function descrition_popup_punto(feature, layer) {
+                        var id;
+                        id = feature.properties.id;
+                        
+                        
+                        layer.bindPopup( "DESCRIZIONE: " + feature.properties.descrizion + " " + "LUOGO: " + feature.properties.luogo + '<a href="#info">   More info</a>' + id );    
+                        
+                    }
+                    function descrition_popup_area(feature, layer) {
+                        
+                        layer.bindPopup( "LOCALIZZAZIONE: " + feature.properties.localizzaz + " " + "TIPO SCAVO: " + feature.properties.tipo_scavo + '<a href="#info">   More info</a>');
+                        
+                    } 
+                    
+                    L.geoJson(area, { 
+                        style: area_style,
+                        onEachFeature: descrition_popup_area,
+                                                                    
+                                        }).addTo(map);
+                    
+                    L.geoJson(punti, {
+                        onEachFeature: descrition_popup_punto, 
+                        pointToLayer: function( feature,latlng) {
+                                                return L.circleMarker(latlng, point_style); } 
+                                    }).addTo(map);
+                    
+                    </script>
+                </div>    
+        </div>
+        
+        
+        <div data-role="page" id="info">
+            <div data-role="header" >
+                <h1>Info</h1>
+                <a href="#home">Map</a>
+            </div>
+            
+            <div data role="content">
+                <div data-role="collapsible-set">
+                    <div data-role="collapsible" data-collapsed="false">
+                        <h3>informazioni meta-data</h3>
+                        <p></p>
+                    </div>
+                    
+                    <div data-role="collapsible" >
+                        <h3>informazioni prese dal sito</h3>
+                        <p>info archeologiche del sito</p>
+                    </div>
+                    
+                    <div data-role="collapsible" >
+                        <h3>commenti utenti</h3>
+                        <p>puoi scrivere un tuo commento e mettere una foto</p>
+                    </div>
+                </div>
+            
+            
+            </div>
+            
+        
+        </div>
+        
+        <div data-role="page" id="login">
+            <div data-role="header" >
+                <a href="#home">Map</a>
+                <!-- <a href="#home" data-role="button" data-icon="back" data-iconpos="notext" >back</a> -->
+                <h2>Login</h2>
+                
+            </div>
+            <div data role="content">
+                
+            
+            
+            </div>
+            
+        
+        </div>
+    
+        
+        
+        
+        
+        
+        
+    </body>
+    
+    
+    
+    
+   
