@@ -29,34 +29,16 @@ db = flask.ext.sqlalchemy.SQLAlchemy(app)
 
 # database and Flask classes (RESTless)
 class IndianaUser(db.Model):
-
-    name = db.Column(db.Unicode(50), primary_key=True)
-    psw = db.Column(db.Unicode(80))
+    """
+    If user successfully created, return 201.
+    If username is already token, return 405.
+    If some information is missing, return 405.
+    """
+    name = db.Column(db.Unicode(30), primary_key=True)
+    psw = db.Column(db.Unicode(30))
+    email = db.Column(db.Unicode(50))
 
     # contents = db.relationship("custom_content", backref="user")
-
-    # def __repr__(self):
-    #     return "{:<15} {}".format(
-    #         self.name,
-    #         self.psw
-    #     )
-
-    # def post(self):
-    #     """
-    #     Create a new user
-    #     Expected as POST data:
-    #     { "user": <username>, "psw": <password> }
-    #     """
-    #     import pdb
-    #     pdb.set_trace()
-    #     try:
-    #         user = request.form["user"]
-    #         psw = request.form["psw"]
-    #     except KeyError:
-    #         abort(HTTP_BAD_REQUEST)
-
-        # TODO: controlla che il nome non sia già preso
-        # TODO: crea l'utente
 
 
 class OpenData(db.Model):

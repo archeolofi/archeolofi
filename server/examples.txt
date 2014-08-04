@@ -7,11 +7,19 @@ SELECT * FROM indiana_user;
 NOTA: se si fanno delle modifiche alla struttura del database, non è escluso che,
 per vederle applicate, si debba prima droppare le cose.
 
+\list   elenca i database
+
+resettare:
+DROP DATABASE indiana;
+CREATE DATABASE indiana;
+
+
+
 
 ### chiamate con requests
 import json
 import requests
-u = {"name": "Plauto", "psw": 34}
+u = {"name": "Plautino", "psw": 34, "email": "email..."}
 r = requests.post(
     "http://localhost:5000/api/indiana_user",
     data=json.dumps(u),
