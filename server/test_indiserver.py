@@ -55,7 +55,8 @@ class WritingToDatabase(unittest.TestCase):
     def test_indianauser_creation(self):
         user = {
             "name": "Plauto",
-            "psw": 34
+            "psw": "proppolo",
+            "email": "some_email",
         }
         received = self.tc.post(
             "api/indiana_user",
@@ -66,6 +67,14 @@ class WritingToDatabase(unittest.TestCase):
         self.session.query(IndianaUser) \
             .filter(IndianaUser.name == "Plauto") \
             .delete()
+
+    def test_missing_value(self):
+        received = self.tc.post(
+            "api/indiana_user",
+            data=json.dumps({"name": "only_name"}),
+            headers=HEADERS
+        )
+        self.assertEqual(received.status_code, 400)
 
 
 if __name__ == '__main__':

@@ -34,9 +34,9 @@ class IndianaUser(db.Model):
     If username is already token, return 405.
     If some information is missing, return 405.
     """
-    name = db.Column(db.Unicode(30), primary_key=True)
-    psw = db.Column(db.Unicode(30))
-    email = db.Column(db.Unicode(50))
+    name = db.Column(db.Unicode(30), primary_key=True, nullable=False)
+    psw = db.Column(db.Unicode(30), nullable=False)
+    email = db.Column(db.Unicode(50), nullable=False)
 
     # contents = db.relationship("custom_content", backref="user")
 
