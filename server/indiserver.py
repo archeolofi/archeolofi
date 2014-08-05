@@ -3,9 +3,8 @@
 
 # library imports
 from flask import Flask, request, abort
-from flask.ext.httpauth import HTTPBasicAuth
 import flask.ext.sqlalchemy
-import flask.ext.restless
+import flask.ext.restless as restless
 from sqlalchemy_imageattach.entity import Image, image_attachment
 
 # local imports
@@ -23,7 +22,6 @@ HTTP_CONFLICT = 409
 
 # Flask and database setup
 app = Flask(__name__)
-auth = HTTPBasicAuth()
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 db = flask.ext.sqlalchemy.SQLAlchemy(app)
 
@@ -38,7 +36,20 @@ class IndianaUser(db.Model):
     psw = db.Column(db.Unicode(30), nullable=False)
     email = db.Column(db.Unicode(50), nullable=False)
 
-    # contents = db.relationship("custom_content", backref="user")
+    # contents = db.relationship("content", backref="user")
+
+
+class Content(db.Model):
+    id_ = db.Column(db.Integer, primary_key=True)
+
+    # poi = db.Column(db.Integer, db.ForeignKey("poi.id"), nullable=False)
+    user = db.Column(
+        db.Unicode(30),
+        db.ForeignKey("indiana_user.name"),
+        nullable=False
+    )
+
+    content = db.Column(db.Text, nullable=False)
 
 
 class OpenData(db.Model):
@@ -181,18 +192,52 @@ class OpenData(db.Model):
 #         # TODO: cancella l'oggetto
 
 
-@auth.verify_password
-def verify_password(username, password):
-    # TODO: controlla che la coppia username e password sia nel db
-    return True
-
 
 # Create the Flask-Restless API manager
-manager = flask.ext.restless.APIManager(app, flask_sqlalchemy_db=db)
+manager = restless.APIManager(app, flask_sqlalchemy_db=db)
 
 # Create API endpoints, which will be available at /api/<tablename> by
 # default. Allowed HTTP methods can be specified as well
 manager.create_api(IndianaUser, methods=["POST"])
+
+
+
+def verify_password():
+    try:
+        username, password = request.authorization.values()
+    except AttributeError:
+        raise restless.ProcessingException(
+            description='Not authenticated!', code=401
+        )
+    else:
+        user = IndianaUser.query.get(username)
+        if (not user) or (user.psw != password):
+            raise restless.ProcessingException(
+                description='Invalid username or password!', code=401
+            )
+    return True
+
+
+def post_preprocessor(data=None, **kw):
+    """
+    Accepts a single argument, 'data', which is the dictionary of
+    fields to set on the new instance of the model.
+    """
+    if verify_password():
+        data["user"] = request.authorization["username"]
+
+
+manager.create_api(
+    Content,
+    methods=["GET", "POST"],
+    preprocessors={
+        "POST": [post_preprocessor]
+    },
+    results_per_page=10
+)
+
+
+
 # manager.create_api(CustomContent, methods=["GET", "POST", "PUT", "DELETE"])
 # manager.create_api(Like, methods=["POST"])
 
