@@ -30,7 +30,7 @@ class IndianaUser(db.Model):
     """
     If user successfully created, return 201.
     If username is already token, return 405.
-    If some information is missing, return 405.
+    If some information is missing, return 400.
     """
     name = db.Column(db.Unicode(30), primary_key=True, nullable=False)
     psw = db.Column(db.Unicode(30), nullable=False)
