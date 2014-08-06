@@ -80,11 +80,10 @@
                     };
                     
                     function descrition_popup_punto(feature, layer) {
-                        var id;
-                        id = feature.properties.id;
                         
+                        var feat = feature;
                         
-                        layer.bindPopup( "DESCRIZIONE: " + feature.properties.descrizion + " " + "LUOGO: " + feature.properties.luogo + '<a href="#info">   More info</a>' + id );    
+                        layer.bindPopup( "DESCRIZIONE: " + feat.properties.descrizion + " " + "LUOGO: " + feature.properties.luogo + '<a href="#info" >   More info</a>' );   
                         
                     }
                     function descrition_popup_area(feature, layer) {
@@ -92,6 +91,9 @@
                         layer.bindPopup( "LOCALIZZAZIONE: " + feature.properties.localizzaz + " " + "TIPO SCAVO: " + feature.properties.tipo_scavo + '<a href="#info">   More info</a>');
                         
                     } 
+                        
+                
+                  
                     
                     L.geoJson(area, { 
                         style: area_style,
@@ -100,7 +102,7 @@
                                         }).addTo(map);
                     
                     L.geoJson(punti, {
-                        onEachFeature: descrition_popup_punto, 
+                        onEachFeature: descrition_popup_punto,
                         pointToLayer: function( feature,latlng) {
                                                 return L.circleMarker(latlng, point_style); } 
                                     }).addTo(map);
@@ -110,17 +112,22 @@
         </div>
         
         
+        
+       
+        
         <div data-role="page" id="info">
             <div data-role="header" >
                 <h1>Info</h1>
                 <a href="#home">Map</a>
             </div>
+
             
             <div data role="content">
+                
                 <div data-role="collapsible-set">
                     <div data-role="collapsible" data-collapsed="false">
-                        <h3>informazioni meta-data</h3>
-                        <p></p>
+                        <h3></h3>
+                        <p><script>document.write();</script></p>
                     </div>
                     
                     <div data-role="collapsible" >
@@ -143,11 +150,113 @@
         <div data-role="page" id="login">
             <div data-role="header" >
                 <a href="#home">Map</a>
-                <!-- <a href="#home" data-role="button" data-icon="back" data-iconpos="notext" >back</a> -->
+                
                 <h2>Login</h2>
+                
                 
             </div>
             <div data role="content">
+                <form name= "login" >
+                    <div data-role="fieldcontain" class="ui-hide-label">
+                        <label for="username">Username:</label>
+                        <input type="text" name="username" id="nome" value="" placeholder="Username"/>
+                    </div>
+
+                    <div data-role="fieldcontain" class="ui-hide-label">
+                        <label for="password">Passord:</label>
+                        <input type="text" name="password" id="password" value="" placeholder="Password"/>
+                    </div>
+
+                    <input type="button" id="bottone_login" data-icon="check" value="Login">    
+                
+                    <div data-role="collapsible" data-collapsed="true" data-theme="a">
+                        <h3>Se non sei ancora registrato inserisci anche la tua e-mail </h3>
+
+                        <div data-role="fieldcontain" class="ui-hide-label">
+                            <label for="e-mail">E-mail:</label>
+                            <input type="text" name="e-mail" id="e-mail" value="" placeholder="e-mail"/>
+                        </div>
+                        
+                        <input type="button" id="bottone_register" data-icon="edit" value="Register">
+
+                    </div>
+                </form>
+                
+                <script>
+                    $(document).ready( function() {
+                        $("#bottone_login").click( function() {
+                            
+                            var nome = $("#nome").val();
+                            var password = $("#password").val();
+                            var user = [{ "name": nome, "pass": password }];
+                            
+                            $.ajax({
+                                type:"POST",
+                                url: "....",
+                                data: { "user": JSON.stringify({  "user": user})},
+                                datatype: "JSON",
+                                success: function(data) { console.log(data.objects); },
+                                error: function()
+                                  {
+                                    alert("CHE CAZZO FAIII????");
+                                  }
+                            });
+                            
+                            
+                            
+                        });
+                    });
+                    
+                    
+                    
+                    
+                    $(document).ready( function() {
+                        $("#bottone_register").click( function() {
+                            
+                            var nome = $("#nome").val();
+                            var password = $("#password").val();
+                            var email = $("#e-mail").val();
+                            var prova= JSON.stringify({ "name": nome, "password": password, "email": email });
+                            alert(password);
+                            alert( prova);
+                           
+                            
+                            $.ajax({
+                                type:"POST",
+                                url: "http://0.0.0.0:5000/api/indiana_user",
+                                data: prova,
+                                dataType: "json",
+                                contentType: "application/json",
+                                success: function(data) { alert("ok"); },
+                                error: function()
+                                  {
+                                    alert("CHE CAZZO FAIII????");
+                                  }
+                            });
+                            
+                            
+                            
+                        });
+                    });
+                    
+                    
+                    /*
+                    "q": JSON.stringify({[ 
+                                    "username": nome,
+                                    "password": password,
+                                    "email": email
+                                                             ]})}
+                    
+                    
+                    
+                    */
+                </script>
+                
+                
+                
+                
+                
+                
                 
             
             
@@ -155,6 +264,9 @@
             
         
         </div>
+        
+        
+        
     
         
         
