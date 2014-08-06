@@ -3,9 +3,8 @@
 
 # library imports
 from flask import Flask, request, abort
-from flask.ext.httpauth import HTTPBasicAuth
 import flask.ext.sqlalchemy
-import flask.ext.restless
+import flask.ext.restless as restless
 from sqlalchemy_imageattach.entity import Image, image_attachment
 
 # local imports
@@ -23,40 +22,34 @@ HTTP_CONFLICT = 409
 
 # Flask and database setup
 app = Flask(__name__)
-auth = HTTPBasicAuth()
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 db = flask.ext.sqlalchemy.SQLAlchemy(app)
 
 # database and Flask classes (RESTless)
 class IndianaUser(db.Model):
+    """
+    If user successfully created, return 201.
+    If username is already token, return 405.
+    If some information is missing, return 400.
+    """
+    name = db.Column(db.Unicode(30), primary_key=True, nullable=False)
+    psw = db.Column(db.Unicode(30), nullable=False)
+    email = db.Column(db.Unicode(50), nullable=False)
 
-    name = db.Column(db.Unicode(50), primary_key=True)
-    psw = db.Column(db.Unicode(80))
+    # contents = db.relationship("content", backref="user")
 
-    # contents = db.relationship("custom_content", backref="user")
 
-    # def __repr__(self):
-    #     return "{:<15} {}".format(
-    #         self.name,
-    #         self.psw
-    #     )
+class Content(db.Model):
+    id_ = db.Column(db.Integer, primary_key=True)
 
-    # def post(self):
-    #     """
-    #     Create a new user
-    #     Expected as POST data:
-    #     { "user": <username>, "psw": <password> }
-    #     """
-    #     import pdb
-    #     pdb.set_trace()
-    #     try:
-    #         user = request.form["user"]
-    #         psw = request.form["psw"]
-    #     except KeyError:
-    #         abort(HTTP_BAD_REQUEST)
+    # poi = db.Column(db.Integer, db.ForeignKey("poi.id"), nullable=False)
+    user = db.Column(
+        db.Unicode(30),
+        db.ForeignKey("indiana_user.name"),
+        nullable=False
+    )
 
-        # TODO: controlla che il nome non sia già preso
-        # TODO: crea l'utente
+    content = db.Column(db.Text, nullable=False)
 
 
 class OpenData(db.Model):
@@ -199,18 +192,52 @@ class OpenData(db.Model):
 #         # TODO: cancella l'oggetto
 
 
-@auth.verify_password
-def verify_password(username, password):
-    # TODO: controlla che la coppia username e password sia nel db
-    return True
-
 
 # Create the Flask-Restless API manager
-manager = flask.ext.restless.APIManager(app, flask_sqlalchemy_db=db)
+manager = restless.APIManager(app, flask_sqlalchemy_db=db)
 
 # Create API endpoints, which will be available at /api/<tablename> by
 # default. Allowed HTTP methods can be specified as well
 manager.create_api(IndianaUser, methods=["POST"])
+
+
+
+def verify_password():
+    try:
+        username, password = request.authorization.values()
+    except AttributeError:
+        raise restless.ProcessingException(
+            description='Not authenticated!', code=401
+        )
+    else:
+        user = IndianaUser.query.get(username)
+        if (not user) or (user.psw != password):
+            raise restless.ProcessingException(
+                description='Invalid username or password!', code=401
+            )
+    return True
+
+
+def post_preprocessor(data=None, **kw):
+    """
+    Accepts a single argument, 'data', which is the dictionary of
+    fields to set on the new instance of the model.
+    """
+    if verify_password():
+        data["user"] = request.authorization["username"]
+
+
+manager.create_api(
+    Content,
+    methods=["GET", "POST"],
+    preprocessors={
+        "POST": [post_preprocessor]
+    },
+    results_per_page=10
+)
+
+
+
 # manager.create_api(CustomContent, methods=["GET", "POST", "PUT", "DELETE"])
 # manager.create_api(Like, methods=["POST"])
 

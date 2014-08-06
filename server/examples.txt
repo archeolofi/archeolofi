@@ -7,11 +7,19 @@ SELECT * FROM indiana_user;
 NOTA: se si fanno delle modifiche alla struttura del database, non è escluso che,
 per vederle applicate, si debba prima droppare le cose.
 
+\list   elenca i database
+
+resettare:
+DROP DATABASE indiana;
+CREATE DATABASE indiana;
+
+
+
 
 ### chiamate con requests
 import json
 import requests
-u = {"name": "Plauto", "psw": 34}
+u = {"name": "Plautino", "psw": 34, "email": "email..."}
 r = requests.post(
     "http://localhost:5000/api/indiana_user",
     data=json.dumps(u),
@@ -19,12 +27,26 @@ r = requests.post(
 )
 
 
-url = 'http://firenzearcheo-feedingaliencat.rhcloud.com/api/indiana_user'
+url = "http://localhost:5000/api/"
+url = "http://firenzearcheo-feedingaliencat.rhcloud.com/api/"
 
 u = {'name': 'Plauto', 'psw': 34}
 
 r = requests.post(
-        url,
+        url + "indiana_user",
         data=u,
         headers={"content-type":"application/json"}
+)
+
+
+
+
+from base64 import b64encode
+def make_basic_auth(user, psw):
+    return "Basic " + b64encode("{0}:{1}".format(user, psw))
+
+r = requests.post(
+    url + "content",
+    data=json.dumps({"content":"beautiful reperto!"}),
+    headers={"content-type":"application/json", 'Authorization': make_basic_auth(u["name"], u["psw"])}
 )
