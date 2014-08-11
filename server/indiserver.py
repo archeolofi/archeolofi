@@ -40,9 +40,15 @@ class IndianaUser(db.Model):
 
 
 class Content(db.Model):
-    id_ = db.Column(db.Integer, primary_key=True)
-
-    # poi = db.Column(db.Integer, db.ForeignKey("poi.id"), nullable=False)
+    id_ = db.Column(
+        db.Integer,
+        primary_key=True
+    )
+    poi = db.Column(
+        db.Integer,
+        # db.ForeignKey("poi.id"),
+        nullable=False
+    )
     user = db.Column(
         db.Unicode(30),
         db.ForeignKey("indiana_user.name"),
