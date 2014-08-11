@@ -5,7 +5,7 @@
 from flask import Flask, request, abort
 import flask.ext.sqlalchemy
 import flask.ext.restless as restless
-from sqlalchemy_imageattach.entity import Image, image_attachment
+# from sqlalchemy_imageattach.entity import Image, image_attachment
 
 # local imports
 from credentials import DATABASE_URL
