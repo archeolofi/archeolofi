@@ -17,6 +17,9 @@ CREATE DATABASE indiana;
 
 
 ### chiamate con requests
+
+
+# creazione di un utente
 import json
 import requests
 u = {"name": "Plautino", "psw": 34, "email": "email..."}
@@ -40,13 +43,24 @@ r = requests.post(
 
 
 
-
+# login
 from base64 import b64encode
 def make_basic_auth(user, psw):
     return "Basic " + b64encode("{0}:{1}".format(user, psw))
 
+
+r = requests.get(
+    url + "login/",
+    headers={'Authorization': make_basic_auth(u["name"], u["psw"])}
+)
+
+
+
+# postare un commento
+
+
 r = requests.post(
     url + "content",
-    data=json.dumps({"content":"beautiful reperto!"}),
+    data=json.dumps({"content":"beautiful reperto!", "poi": 15}),
     headers={"content-type":"application/json", 'Authorization': make_basic_auth(u["name"], u["psw"])}
 )
