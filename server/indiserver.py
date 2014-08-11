@@ -6,6 +6,7 @@ from flask import Flask, request, abort
 import flask.ext.sqlalchemy
 import flask.ext.restless as restless
 # from sqlalchemy_imageattach.entity import Image, image_attachment
+import json
 
 # local imports
 from credentials import DATABASE_URL
@@ -24,6 +25,7 @@ HTTP_CONFLICT = 409
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 db = flask.ext.sqlalchemy.SQLAlchemy(app)
+
 
 # database and Flask classes (RESTless)
 class IndianaUser(db.Model):
@@ -199,14 +201,6 @@ class OpenData(db.Model):
 
 
 
-# Create the Flask-Restless API manager
-manager = restless.APIManager(app, flask_sqlalchemy_db=db)
-
-# Create API endpoints, which will be available at /api/<tablename> by
-# default. Allowed HTTP methods can be specified as well
-manager.create_api(IndianaUser, methods=["POST"])
-
-
 
 def verify_password():
     try:
@@ -224,6 +218,12 @@ def verify_password():
     return True
 
 
+@app.route("/api/login/")
+def login():
+    if verify_password():
+        return json.dumps(True)
+
+
 def post_preprocessor(data=None, **kw):
     """
     Accepts a single argument, 'data', which is the dictionary of
@@ -233,6 +233,12 @@ def post_preprocessor(data=None, **kw):
         data["user"] = request.authorization["username"]
 
 
+# Create the Flask-Restless API manager
+manager = restless.APIManager(app, flask_sqlalchemy_db=db)
+
+# Create API endpoints, which will be available at /api/<tablename> by
+# default. Allowed HTTP methods can be specified as well
+manager.create_api(IndianaUser, methods=["POST"])
 manager.create_api(
     Content,
     methods=["GET", "POST"],
