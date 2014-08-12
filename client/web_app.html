@@ -27,6 +27,24 @@
                <div id="map" class="map" ></div>
                 
                 <script>
+                    function register() {
+                        var nome = $("#nome").val();
+                        var password = $("#password").val();
+                        var email = $("#e-mail").val();
+                        var prova= JSON.stringify({ "name": nome, "psw": password, "email": email });
+                        
+                        $.ajax({
+                            type: "POST",
+                            url: "http://127.0.0.1:5000/api/indiana_user",
+                            data: prova,
+                            dataType: "json",
+                            contentType: "application/json",
+                            success: function(data) { alert("ok"); },
+                            error: function() {
+                                alert("ops, something went wrong..");
+                            }
+                        });
+                    }
                     /* var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
                     osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
                     osm = L.tileLayer(osmUrl, {maxZoom: 18, attribution: osmAttrib}); */
@@ -106,6 +124,9 @@
                         pointToLayer: function( feature,latlng) {
                                                 return L.circleMarker(latlng, point_style); } 
                                     }).addTo(map);
+
+
+
                     
                     </script>
                 </div>    
@@ -183,59 +204,53 @@
                 </form>
                 
                 <script>
+                    function testApi() {
+                        $.ajax({
+                            type:"GET",
+                            // url: "http://127.0.0.1:5000/api/indiana_user",
+                            // url: "http://opengeo.eu/archeofi2/api/archeofi_api.php?rit_id=13",
+                            url: "http://127.0.0.1:5000/api/cross_domain",
+                            datatype: "JSON",
+                            success: function(data) {
+                                alert(data);
+                            },
+                            error: function (response) {
+                                alert("ciao");
+                            }
+                        });
+                    }
+
+
+                    function login() {
+                        var nome = $("#nome").val();
+                        var password = $("#password").val();
+                        var user = [{ "name": nome, "pass": password }];
+                        
+                        $.ajax({
+                            type:"POST",
+                            url: "....",
+                            data: { "user": JSON.stringify({  "user": user})},
+                            datatype: "JSON",
+                            success: function(data) { console.log(data.objects); },
+                            error: function()
+                              {
+                                alert("CHE CAZZO FAIII????");
+                              }
+                        });
+                    }
+
+
                     $(document).ready( function() {
                         $("#bottone_login").click( function() {
-                            
-                            var nome = $("#nome").val();
-                            var password = $("#password").val();
-                            var user = [{ "name": nome, "pass": password }];
-                            
-                            $.ajax({
-                                type:"POST",
-                                url: "....",
-                                data: { "user": JSON.stringify({  "user": user})},
-                                datatype: "JSON",
-                                success: function(data) { console.log(data.objects); },
-                                error: function()
-                                  {
-                                    alert("CHE CAZZO FAIII????");
-                                  }
-                            });
-                            
-                            
-                            
+                            // login(); 
+                            testApi();                            
                         });
                     });
-                    
-                    
-                    
+
                     
                     $(document).ready( function() {
                         $("#bottone_register").click( function() {
-                            
-                            var nome = $("#nome").val();
-                            var password = $("#password").val();
-                            var email = $("#e-mail").val();
-                            var prova= JSON.stringify({ "name": nome, "password": password, "email": email });
-                            alert(password);
-                            alert( prova);
-                           
-                            
-                            $.ajax({
-                                type:"POST",
-                                url: "http://0.0.0.0:5000/api/indiana_user",
-                                data: prova,
-                                dataType: "json",
-                                contentType: "application/json",
-                                success: function(data) { alert("ok"); },
-                                error: function()
-                                  {
-                                    alert("CHE CAZZO FAIII????");
-                                  }
-                            });
-                            
-                            
-                            
+                            register();
                         });
                     });
                     
@@ -251,32 +266,7 @@
                     
                     */
                 </script>
-                
-                
-                
-                
-                
-                
-                
-            
-            
             </div>
-            
-        
         </div>
-        
-        
-        
-    
-        
-        
-        
-        
-        
-        
     </body>
-    
-    
-    
-    
-   
+</html>
