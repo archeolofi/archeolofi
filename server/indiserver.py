@@ -2,21 +2,20 @@
 #-*- coding: utf-8 -*-
 
 # library imports
-from flask import Flask, request, abort, current_app
-import flask.ext.sqlalchemy
+from flask import Flask, request, current_app, make_response
 import flask.ext.restless as restless
-# from sqlalchemy_imageattach.entity import Image, image_attachment
+import flask.ext.sqlalchemy
 import json
-from functools import wraps
+# from sqlalchemy_imageattach.entity import Image, image_attachment
 
 # local imports
 from credentials import DATABASE_URL
+#in Openshift will be:
+#DATABASE_URL = "postgresql://$OPENSHIFT_POSTGRESQL_DB_HOST:$OPENSHIFT_POSTGRESQL_DB_PORT"
 
 # TODO: remove
 from pdb import set_trace
 
-#in Openshift will be:
-#DATABASE_URL = "postgresql://$OPENSHIFT_POSTGRESQL_DB_HOST:$OPENSHIFT_POSTGRESQL_DB_PORT"
 
 # HTTP service codes
 HTTP_OK = 200
@@ -25,42 +24,24 @@ HTTP_BAD_REQUEST = 400
 HTTP_NOT_FOUND = 404
 HTTP_CONFLICT = 409
 
-
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 db = flask.ext.sqlalchemy.SQLAlchemy(app)
 
 
-
-############# https://github.com/jfinkels/flask-restless/issues/223
-import config
-from savalidation import ValidationError
-
-from sqlalchemy.exc import IntegrityError, OperationalError
-from flask.ext.sqlalchemy import SQLAlchemy
-from flask.ext.restless import APIManager
-
-# API_EXCEPTIONS = [
-#     ValidationError, ValueError, AttributeError, TypeError, IntegrityError,
-#     OperationalError]
+############################
+# For the "same origin policy", it is generally impossible to do cross domain
+# requests through ajax. There are some solutions, the main solution is use
+# a proxy inside the domain of the website, BUT, this is an app and the domain
+# is localhost. So, I had to find another way. Exist a easy to find decorator
+# for Flask, but it wasn't applicable to the Flask-Restless methods.
+# The following solution was found in:
+#  https://github.com/jfinkels/flask-restless/issues/223
+# Thank you reubano and klinkin!
 
 def create_app(config_mode=None, config_file=None):
-    # Create webapp instance
-
-
-    # if config_mode:
-    #     app.config.from_object(getattr(config, config_mode))
-    # elif config_file:
-    #     app.config.from_pyfile(config_file)
-    # else:
-    #     app.config.from_envvar('APP_SETTINGS', silent=True)
 
     def add_cors_header(response):
-        # allow = 'HEAD, OPTIONS'
-
-        # for m in app.config['API_METHODS']:
-        #     allow += ', %s' % m
-
         response.headers['Access-Control-Allow-Origin'] = '*'
         response.headers['Access-Control-Allow-Methods'] = 'HEAD, GET, POST, PATCH, PUT, OPTIONS, DELETE'
         response.headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept'
@@ -68,44 +49,48 @@ def create_app(config_mode=None, config_file=None):
         response.headers['Content-Type'] = 'application/json; charset=utf-8'
         return response
 
-    # Create the Flask-Restless API manager.
+    # Create the Flask-Restless API manager
     manager = restless.APIManager(app, flask_sqlalchemy_db=db)
-    # kwargs = {
-    #     # 'methods': app.config['API_METHODS'],
-    #     # 'validation_exceptions': API_EXCEPTIONS,
-    #     # 'allow_functions': app.config['API_ALLOW_FUNCTIONS'],
-    #     # 'allow_patch_many': app.config['API_ALLOW_PATCH_MANY'],
-    #     'max_results_per_page': app.config['API_MAX_RESULTS_PER_PAGE'],
-    #     'url_prefix': app.config['API_URL_PREFIX']
-    # }
 
+    # pre/post-processors
+    def post_preprocessor(data=None, **kw):
+        """
+        Accepts a single argument, 'data', which is the dictionary of
+        fields to set on the new instance of the model.
+        """
+        if verify_password():
+            data["user"] = request.authorization["username"]
 
+    # Create API endpoints, which will be available at /api/<tablename>
     manager.create_api(
         IndianaUser,
-        methods=["POST"],
-        # **kwargs
+        methods=["POST"]
     )
+    manager.create_api(
+        Content,
+        methods=["GET", "POST"],
+        preprocessors={
+            "POST": [post_preprocessor]
+        },
+        results_per_page=10
+    )
+    # manager.create_api(CustomContent, methods=["GET", "POST", "PUT", "DELETE"])
+    # manager.create_api(Like, methods=["POST"])
+
     app.after_request(add_cors_header)
     return app
 
 
-
-
-
-
-
 ############## cross domain decorator
-from datetime import timedelta
-from flask import make_response, request, current_app
+# Another solution, used for flask direct endpoints.
+# http://flask.pocoo.org/snippets/56/
 from functools import update_wrapper
+from datetime import timedelta
 
 
 def crossdomain(origin=None, methods=None, headers=None,
                 max_age=21600, attach_to_all=True,
                 automatic_options=True):
-    """
-    http://flask.pocoo.org/snippets/56/
-    """
     if methods is not None:
         methods = ', '.join(sorted(x.upper() for x in methods))
     if headers is not None and not isinstance(headers, basestring):
@@ -149,15 +134,7 @@ def crossdomain(origin=None, methods=None, headers=None,
 @crossdomain(origin='*')
 def my_service():
     return "I'm cool. Every domain is cool"
-
 #########################################
-
-
-
-# Flask and database setup
-# app = Flask(__name__)
-# app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
-# db = flask.ext.sqlalchemy.SQLAlchemy(app)
 
 
 # database and Flask classes (RESTless)
@@ -286,7 +263,7 @@ class OpenData(db.Model):
 #             abort(HTTP_BAD_REQUEST)
 
 #         # TODO: ritorna l'oggetto
-    
+
 #     @auth.login_required
 #     def delete(self):
 #         '''
@@ -319,7 +296,7 @@ class OpenData(db.Model):
 #         db.Integer, db.ForeignKey("custom_content.id"),
 #         primary_key=True
 #     )
-    
+
 #     # True is a like, False is an unlike
 #     vote = Column(Boolean, nullable=False)
 
@@ -331,8 +308,6 @@ class OpenData(db.Model):
 #             abort(HTTP_BAD_REQUEST)
 
 #         # TODO: cancella l'oggetto
-
-
 
 
 def verify_password():
@@ -355,39 +330,6 @@ def verify_password():
 def login():
     if verify_password():
         return json.dumps(True)
-
-
-def post_preprocessor(data=None, **kw):
-    """
-    Accepts a single argument, 'data', which is the dictionary of
-    fields to set on the new instance of the model.
-    """
-    if verify_password():
-        data["user"] = request.authorization["username"]
-
-
-# Create the Flask-Restless API manager
-#manager = restless.APIManager(app, flask_sqlalchemy_db=db)
-
-# Create API endpoints, which will be available at /api/<tablename> by
-# default. Allowed HTTP methods can be specified as well
-# manager.create_api(
-#     IndianaUser,
-#     methods=["POST"]
-# )
-# manager.create_api(
-#     Content,
-#     methods=["GET", "POST"],
-#     preprocessors={
-#         "POST": [post_preprocessor]
-#     },
-#     results_per_page=10
-# )
-
-
-
-# manager.create_api(CustomContent, methods=["GET", "POST", "PUT", "DELETE"])
-# manager.create_api(Like, methods=["POST"])
 
 
 if __name__ == "__main__":

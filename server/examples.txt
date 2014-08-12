@@ -36,9 +36,9 @@ url = "http://firenzearcheo-feedingaliencat.rhcloud.com/api/"
 u = {'name': 'Plauto', 'psw': 34}
 
 r = requests.post(
-        url + "indiana_user",
-        data=u,
-        headers={"content-type":"application/json"}
+    url + "indiana_user",
+    data=u,
+    headers={"content-type":"application/json"}
 )
 
 
@@ -64,3 +64,17 @@ r = requests.post(
     data=json.dumps({"content":"beautiful reperto!", "poi": 15}),
     headers={"content-type":"application/json", 'Authorization': make_basic_auth(u["name"], u["psw"])}
 )
+
+
+# scaricare i commenti relativi ad un poi
+filters = [{
+    "name": "name",
+    "op": "like",
+    "val":"%y%"
+}]
+
+params = {"q":json.dumps({"filters": filters})}
+
+response = requests.get(url, params=params, headers={"content-type":"application/json"})
+assert response.status_code == 200
+print(response.json())
