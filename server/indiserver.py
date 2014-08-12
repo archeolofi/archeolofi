@@ -25,12 +25,76 @@ HTTP_BAD_REQUEST = 400
 HTTP_NOT_FOUND = 404
 HTTP_CONFLICT = 409
 
-# Flask and database setup
+
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 db = flask.ext.sqlalchemy.SQLAlchemy(app)
 
 
+
+############# https://github.com/jfinkels/flask-restless/issues/223
+import config
+from savalidation import ValidationError
+
+from sqlalchemy.exc import IntegrityError, OperationalError
+from flask.ext.sqlalchemy import SQLAlchemy
+from flask.ext.restless import APIManager
+
+# API_EXCEPTIONS = [
+#     ValidationError, ValueError, AttributeError, TypeError, IntegrityError,
+#     OperationalError]
+
+def create_app(config_mode=None, config_file=None):
+    # Create webapp instance
+
+
+    # if config_mode:
+    #     app.config.from_object(getattr(config, config_mode))
+    # elif config_file:
+    #     app.config.from_pyfile(config_file)
+    # else:
+    #     app.config.from_envvar('APP_SETTINGS', silent=True)
+
+    def add_cors_header(response):
+        # allow = 'HEAD, OPTIONS'
+
+        # for m in app.config['API_METHODS']:
+        #     allow += ', %s' % m
+
+        response.headers['Access-Control-Allow-Origin'] = '*'
+        response.headers['Access-Control-Allow-Methods'] = 'HEAD, GET, POST, PATCH, PUT, OPTIONS, DELETE'
+        response.headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept'
+        response.headers['Access-Control-Allow-Credentials'] = 'true'
+        response.headers['Content-Type'] = 'application/json; charset=utf-8'
+        return response
+
+    # Create the Flask-Restless API manager.
+    manager = restless.APIManager(app, flask_sqlalchemy_db=db)
+    # kwargs = {
+    #     # 'methods': app.config['API_METHODS'],
+    #     # 'validation_exceptions': API_EXCEPTIONS,
+    #     # 'allow_functions': app.config['API_ALLOW_FUNCTIONS'],
+    #     # 'allow_patch_many': app.config['API_ALLOW_PATCH_MANY'],
+    #     'max_results_per_page': app.config['API_MAX_RESULTS_PER_PAGE'],
+    #     'url_prefix': app.config['API_URL_PREFIX']
+    # }
+
+
+    manager.create_api(
+        IndianaUser,
+        methods=["POST"],
+        # **kwargs
+    )
+    app.after_request(add_cors_header)
+    return app
+
+
+
+
+
+
+
+############## cross domain decorator
 from datetime import timedelta
 from flask import make_response, request, current_app
 from functools import update_wrapper
@@ -85,6 +149,15 @@ def crossdomain(origin=None, methods=None, headers=None,
 @crossdomain(origin='*')
 def my_service():
     return "I'm cool. Every domain is cool"
+
+#########################################
+
+
+
+# Flask and database setup
+# app = Flask(__name__)
+# app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
+# db = flask.ext.sqlalchemy.SQLAlchemy(app)
 
 
 # database and Flask classes (RESTless)
@@ -294,22 +367,22 @@ def post_preprocessor(data=None, **kw):
 
 
 # Create the Flask-Restless API manager
-manager = restless.APIManager(app, flask_sqlalchemy_db=db)
+#manager = restless.APIManager(app, flask_sqlalchemy_db=db)
 
 # Create API endpoints, which will be available at /api/<tablename> by
 # default. Allowed HTTP methods can be specified as well
-manager.create_api(
-    IndianaUser,
-    methods=["POST"]
-)
-manager.create_api(
-    Content,
-    methods=["GET", "POST"],
-    preprocessors={
-        "POST": [post_preprocessor]
-    },
-    results_per_page=10
-)
+# manager.create_api(
+#     IndianaUser,
+#     methods=["POST"]
+# )
+# manager.create_api(
+#     Content,
+#     methods=["GET", "POST"],
+#     preprocessors={
+#         "POST": [post_preprocessor]
+#     },
+#     results_per_page=10
+# )
 
 
 
@@ -318,6 +391,8 @@ manager.create_api(
 
 
 if __name__ == "__main__":
+    create_app()
+
     # Create the database tables
     db.create_all()
 
