@@ -72,7 +72,6 @@ r = requests.get(
 
 # scaricare i commenti relativi ad un poi
 val = 15
-filters = 
 r = requests.get(
     url + "content",
     params={
