@@ -86,3 +86,17 @@ r = requests.get(
 )
 
 
+# modificare un commento
+content_id = 4
+modified_content = "new content"
+r = requests.patch(
+    "".join([url, "content/", str(content_id)]),
+    data=json.dumps({
+        "content": modified_content
+    }),
+    headers={
+        "content-type":"application/json", 
+        "Authorization": make_basic_auth(u["name"], u["psw"])
+    }
+)
+
