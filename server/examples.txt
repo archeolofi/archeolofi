@@ -100,3 +100,15 @@ r = requests.patch(
     }
 )
 
+
+# rimuovere un commento
+content_id = 4
+modified_content = "new content"
+r = requests.delete(
+    "".join([url, "content/", str(content_id)]),
+    headers={
+        "content-type":"application/json", 
+        "Authorization": make_basic_auth(u["name"], u["psw"])
+    }
+)
+
