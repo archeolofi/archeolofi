@@ -57,8 +57,6 @@ r = requests.get(
 
 
 # postare un commento
-
-
 r = requests.post(
     url + "content",
     data=json.dumps({"content":"beautiful reperto!", "poi": 15}),
@@ -66,15 +64,26 @@ r = requests.post(
 )
 
 
+# scaricare TUTTI i commenti (10 per volta)
+r = requests.get(
+    url + "content"
+)
+
+
 # scaricare i commenti relativi ad un poi
-filters = [{
-    "name": "name",
-    "op": "like",
-    "val":"%y%"
-}]
+val = 15
+filters = 
+r = requests.get(
+    url + "content",
+    params={
+        "q": json.dumps({
+            "filters": [{
+                "name": "poi",
+                "op": "==",
+                "val": val
+            }]
+        })
+    }
+)
 
-params = {"q":json.dumps({"filters": filters})}
 
-response = requests.get(url, params=params, headers={"content-type":"application/json"})
-assert response.status_code == 200
-print(response.json())
