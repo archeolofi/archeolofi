@@ -195,8 +195,12 @@ class Content(db.Model):
         db.ForeignKey("indiana_user.name"),
         nullable=False
     )
+    content = db.Column(
+        db.Text,
+        nullable=False
+    )
 
-    content = db.Column(db.Text, nullable=False)
+
 
 
 class OpenData(db.Model):
