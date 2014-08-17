@@ -3,6 +3,7 @@ sudo -u postgres psql
 \c indiana
 \d
 SELECT * FROM indiana_user;
+SELECT * FROM "like";
 
 NOTA: se si fanno delle modifiche alla struttura del database, non è escluso che,
 per vederle applicate, si debba prima droppare le cose.
@@ -110,5 +111,15 @@ r = requests.delete(
         "content-type":"application/json", 
         "Authorization": make_basic_auth(u["name"], u["psw"])
     }
+)
+
+
+# aggiungere un like
+content_id = 1
+do_like = True
+r = requests.post(
+    url + "like",
+    data=json.dumps({"content_id": content_id, "do_like": do_like}),
+    headers={"content-type":"application/json", 'Authorization': make_basic_auth(u["name"], u["psw"])}
 )
 

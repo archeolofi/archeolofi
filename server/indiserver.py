@@ -103,6 +103,13 @@ def create_app(config_mode=None, config_file=None):
         },
         results_per_page=10
     )
+    manager.create_api(
+        Like,
+        methods=["POST"],
+        preprocessors={
+            "POST": [add_user_field]
+        }
+    )
     # manager.create_api(CustomContent, methods=["GET", "POST", "PUT", "DELETE"])
     # manager.create_api(Like, methods=["POST"])
 
@@ -177,7 +184,8 @@ class IndianaUser(db.Model):
     psw = db.Column(db.Unicode(30), nullable=False)
     email = db.Column(db.Unicode(50), nullable=False)
 
-    # contents = db.relationship("content", backref="user")
+    # contents = db.relationship("content", backref=db.backref("user", lazy='dynamic'))
+    # likes = db.relationship("like", backref=db.backref("user", lazy='dynamic'))
 
 
 class Content(db.Model):
@@ -200,6 +208,24 @@ class Content(db.Model):
         nullable=False
     )
 
+    # likes = db.relationship("like", backref=db.backref("content_id"))
+
+
+class Like(db.Model):
+    user = db.Column(
+        db.Unicode(30),
+        db.ForeignKey("indiana_user.name"),
+        primary_key=True
+    )
+    content_id = db.Column(
+        db.Integer,
+        db.ForeignKey("content.id_"),
+        primary_key=True
+    )
+    do_like = db.Column(
+        db.Boolean,
+        nullable=False
+    )
 
 
 
