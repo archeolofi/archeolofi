@@ -346,29 +346,6 @@ class OpenData(db.Model):
 #     user = db.relationship("custom_content")
 
 
-# class Like(db.Model):
-#     user = db.Column(
-#         db.String(50), db.ForeignKey("indiana_user.name"),
-#         primary_key=True
-#     )
-#     content_id = db.Column(
-#         db.Integer, db.ForeignKey("custom_content.id"),
-#         primary_key=True
-#     )
-
-#     # True is a like, False is an unlike
-#     vote = Column(Boolean, nullable=False)
-
-#     @auth.login_required
-#     def get(self):
-#         try:
-#             id_ = request.get.args["id_"]
-#         except KeyError:
-#             abort(HTTP_BAD_REQUEST)
-
-#         # TODO: cancella l'oggetto
-
-
 @app.route("/api/login/")
 def login():
     if verify_password():
