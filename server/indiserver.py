@@ -67,10 +67,9 @@ def create_app(config_mode=None, config_file=None):
     manager = restless.APIManager(app, flask_sqlalchemy_db=db)
 
     # pre/post-processors
-    def post_preprocessor(data=None, **kw):
+    def add_user_field(data={}, **kw):
         """
-        Accepts a single argument, 'data', which is the dictionary of
-        fields to set on the new instance of the model.
+        Check username and password and add username to data to be saved.
         """
         if verify_password():
             data["user"] = request.authorization["username"]
@@ -84,7 +83,7 @@ def create_app(config_mode=None, config_file=None):
         Content,
         methods=["GET", "POST"],
         preprocessors={
-            "POST": [post_preprocessor]
+            "POST": [add_user_field],
         },
         results_per_page=10
     )
