@@ -74,6 +74,20 @@ def create_app(config_mode=None, config_file=None):
         if verify_password():
             data["user"] = request.authorization["username"]
 
+    def pre_modification(instance_id, data=None, **kw):
+        """
+        Check if the user, who wants to modify a content, is the owner of that
+        content.
+        """
+        if verify_password():
+            user = request.authorization["username"]
+            content = Content.query.get(instance_id)
+            if user != content.user:
+                raise restless.ProcessingException(
+                    description='You are not the owner of that content!',
+                    code=401
+                )
+
     # Create API endpoints, which will be available at /api/<tablename>
     manager.create_api(
         IndianaUser,
@@ -81,9 +95,11 @@ def create_app(config_mode=None, config_file=None):
     )
     manager.create_api(
         Content,
-        methods=["GET", "POST"],
+        methods=["GET", "POST", "PATCH", "DELETE"],
         preprocessors={
             "POST": [add_user_field],
+            "PATCH_SINGLE": [pre_modification],
+            "DELETE": [pre_modification]
         },
         results_per_page=10
     )
