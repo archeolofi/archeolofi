@@ -88,6 +88,17 @@ def create_app(config_mode=None, config_file=None):
                     code=401
                 )
 
+    def add_like_fields(result=None, search_params=None, **kw):
+        for cnt in result["objects"]:
+            cnt["like"] = 0
+            cnt["unlike"] = 0
+            for l in Like.query.filter_by(content_id = cnt["id_"]).all():
+                if l.do_like:
+                    cnt["like"] += 1
+                elif not l.do_like:
+                    cnt["unlike"] += 1
+
+
     # Create API endpoints, which will be available at /api/<tablename>
     manager.create_api(
         IndianaUser,
@@ -100,6 +111,9 @@ def create_app(config_mode=None, config_file=None):
             "POST": [add_user_field],
             "PATCH_SINGLE": [pre_modification],
             "DELETE": [pre_modification]
+        },
+        postprocessors={
+            "GET_MANY": [add_like_fields]
         },
         results_per_page=10
     )
