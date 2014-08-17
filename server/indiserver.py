@@ -29,19 +29,33 @@ app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 db = flask.ext.sqlalchemy.SQLAlchemy(app)
 
 
-############################
-# For the "same origin policy", it is generally impossible to do cross domain
-# requests through ajax. There are some solutions, the main solution is use
-# a proxy inside the domain of the website, BUT, this is an app and the domain
-# is localhost. So, I had to find another way. Exist a easy to find decorator
-# for Flask, but it wasn't applicable to the Flask-Restless methods.
-# The following solution was found in:
-#  https://github.com/jfinkels/flask-restless/issues/223
-# Thank you reubano and klinkin!
+def verify_password():
+    try:
+        username, password = request.authorization.values()
+    except AttributeError:
+        raise restless.ProcessingException(
+            description='Not authenticated!', code=401
+        )
+    else:
+        user = IndianaUser.query.get(username)
+        if (not user) or (user.psw != password):
+            raise restless.ProcessingException(
+                description='Invalid username or password!', code=401
+            )
+    return True
+
 
 def create_app(config_mode=None, config_file=None):
 
     def add_cors_header(response):
+        # For the "same origin policy", it is generally impossible to do cross domain
+        # requests through ajax. There are some solutions, the main solution is use
+        # a proxy inside the domain of the website, BUT, this is an app and the domain
+        # is localhost. So, I had to find another way. Exist a easy to find decorator
+        # for Flask, but it wasn't applicable to the Flask-Restless methods.
+        # The following solution was found in:
+        #  https://github.com/jfinkels/flask-restless/issues/223
+        # Thank you reubano and klinkin!
         response.headers['Access-Control-Allow-Origin'] = '*'
         response.headers['Access-Control-Allow-Methods'] = 'HEAD, GET, POST, PATCH, PUT, OPTIONS, DELETE'
         response.headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept'
@@ -308,22 +322,6 @@ class OpenData(db.Model):
 #             abort(HTTP_BAD_REQUEST)
 
 #         # TODO: cancella l'oggetto
-
-
-def verify_password():
-    try:
-        username, password = request.authorization.values()
-    except AttributeError:
-        raise restless.ProcessingException(
-            description='Not authenticated!', code=401
-        )
-    else:
-        user = IndianaUser.query.get(username)
-        if (not user) or (user.psw != password):
-            raise restless.ProcessingException(
-                description='Invalid username or password!', code=401
-            )
-    return True
 
 
 @app.route("/api/login/")
