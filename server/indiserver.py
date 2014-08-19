@@ -31,8 +31,8 @@ app.config['MAX_CONTENT_LENGTH'] = 64 * 1024 * 1024
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 db = flask.ext.sqlalchemy.SQLAlchemy(app)
 
-PHOTOS = "static/"
-last_photo_id = -1
+CONTENTS = "static/"
+last_file_id = -1
 
 
 def verify_password():
@@ -89,22 +89,22 @@ def create_app(config_mode=None, config_file=None):
         if verify_password():
             data["user"] = request.authorization["username"]
 
-    def manage_photo_announcement(data, **kw):
+    def manage_upload_announcement(data, **kw):
         """
-        At least one between photo or comment has to be present.
-        If the user wants to upload a photo, send to him a token, which he can
-        use to upload the file.
+        At least one between upload announcement or comment has to be present.
+        If the user wants to upload a file, send to him a token, which he can
+        use for uploading.
         """
-        if (not "comment" in data) and (not "photo_announcement" in data):
+        if (not "comment" in data) and (not "upload_announcement" in data):
             raise restless.ProcessingException(
                 description="Missing content.", code=412
             )
 
-        if "photo_announcement" in data:
-            del data["photo_announcement"]
-            global last_photo_id
-            last_photo_id += 1
-            data["photo_filename"] = last_photo_id
+        if "upload_announcement" in data:
+            del data["upload_announcement"]
+            global last_file_id
+            last_file_id += 1
+            data["content_filename"] = last_file_id
 
     def pre_modification(instance_id, data=None, **kw):
         """
@@ -135,7 +135,7 @@ def create_app(config_mode=None, config_file=None):
         Content,
         methods=["GET", "POST", "PATCH", "DELETE"],
         preprocessors={
-            "POST": [add_user_field, manage_photo_announcement],
+            "POST": [add_user_field, manage_upload_announcement],
             "PATCH_SINGLE": [pre_modification],
             "DELETE": [pre_modification]
         },
@@ -245,7 +245,7 @@ class Content(db.Model):
     comment = db.Column(
         db.Text
     )
-    photo_filename = db.Column(
+    content_filename = db.Column(
         db.Unicode(20)
     )
     photo_thumb = db.Column(
@@ -278,26 +278,27 @@ def login():
         return json.dumps(True)
 
 
-@app.route("/api/photo/<int:photo_id>", methods=["POST"])
-def photo_upload(photo_id):
+@app.route("/api/file/<int:file_id>", methods=["POST"])
+def file_upload(file_id):
     # verify user
     verify_password()
-    content = Content.query.filter_by(photo_filename=str(photo_id)).first()
+    content = Content.query.filter_by(content_filename=str(file_id)).first()
     if not content:
         raise restless.ProcessingException(
-            description="Not expected photo",
+            description="Not expected file",
             code=403
         )
     verify_owner(content)
 
     # verify content
-    f = request.files["photo"]
+    f = request.files["file"]
     ext = os.path.splitext(f.filename)[1]
-    # TODO: check if the file is a photo, check size
+    # TODO: check if the file is allowed
+    # TODO: rimuovere orfani: file rimbalzati perché non consentiti, o troppo grandi
 
     # save the file
-    filename = str(photo_id) + ext
-    filepath = os.path.join(PHOTOS, filename)
+    filename = str(file_id) + ext
+    filepath = os.path.join(CONTENTS, filename)
     f.save(filepath)
 
     # save a base64 encoded thumbnail in the database
@@ -306,7 +307,7 @@ def photo_upload(photo_id):
         size = (120, 120)
         im = Image.open(filepath)
         im.thumbnail(size)
-        tmp = "{}thumbnail_{}".format(PHOTOS, filename)
+        tmp = "{}thumbnail_{}".format(CONTENTS, filename)
         im.save(tmp)
     
         with open(tmp) as f:
@@ -316,7 +317,7 @@ def photo_upload(photo_id):
 
         content.photo_thumb = b64photo
 
-    content.photo_filename = filename
+    content.content_filename = filename
     db.session.add(content)
     db.session.commit()
     return "Photo uploaded!"
