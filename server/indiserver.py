@@ -4,7 +4,9 @@
 # library imports
 from flask import Flask, request, current_app, make_response
 import flask.ext.restless as restless
+from base64 import b64encode
 import flask.ext.sqlalchemy
+import Image
 import json
 import os
 
@@ -248,6 +250,9 @@ class Content(db.Model):
     photo_id = db.Column(
         db.Integer
     )
+    photo_thumb = db.Column(
+        db.Text
+    )
 
     # likes = db.relationship("like", backref=db.backref("content_id"))
 
@@ -277,6 +282,7 @@ def login():
 
 @app.route("/api/photo/<int:photo_id>", methods=["POST"])
 def photo_upload(photo_id):
+    # verify user
     verify_password()
     content = Content.query.filter_by(photo_id = photo_id).first()
     if not content:
@@ -286,11 +292,30 @@ def photo_upload(photo_id):
         )
     verify_owner(content)
 
+    # verify content
     f = request.files["photo"]
-    # TODO: check if the file is a photo, check size, add extension
+    ext = os.path.splitext(f.filename)[1]
+    # TODO: check if the file is a photo, check size
 
-    f.save(os.path.join(PHOTOS, str(photo_id)))
-    # TODO: thumbnail
+    # save the file
+    filepath = os.path.join(PHOTOS, str(photo_id))
+    f.save(filepath)
+
+    # save a base64 encoded thumbnail in the database
+    size = (120, 120)
+    im = Image.open(filepath)
+    im.thumbnail(size)
+    tmp = "{}thumbnail_{}{}".format(PHOTOS, str(photo_id), ext)
+    im.save(tmp)
+    
+    with open(tmp) as f:
+        b64photo = b64encode(f.read())
+
+    content.photo_thumb = b64photo
+    db.session.add(content)
+    db.session.commit()
+
+    os.remove(tmp)
     return "Photo uploaded!"
 
 
