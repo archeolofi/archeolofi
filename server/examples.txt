@@ -114,6 +114,7 @@ r = requests.post(
 
 
 # postare un file
+filepath = "/home/emilio/Scrivania/test/vlc.pdf"
 filepath = "/home/emilio/Scrivania/test/1367157964.jpg"
 
 r = requests.post(
@@ -131,6 +132,9 @@ r = requests.post(
 
 # scaricare una foto
 <img src="http://localhost:5000/static/0.jpg" />
+
+wget "localhost:5000/static/0.jpg"
+
 
 # in python non va:
 photo_filename = "0.jpg"
