@@ -108,14 +108,10 @@ def create_app(config_mode=None, config_file=None):
         Check if the user, who wants to modify a content, is the owner of that
         content.
         """
-        if verify_password():
-            user = request.authorization["username"]
-            content = Content.query.get(instance_id)
-            if user != content.user:
-                raise restless.ProcessingException(
-                    description='You are not the owner of that content!',
-                    code=401
-                )
+        verify_password()
+
+        content = Content.query.get(instance_id)
+        verify_owner(content)
 
     def add_like_fields(result=None, search_params=None, **kw):
         for cnt in result["objects"]:
