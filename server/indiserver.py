@@ -27,6 +27,7 @@ HTTP_NOT_FOUND = 404
 HTTP_CONFLICT = 409
 
 app = Flask(__name__)
+app.config['MAX_CONTENT_LENGTH'] = 64 * 1024 * 1024
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 db = flask.ext.sqlalchemy.SQLAlchemy(app)
 
