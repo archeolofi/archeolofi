@@ -6,7 +6,7 @@ from flask import Flask, request, current_app, make_response
 import flask.ext.restless as restless
 import flask.ext.sqlalchemy
 import json
-# from sqlalchemy_imageattach.entity import Image, image_attachment
+import os
 
 # local imports
 from credentials import DATABASE_URL
@@ -28,6 +28,9 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 db = flask.ext.sqlalchemy.SQLAlchemy(app)
 
+PHOTOS = "../../photos/"
+last_photo_id = -1
+
 
 def verify_password():
     try:
@@ -43,6 +46,15 @@ def verify_password():
                 description='Invalid username or password!', code=401
             )
     return True
+
+
+def verify_owner(content):
+    user = request.authorization["username"]
+    if user != content.user:
+        raise restless.ProcessingException(
+            description='You are not the owner of that content!',
+            code=401
+        )
 
 
 def create_app(config_mode=None, config_file=None):
@@ -73,6 +85,23 @@ def create_app(config_mode=None, config_file=None):
         """
         if verify_password():
             data["user"] = request.authorization["username"]
+
+    def manage_photo_announcement(data, **kw):
+        """
+        At least one between photo or comment has to be present.
+        If the user wants to upload a photo, send to him a token, which he can
+        use to upload the file.
+        """
+        if (not "comment" in data) and (not "photo_announcement" in data):
+            raise restless.ProcessingException(
+                description="Missing content.", code=412
+            )
+
+        if "photo_announcement" in data:
+            del data["photo_announcement"]
+            global last_photo_id
+            last_photo_id += 1
+            data["photo_id"] = last_photo_id
 
     def pre_modification(instance_id, data=None, **kw):
         """
@@ -108,7 +137,7 @@ def create_app(config_mode=None, config_file=None):
         Content,
         methods=["GET", "POST", "PATCH", "DELETE"],
         preprocessors={
-            "POST": [add_user_field],
+            "POST": [add_user_field, manage_photo_announcement],
             "PATCH_SINGLE": [pre_modification],
             "DELETE": [pre_modification]
         },
@@ -217,9 +246,11 @@ class Content(db.Model):
         db.ForeignKey("indiana_user.name"),
         nullable=False
     )
-    content = db.Column(
-        db.Text,
-        nullable=False
+    comment = db.Column(
+        db.Text
+    )
+    photo_id = db.Column(
+        db.Integer
     )
 
     # likes = db.relationship("like", backref=db.backref("content_id"))
@@ -351,19 +382,29 @@ class OpenData(db.Model):
 #         # TODO:     cancella l'oggetto
 
 
-# class Photo(db.Model):
-
-#     content_id = db.Column(
-#         db.Integer, db.ForeignKey("custom_content.id"),
-#         primary_key=True
-#     )
-#     user = db.relationship("custom_content")
-
-
 @app.route("/api/login/")
 def login():
     if verify_password():
         return json.dumps(True)
+
+
+@app.route("/api/photo/<int:photo_id>", methods=["POST"])
+def photo_upload(photo_id):
+    verify_password()
+    content = Content.query.filter_by(photo_id = photo_id).first()
+    if not content:
+        raise restless.ProcessingException(
+            description="Not expected photo",
+            code=403
+        )
+    verify_owner(content)
+
+    f = request.files["photo"]
+    # TODO: check if the file is a photo, check size, add extension
+
+    f.save(os.path.join(PHOTOS, str(photo_id)))
+    # TODO: thumbnail
+    return "Photo uploaded!"
 
 
 if __name__ == "__main__":
