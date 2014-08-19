@@ -32,7 +32,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 db = flask.ext.sqlalchemy.SQLAlchemy(app)
 
 CONTENTS = "static/"
-last_file_id = -1
 
 
 def verify_password():
@@ -102,9 +101,7 @@ def create_app(config_mode=None, config_file=None):
 
         if "upload_announcement" in data:
             del data["upload_announcement"]
-            global last_file_id
-            last_file_id += 1
-            data["content_filename"] = last_file_id
+            data["content_filename"] = FileId.get_new()
 
     def pre_modification(instance_id, data=None, **kw):
         """
@@ -210,6 +207,24 @@ def crossdomain(origin=None, methods=None, headers=None,
 def my_service():
     return "I'm cool. Every domain is cool"
 #########################################
+
+class FileId(object):
+    CONFIG_FILE = "id.ini"
+    last_file_id = -1
+
+    try:
+        with open(CONFIG_FILE) as f:
+            last_file_id = int(f.read())
+    except (IOError, ValueError):
+        pass
+
+    @classmethod
+    def get_new(cls):
+        cls.last_file_id += 1
+        with open(cls.CONFIG_FILE, "w") as f:
+            f.write(str(cls.last_file_id))
+        return cls.last_file_id
+
 
 
 # database and Flask classes (RESTless)
