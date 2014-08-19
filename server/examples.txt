@@ -18,8 +18,8 @@ CREATE DATABASE indiana;
 
 
 ### chiamate con requests
-url = "http://localhost:5000/api/"
 url = "http://firenzearcheo-feedingaliencat.rhcloud.com/api/"
+url = "http://localhost:5000/api/"
 
 
 # creazione di un utente
@@ -114,16 +114,30 @@ r = requests.post(
 
 
 # postare una foto
-filepath = "1367157964.jpg"
+filepath = "/home/emilio/Scrivania/test/1367157964.jpg"
 
 r = requests.post(
     url + "content",
     data=json.dumps({"photo_announcement":True, "poi": 15}),
     headers={"content-type":"application/json", 'Authorization': make_basic_auth(u["name"], u["psw"])}
 )
-photo_id = str(json.loads(r.text)["photo_id"])
+photo_id = str(json.loads(r.text)["photo_filename"])
 r = requests.post(
     "".join([url, "photo/", photo_id]),
     files={"photo": open(filepath, "rb")},
     headers={'Authorization': make_basic_auth(u["name"], u["psw"])}
 )
+
+
+# scaricare una foto
+<img src="http://localhost:5000/static/0.jpg" />
+
+# in python non va:
+photo_filename = "0.jpg"
+r = requests.get(
+    "http://localhost:5000/static/{}".format(photo_filename)
+)
+client_path = str(photo_id) + ".jpg"
+with open(client_path, "wb") as f:
+    f.write(r.text.encode("UTF-8"))
+

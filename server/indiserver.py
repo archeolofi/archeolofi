@@ -2,7 +2,7 @@
 #-*- coding: utf-8 -*-
 
 # library imports
-from flask import Flask, request, current_app, make_response
+from flask import Flask, request, current_app, make_response, send_file
 import flask.ext.restless as restless
 from base64 import b64encode
 import flask.ext.sqlalchemy
@@ -31,7 +31,7 @@ app.config['MAX_CONTENT_LENGTH'] = 64 * 1024 * 1024
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 db = flask.ext.sqlalchemy.SQLAlchemy(app)
 
-PHOTOS = "../../photos/"
+PHOTOS = "static/"
 last_photo_id = -1
 
 
@@ -104,7 +104,7 @@ def create_app(config_mode=None, config_file=None):
             del data["photo_announcement"]
             global last_photo_id
             last_photo_id += 1
-            data["photo_id"] = last_photo_id
+            data["photo_filename"] = last_photo_id
 
     def pre_modification(instance_id, data=None, **kw):
         """
@@ -246,8 +246,8 @@ class Content(db.Model):
     comment = db.Column(
         db.Text
     )
-    photo_id = db.Column(
-        db.Integer
+    photo_filename = db.Column(
+        db.Unicode(20)
     )
     photo_thumb = db.Column(
         db.Text
@@ -283,7 +283,7 @@ def login():
 def photo_upload(photo_id):
     # verify user
     verify_password()
-    content = Content.query.filter_by(photo_id = photo_id).first()
+    content = Content.query.filter_by(photo_filename = str(photo_id)).first()
     if not content:
         raise restless.ProcessingException(
             description="Not expected photo",
@@ -297,25 +297,61 @@ def photo_upload(photo_id):
     # TODO: check if the file is a photo, check size
 
     # save the file
-    filepath = os.path.join(PHOTOS, str(photo_id))
+    filename = str(photo_id) + ext
+    filepath = os.path.join(PHOTOS, filename)
     f.save(filepath)
 
     # save a base64 encoded thumbnail in the database
-    size = (120, 120)
-    im = Image.open(filepath)
-    im.thumbnail(size)
-    tmp = "{}thumbnail_{}{}".format(PHOTOS, str(photo_id), ext)
-    im.save(tmp)
+    IMAGE_TYPES = [".jpg"]
+    if ext in IMAGE_TYPES:
+        size = (120, 120)
+        im = Image.open(filepath)
+        im.thumbnail(size)
+        tmp = "{}thumbnail_{}".format(PHOTOS, filename)
+        im.save(tmp)
     
-    with open(tmp) as f:
-        b64photo = b64encode(f.read())
+        with open(tmp) as f:
+            b64photo = b64encode(f.read())
 
-    content.photo_thumb = b64photo
+        os.remove(tmp)
+
+        content.photo_thumb = b64photo
+
+    content.photo_filename = filename
     db.session.add(content)
     db.session.commit()
-
-    os.remove(tmp)
     return "Photo uploaded!"
+
+
+# @app.route("/api/photo/<int:photo_id>", methods=["GET"])
+# def photo_download(photo_id):
+#     begin_with = str(photo_id) + "."
+#     filename = None
+#     for f in os.listdir(PHOTOS):
+#         if f.startswith(begin_with):
+#             filename = f
+#             break
+#     if filename is None:
+#         raise restless.ProcessingException(
+#             description="File not present.",
+#             code=404
+#         )
+
+#     filepath = os.path.join(PHOTOS, filename)
+#     return send_file(
+#         filepath,
+#         # as_attachment=True, attachment_filename='myfile.jpg'
+#         # mimetype="image/jpeg"
+#     )
+        
+#     try:
+#         f = open(filepath, "rb")
+#         content = f.read()
+#         f.close()
+#         return content
+#         # with open(filepath, "rb") as f:
+#         #     return f.read()
+
 
 
 if __name__ == "__main__":
