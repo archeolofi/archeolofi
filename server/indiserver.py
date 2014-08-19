@@ -152,8 +152,6 @@ def create_app(config_mode=None, config_file=None):
             "POST": [add_user_field]
         }
     )
-    # manager.create_api(CustomContent, methods=["GET", "POST", "PUT", "DELETE"])
-    # manager.create_api(Like, methods=["POST"])
 
     app.after_request(add_cors_header)
     return app
