@@ -2,7 +2,7 @@
 #-*- coding: utf-8 -*-
 
 # library imports
-from flask import Flask, request, current_app, make_response, send_file
+from flask import Flask, request, current_app, make_response
 import flask.ext.restless as restless
 from base64 import b64encode
 import flask.ext.sqlalchemy
@@ -120,12 +120,11 @@ def create_app(config_mode=None, config_file=None):
         for cnt in result["objects"]:
             cnt["like"] = 0
             cnt["unlike"] = 0
-            for l in Like.query.filter_by(content_id = cnt["id_"]).all():
+            for l in Like.query.filter_by(content_id=cnt["id_"]).all():
                 if l.do_like:
                     cnt["like"] += 1
                 elif not l.do_like:
                     cnt["unlike"] += 1
-
 
     # Create API endpoints, which will be available at /api/<tablename>
     manager.create_api(
@@ -283,7 +282,7 @@ def login():
 def photo_upload(photo_id):
     # verify user
     verify_password()
-    content = Content.query.filter_by(photo_filename = str(photo_id)).first()
+    content = Content.query.filter_by(photo_filename=str(photo_id)).first()
     if not content:
         raise restless.ProcessingException(
             description="Not expected photo",
@@ -321,37 +320,6 @@ def photo_upload(photo_id):
     db.session.add(content)
     db.session.commit()
     return "Photo uploaded!"
-
-
-# @app.route("/api/photo/<int:photo_id>", methods=["GET"])
-# def photo_download(photo_id):
-#     begin_with = str(photo_id) + "."
-#     filename = None
-#     for f in os.listdir(PHOTOS):
-#         if f.startswith(begin_with):
-#             filename = f
-#             break
-#     if filename is None:
-#         raise restless.ProcessingException(
-#             description="File not present.",
-#             code=404
-#         )
-
-#     filepath = os.path.join(PHOTOS, filename)
-#     return send_file(
-#         filepath,
-#         # as_attachment=True, attachment_filename='myfile.jpg'
-#         # mimetype="image/jpeg"
-#     )
-        
-#     try:
-#         f = open(filepath, "rb")
-#         content = f.read()
-#         f.close()
-#         return content
-#         # with open(filepath, "rb") as f:
-#         #     return f.read()
-
 
 
 if __name__ == "__main__":
