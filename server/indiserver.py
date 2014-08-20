@@ -3,6 +3,7 @@
 
 # library imports
 from flask import Flask, request, current_app, make_response
+from werkzeug.exceptions import RequestEntityTooLarge
 import flask.ext.restless as restless
 from base64 import b64encode
 import flask.ext.sqlalchemy
@@ -234,7 +235,6 @@ class FileId(object):
         return cls.last_file_id
 
 
-
 # database and Flask classes (RESTless)
 class IndianaUser(db.Model):
     """
@@ -322,7 +322,12 @@ def file_upload(file_id):
     verify_owner(content)
 
     # verify content
-    f = request.files["file"]
+    try:
+        f = request.files["file"]
+    except RequestEntityTooLarge:
+        refuse(content)
+        raise
+
     ext = os.path.splitext(f.filename)[1]
     if not ext in ALLOWED_TYPES:
         refuse(content)
@@ -330,7 +335,6 @@ def file_upload(file_id):
             description="File type not allowed.",
             code=400
         )
-    # TODO: rimuovere orfani: file rimbalzati perché non consentiti, o troppo grandi
 
     # save the file
     filename = str(file_id) + ext
