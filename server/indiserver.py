@@ -263,6 +263,9 @@ class Content(db.Model):
     content_filename = db.Column(
         db.Unicode(20)
     )
+    file_description = db.Column(
+        db.Unicode(50)
+    )
     photo_thumb = db.Column(
         db.Text
     )
