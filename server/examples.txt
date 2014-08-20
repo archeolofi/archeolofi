@@ -82,7 +82,7 @@ modified_content = "new content"
 r = requests.patch(
     "".join([url, "content/", str(content_id)]),
     data=json.dumps({
-        "content": modified_content
+        "comment": modified_content
     }),
     headers={
         "content-type":"application/json", 

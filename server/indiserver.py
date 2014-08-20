@@ -127,11 +127,21 @@ def create_app(config_mode=None, config_file=None):
         """
         Check if the user, who wants to modify a content, is the owner of that
         content.
+        An user can modify only the 'comment' and the 'file_description'
+        fields.
         """
         verify_password()
 
         content = Content.query.get(instance_id)
         verify_owner(content)
+
+        allowed_fields = ["comment", "file_description"]
+        for field in data.keys():
+            if not field in allowed_fields:
+                raise restless.ProcessingException(
+                    description="Not modifiable", code=401
+                )
+
 
     def add_like_fields(result=None, search_params=None, **kw):
         for cnt in result["objects"]:
