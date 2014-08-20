@@ -28,14 +28,17 @@ HTTP_NOT_FOUND = 404
 HTTP_CONFLICT = 409
 
 CONTENTS = "static/"
-ALLOWED_TYPES = [
-    ".txt", ".rtf", ".odf", ".ods", ".gnumeric", ".abw", ".doc", ".docx",
-    ".xls", ".xlsx", ".jpg", ".jpe", ".jpeg", ".png", ".gif", ".svg", ".bmp",
-    ".wav", ".mp3", ".aac", ".ogg", ".oga", ".flac", ".csv", ".ini", ".json",
-    ".plist", ".xml", ".yaml", ".yml", ".gz", ".bz2", ".zip", ".tar", ".tgz",
-    ".txz", ".7z", ".pdf"
+IMAGE_TYPES = [
+    ".bmp", ".dib", ".dcx", ".eps", ".ps", ".gif", ".im", ".jpg", ".jpe",
+    ".jpeg", ".pcd", ".pcx", ".pdf", ".png", ".pbm", ".pgm", ".ppm", ".tif",
+    ".tiff", ".xbm", ".xpm"
 ]
-IMAGE_TYPES = [".jpg"]
+ALLOWED_TYPES = [
+    '.odf', '.gnumeric', '.plist', '.7z', '.ods', '.xml', '.docx', '.abw',
+    '.zip', '.wav', '.yaml', '.xlsx', '.yml', '.rtf', '.ini', '.svg', '.aac',
+    '.doc', '.mp3', '.xls', '.tar', '.json', '.csv', '.flac', '.bz2', '.txt',
+    '.tgz', '.txz', '.ogg', '.oga', '.gz', ".psd"
+]
 
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 64 * 1024 * 1024
@@ -329,7 +332,8 @@ def file_upload(file_id):
         raise
 
     ext = os.path.splitext(f.filename)[1]
-    if not ext in ALLOWED_TYPES:
+    ext = ext.lower()
+    if (not ext in IMAGE_TYPES) and (not ext in ALLOWED_TYPES):
         refuse(content)
         raise restless.ProcessingException(
             description="File type not allowed.",
