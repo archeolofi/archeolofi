@@ -352,7 +352,7 @@ def file_upload(file_id):
         refuse(content)
         raise
 
-    ext = os.path.splitext(f.filename)[1]
+    original_name, ext = os.path.splitext(f.filename)
     ext = ext.lower()
     if (not ext in IMAGE_TYPES) and (not ext in ALLOWED_TYPES):
         refuse(content)
@@ -381,6 +381,8 @@ def file_upload(file_id):
 
         content.photo_thumb = b64photo
 
+    if not content.file_description:
+        content.file_description = original_name
     content.filename = filename
     db.session.add(content)
     db.session.commit()
