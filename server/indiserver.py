@@ -5,6 +5,7 @@
 from flask import Flask, request, current_app, make_response
 from werkzeug.exceptions import RequestEntityTooLarge
 import flask.ext.restless as restless
+from passlib.hash import sha256_crypt
 from base64 import b64encode
 import flask.ext.sqlalchemy
 import Image
@@ -55,7 +56,7 @@ def verify_password():
         )
     else:
         user = IndianaUser.query.get(username)
-        if (not user) or (user.psw != password):
+        if (not user) or (not sha256_crypt.verify(password, user.psw)):
             raise restless.ProcessingException(
                 description='Invalid username or password!', code=401
             )
@@ -93,6 +94,13 @@ def create_app(config_mode=None, config_file=None):
     manager = restless.APIManager(app, flask_sqlalchemy_db=db)
 
     # pre/post-processors
+    def password_encryption(data={}, **kw):
+        try:
+            data["psw"] = sha256_crypt.encrypt(data["psw"])
+        except KeyError:
+            # it will fail soon.
+            pass
+
     def add_user_field(data={}, **kw):
         """
         Check username and password and add username to data to be saved.
@@ -138,6 +146,9 @@ def create_app(config_mode=None, config_file=None):
     # Create API endpoints, which will be available at /api/<tablename>
     manager.create_api(
         IndianaUser,
+        preprocessors={
+            "POST": [password_encryption]
+        },
         methods=["POST"]
     )
     manager.create_api(
@@ -246,7 +257,7 @@ class IndianaUser(db.Model):
     If some information is missing, return 400.
     """
     name = db.Column(db.Unicode(30), primary_key=True, nullable=False)
-    psw = db.Column(db.Unicode(30), nullable=False)
+    psw = db.Column(db.Unicode(80), nullable=False)
     email = db.Column(db.Unicode(50), nullable=False)
 
     # contents = db.relationship("content", backref=db.backref("user", lazy='dynamic'))
