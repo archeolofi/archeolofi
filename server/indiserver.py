@@ -26,12 +26,20 @@ HTTP_BAD_REQUEST = 400
 HTTP_NOT_FOUND = 404
 HTTP_CONFLICT = 409
 
+CONTENTS = "static/"
+ALLOWED_TYPES = [
+    ".txt", ".rtf", ".odf", ".ods", ".gnumeric", ".abw", ".doc", ".docx",
+    ".xls", ".xlsx", ".jpg", ".jpe", ".jpeg", ".png", ".gif", ".svg", ".bmp",
+    ".wav", ".mp3", ".aac", ".ogg", ".oga", ".flac", ".csv", ".ini", ".json",
+    ".plist", ".xml", ".yaml", ".yml", ".gz", ".bz2", ".zip", ".tar", ".tgz",
+    ".txz", ".7z", ".pdf"
+]
+IMAGE_TYPES = [".jpg"]
+
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 64 * 1024 * 1024
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 db = flask.ext.sqlalchemy.SQLAlchemy(app)
-
-CONTENTS = "static/"
 
 
 def verify_password():
@@ -101,7 +109,7 @@ def create_app(config_mode=None, config_file=None):
 
         if "upload_announcement" in data:
             del data["upload_announcement"]
-            data["content_filename"] = FileId.get_new()
+            data["filename"] = FileId.get_new()
 
     def pre_modification(instance_id, data=None, **kw):
         """
@@ -260,7 +268,7 @@ class Content(db.Model):
     comment = db.Column(
         db.Text
     )
-    content_filename = db.Column(
+    filename = db.Column(
         db.Unicode(20)
     )
     file_description = db.Column(
@@ -298,9 +306,14 @@ def login():
 
 @app.route("/api/file/<int:file_id>", methods=["POST"])
 def file_upload(file_id):
+    def refuse(content):
+        # remove the space for the file in the database
+        db.session.delete(content)
+        db.session.commit()
+
     # verify user
     verify_password()
-    content = Content.query.filter_by(content_filename=str(file_id)).first()
+    content = Content.query.filter_by(filename=str(file_id)).first()
     if not content:
         raise restless.ProcessingException(
             description="Not expected file",
@@ -311,7 +324,12 @@ def file_upload(file_id):
     # verify content
     f = request.files["file"]
     ext = os.path.splitext(f.filename)[1]
-    # TODO: check if the file is allowed
+    if not ext in ALLOWED_TYPES:
+        refuse(content)
+        raise restless.ProcessingException(
+            description="File type not allowed.",
+            code=400
+        )
     # TODO: rimuovere orfani: file rimbalzati perché non consentiti, o troppo grandi
 
     # save the file
@@ -320,7 +338,6 @@ def file_upload(file_id):
     f.save(filepath)
 
     # save a base64 encoded thumbnail in the database
-    IMAGE_TYPES = [".jpg"]
     if ext in IMAGE_TYPES:
         size = (120, 120)
         im = Image.open(filepath)
@@ -335,7 +352,7 @@ def file_upload(file_id):
 
         content.photo_thumb = b64photo
 
-    content.content_filename = filename
+    content.filename = filename
     db.session.add(content)
     db.session.commit()
     return "Photo uploaded!"

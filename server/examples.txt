@@ -114,6 +114,7 @@ r = requests.post(
 
 
 # postare un file
+filepath = "/home/emilio/Scrivania/test/main.sql"   # type error
 filepath = "/home/emilio/Scrivania/test/vlc.pdf"
 filepath = "/home/emilio/Scrivania/test/1367157964.jpg"
 
