@@ -146,12 +146,4 @@ r = post_a_file()
 wget "localhost:5000/static/0.jpg"
 
 
-# in python non va:
-photo_filename = "0.jpg"
-r = requests.get(
-    "http://localhost:5000/static/{}".format(photo_filename)
-)
-client_path = str(photo_id) + ".jpg"
-with open(client_path, "wb") as f:
-    f.write(r.text.encode("UTF-8"))
 
