@@ -85,7 +85,8 @@ def create_app(config_mode=None, config_file=None):
         # Thank you reubano and klinkin!
         response.headers['Access-Control-Allow-Origin'] = '*'
         response.headers['Access-Control-Allow-Methods'] = 'HEAD, GET, POST, PATCH, PUT, OPTIONS, DELETE'
-        response.headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept'
+        # TODO: maybe something here is unnecessary:
+        response.headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
         response.headers['Access-Control-Allow-Credentials'] = 'true'
         response.headers['Content-Type'] = 'application/json; charset=utf-8'
         return response
@@ -322,7 +323,8 @@ class Like(db.Model):
     )
 
 
-@app.route("/api/login/")
+@app.route("/api/login/", methods=["GET"])
+@crossdomain(origin='*', headers="Authorization")
 def login():
     if verify_password():
         return json.dumps(True)

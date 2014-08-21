@@ -1,0 +1,60 @@
+<html>
+    <head>
+        <title>Functions test page</title>
+        <script src="libs/jquery-1.11.1.min.js"></script>
+        <script src="libs/jquery.mobile-1.4.2/jquery.mobile-1.4.2.js"></script>
+        <script language="JavaScript" type="text/JavaScript" src="functions.js"></script>
+        <script>
+            $(document).ready( function() {
+                $("#login").click( function() {
+                    data = read_form();
+                    result = login(data[0], data[1]);
+                    // document.write(result);
+                });
+            });
+
+            $(document).ready( function() {
+                $("#register").click( function() {
+                    data = read_form();
+                    result = register(data[0], data[1], data[2]);
+                    // document.write(result);
+                });
+            });
+
+            $(document).ready( function() {
+                $("#comment").click( function() {
+                    result = post_a_comment("figata", 15);
+                    // document.write(result);
+                });
+            });
+        </script>
+    </head>
+
+    <body>
+        <form name= "user_form" >
+            <div data-role="fieldcontain" class="ui-hide-label">
+                <label for="username">Username:</label>
+                <input type="text" name="username" id="name" value="" placeholder="Username"/>
+            </div>
+
+            <div data-role="fieldcontain" class="ui-hide-label">
+                <label for="password">Password:</label>
+                <input type="text" name="password" id="psw" value="" placeholder="Password"/>
+            </div>
+
+            <input type="button" id="login" data-icon="check" value="Login">    
+
+            <br />
+
+            <div data-role="fieldcontain" class="ui-hide-label">
+                <label for="email">Se non sei ancora registrato inserisci anche la tua email:</label>
+                <input type="text" name="email" id="email" value="" placeholder="email"/>
+            </div>
+
+            <input type="button" id="register" data-icon="edit" value="Register">
+
+            <input type="button" id="comment" data-icon="edit" value="Comment">
+        </form>
+
+    </body>
+</html>
