@@ -67,6 +67,30 @@ function post_a_comment(comment, poi) {
         },
         complete: function(data_response) {
             alert(data_response.responseText);
+
+function get_contents(poi) {
+    $.ajax({
+        type:"GET",
+        url: server_url + "api/content",
+        data: {
+            "q": JSON.stringify({
+                "filters": [{
+                    "name": "poi",
+                    "op": "==",
+                    "val": poi
+                }]
+            })
+        },
+        dataType: "json",
+        contentType: "application/json",
+        success: function() {
+            console.log("contents received.");
+        },
+        error: function() {
+            console.log("ops, something went wrong..");
+        },
+        complete: function(data_response) {
+            return data_response.responseText;
         }
     });
 }

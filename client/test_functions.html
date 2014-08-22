@@ -37,6 +37,13 @@
                 $("#get_wms_json").click( function() {
                     result = wms_proxy(bbox, width, height, x, y);
                 });
+
+            $(document).ready( function() {
+                var poi = 15;
+                $("#get_contents").click( function() {
+                    result = get_contents(poi);
+                });
+                alert(result);
             });
         </script>
     </head>
@@ -68,6 +75,7 @@
         </form>
 
         <input type="button" id="get_wms_json" data-icon="edit" value="Get WMS json">
+        <input type="button" id="get_contents" data-icon="edit" value="Get contents">
 
     </body>
 </html>
