@@ -99,6 +99,29 @@ function get_contents(poi) {
     });
 }
 
+function modify_comment(content_id, modified_content) {alert("qui");
+    $.ajax({
+        type:"PATCH",
+        url: server_url + "api/content/" + content_id,
+        headers: {
+          "Authorization": logged_auth
+        },
+        data: JSON.stringify ({
+            "comment": modified_content
+        }),
+        contentType: "application/json",
+        success: function() {
+            console.log("content modified.");
+        },
+        error: function() {
+            console.log("ops, something went wrong..");
+        },
+        complete: function(data_response) {
+            return data_response.responseText;
+        }
+    });
+}
+
 function wms_proxy(bbox, width, height, x, y) {
     $.ajax({
         type:"GET",
@@ -110,7 +133,7 @@ function wms_proxy(bbox, width, height, x, y) {
             console.log("ops, something went wrong..");
         },
         complete: function(data_response) {
-            alert(data_response.responseText);
+            return data_response.responseText;
         }
     });
 }
