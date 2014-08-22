@@ -71,6 +71,22 @@ function post_a_comment(comment, poi) {
     });
 }
 
+function wms_proxy(bbox, width, height, x, y) {
+    $.ajax({
+        type:"GET",
+        url: server_url + "api/proxy/" + bbox + '&' + width + '&' + height + '&' + x + '&' + y,
+        success: function() {
+            console.log("proxied.");
+        },
+        error: function() {
+            console.log("ops, something went wrong..");
+        },
+        complete: function(data_response) {
+            alert(data_response.responseText);
+        }
+    });
+}
+
 function testOpenGeo() {
     $.getJSON(
         "http://opengeo.eu/archeofi2/api/archeofi_api.php?rit_id=13&jsoncallback=?",

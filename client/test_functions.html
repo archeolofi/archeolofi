@@ -27,6 +27,17 @@
                     // document.write(result);
                 });
             });
+
+            $(document).ready( function() {
+                var bbox = "43.77134173380578,11.248315572738647,43.773510955400546,11.262048482894897"
+                var width = 1280
+                var height = 280
+                var x = 454
+                var y = 191
+                $("#get_wms_json").click( function() {
+                    result = wms_proxy(bbox, width, height, x, y);
+                });
+            });
         </script>
     </head>
 
@@ -55,6 +66,8 @@
 
             <input type="button" id="comment" data-icon="edit" value="Comment">
         </form>
+
+        <input type="button" id="get_wms_json" data-icon="edit" value="Get WMS json">
 
     </body>
 </html>
