@@ -29,7 +29,7 @@ function register(name, psw, email) {
 function login(name, psw) {
     var auth = "Basic " + btoa(name + ":" + psw);
     $.ajax({
-        type:"GET",
+        type: "GET",
         url: server_url + "api/login/",
         headers: {
           "Authorization": auth
@@ -52,7 +52,7 @@ function login(name, psw) {
 
 function post_a_comment(comment, poi) {
     $.ajax({
-        type:"POST",
+        type: "POST",
         url: server_url + "api/content",
         headers: {
           "Authorization": logged_auth
@@ -74,7 +74,7 @@ function post_a_comment(comment, poi) {
 
 function get_contents(poi) {
     $.ajax({
-        type:"GET",
+        type: "GET",
         url: server_url + "api/content",
         data: {
             "q": JSON.stringify({
@@ -99,9 +99,9 @@ function get_contents(poi) {
     });
 }
 
-function modify_comment(content_id, modified_content) {alert("qui");
+function modify_comment(content_id, modified_content) {
     $.ajax({
-        type:"PATCH",
+        type: "PATCH",
         url: server_url + "api/content/" + content_id,
         headers: {
           "Authorization": logged_auth
@@ -144,7 +144,7 @@ function remove_content(content_id) {
 
 function wms_proxy(bbox, width, height, x, y) {
     $.ajax({
-        type:"GET",
+        type: "GET",
         url: server_url + "api/proxy/" + bbox + '&' + width + '&' + height + '&' + x + '&' + y,
         success: function() {
             console.log("proxied.");

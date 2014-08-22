@@ -49,10 +49,14 @@
             });
 
             $(document).ready( function() {
-                poi = 15;
+                content_id = 15;
                 var modified_comment = "no, no, no, sorry";
                 $("#modify_comment").click( function() {
-                    result = modify_comment(poi, modified_comment);
+                    result = modify_comment(content_id, modified_comment);
+                    // alert(result);
+                });
+            });
+
             $(document).ready( function() {
                 content_id = 15;
                 $("#remove_content").click( function() {
@@ -91,7 +95,7 @@
 
         <input type="button" id="get_wms_json" data-icon="edit" value="Get WMS json">
         <input type="button" id="get_contents" data-icon="edit" value="Get contents">
-        <input type="button" id="modify_comment" data-icon="edit" value="Modify comment">
+        <input type="button" id="modify_comment" data-icon="edit" value="Modify a comment">
         <input type="button" id="remove_content" data-icon="edit" value="Remove a content">
 
     </body>
