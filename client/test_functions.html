@@ -53,6 +53,10 @@
                 var modified_comment = "no, no, no, sorry";
                 $("#modify_comment").click( function() {
                     result = modify_comment(poi, modified_comment);
+            $(document).ready( function() {
+                content_id = 15;
+                $("#remove_content").click( function() {
+                    result = remove_content(content_id);
                     alert(result);
                 });
             });
@@ -88,6 +92,7 @@
         <input type="button" id="get_wms_json" data-icon="edit" value="Get WMS json">
         <input type="button" id="get_contents" data-icon="edit" value="Get contents">
         <input type="button" id="modify_comment" data-icon="edit" value="Modify comment">
+        <input type="button" id="remove_content" data-icon="edit" value="Remove a content">
 
     </body>
 </html>

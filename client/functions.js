@@ -122,6 +122,26 @@ function modify_comment(content_id, modified_content) {alert("qui");
     });
 }
 
+function remove_content(content_id) {
+    $.ajax({
+        type: "DELETE",
+        url: server_url + "api/content/" + content_id,
+        headers: {
+          "Authorization": logged_auth
+        },
+        contentType: "application/json",
+        success: function() {
+            console.log("content deleted.");
+        },
+        error: function() {
+            console.log("ops, something went wrong..");
+        },
+        complete: function(data_response) {
+            return data_response.responseText;
+        }
+    });
+}
+
 function wms_proxy(bbox, width, height, x, y) {
     $.ajax({
         type:"GET",
