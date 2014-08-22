@@ -146,4 +146,17 @@ r = post_a_file()
 wget "localhost:5000/static/0.jpg"
 
 
+# proxare una richiesta
+bbox = "43.77134173380578,11.248315572738647,43.773510955400546,11.262048482894897"
+width = 1280
+height = 280
+x = 454
+y = 191
+r = requests.get(
+    "{}proxy/{}&{}&{}&{}&{}".format(
+        url,
+        bbox, str(width), str(height), str(x), str(y)
+    )
+)
+
 

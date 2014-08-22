@@ -8,6 +8,7 @@ import flask.ext.restless as restless
 from passlib.hash import sha256_crypt
 from base64 import b64encode
 import flask.ext.sqlalchemy
+import requests
 import Image
 import json
 import os
@@ -389,6 +390,24 @@ def file_upload(file_id):
     db.session.add(content)
     db.session.commit()
     return "Photo uploaded!"
+
+
+@app.route(
+    "/api/proxy/<string:bbox>&<int:width>&<int:height>&<int:x>&<int:y>",
+    methods=["GET"]
+)
+@crossdomain(origin='*')
+def datagis_proxy(bbox, width, height, x, y):
+    url = (
+        "http://datigis.comune.fi.it/geoserver/wms?SERVICE=WMS&VERSION=1.3."
+        "0&REQUEST=GetFeatureInfo&BBOX={}&CRS=EPSG:4326&WIDTH={}&HEIGHT={}&"
+        "LAYERS=archeologia:scavi_archeo&STYLES=&FORMAT=image/png&QUERY_LAYERS"
+        "=archeologia:scavi_archeo&INFO_FORMAT=application/json&I={}&J={}"
+        "&FEATURE_COUNT=10"
+    ).format(bbox, width, height, x, y)
+    print url
+    received = requests.get(url)
+    return received.text
 
 
 if __name__ == "__main__":
