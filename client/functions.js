@@ -142,6 +142,30 @@ function remove_content(content_id) {
     });
 }
 
+function like(content_id, do_like) {
+    $.ajax({
+        type: "POST",
+        url: server_url + "api/like",
+        headers: {
+          "Authorization": logged_auth
+        },
+        data: JSON.stringify ({
+            "content_id": content_id,
+            "do_like": do_like
+        }),
+        contentType: "application/json",
+        success: function() {
+            console.log("liked.");
+        },
+        error: function() {
+            console.log("ops, something went wrong..");
+        },
+        complete: function(data_response) {
+            return data_response.responseText;
+        }
+    });
+}
+
 function wms_proxy(bbox, width, height, x, y) {
     $.ajax({
         type: "GET",

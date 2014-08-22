@@ -61,6 +61,15 @@
                 content_id = 15;
                 $("#remove_content").click( function() {
                     result = remove_content(content_id);
+                    // alert(result);
+                });
+            });
+
+            $(document).ready( function() {
+                content_id = 1;
+                do_like = true;
+                $("#like").click( function() {
+                    result = like(content_id, do_like);
                     alert(result);
                 });
             });
@@ -97,6 +106,7 @@
         <input type="button" id="get_contents" data-icon="edit" value="Get contents">
         <input type="button" id="modify_comment" data-icon="edit" value="Modify a comment">
         <input type="button" id="remove_content" data-icon="edit" value="Remove a content">
+        <input type="button" id="like" data-icon="edit" value="Add a like to a content">
 
     </body>
 </html>
