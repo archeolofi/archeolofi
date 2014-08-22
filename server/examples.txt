@@ -123,7 +123,7 @@ def post_a_file():
     r = requests.post(
         url + "content",
         data=json.dumps({
-            "upload_announcement":True,
+            "upload_announcement": True,
             "poi": 15,
             "file_description": "Un interessante file, lascia stare."
         }),
