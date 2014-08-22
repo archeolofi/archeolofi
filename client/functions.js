@@ -1,12 +1,13 @@
-var server_url = "http://127.0.0.1:5000/";
-var logged_auth = null;
-
 function read_form() {
     var name = $("#name").val();
     var psw = $("#psw").val();
     var email = $("#email").val();
     return [name, psw, email];
 }
+
+// INDIANA SERVER
+var server_url = "http://127.0.0.1:5000/";
+var logged_auth = null;
 
 function register(name, psw, email) {
     $.ajax({
@@ -63,10 +64,13 @@ function post_a_comment(comment, poi) {
             console.log("comment published!");
         },
         error: function() {
-            alert("ops, something went wrong..");
+            console.log("ops, something went wrong..");
         },
         complete: function(data_response) {
-            alert(data_response.responseText);
+            return data_response.responseText;
+        }
+    });
+}
 
 function get_contents(poi) {
     $.ajax({
