@@ -166,6 +166,63 @@ function like(content_id, do_like) {
     });
 }
 
+function upload(poi, form_data, file_description) {
+    var file_id = null;
+
+    // posting announcement
+    $.ajax({
+        type: "POST",
+        url: server_url + "api/content",
+        headers: {
+          "Authorization": logged_auth
+        },
+        data: JSON.stringify ({
+            "upload_announcement": true,
+            "poi": poi,
+            "file_description": file_description
+        }),
+        dataType: "json",
+        contentType: "application/json",
+        success: function() {
+            console.log("file announced.");
+        },
+        error: function() {
+            console.log("ops, something went wrong..");
+        },
+        complete: function(data_response) {
+            received = JSON.parse(data_response.responseText);
+            file_id = received["filename"];
+            upload2(file_id, form_data);
+        }
+    });
+}
+
+function upload2(file_id, form_data) {
+    $.ajax({
+        type: "POST",
+        url: server_url + "api/file/" + file_id,
+        headers: {
+          "Authorization": logged_auth
+        },
+        data: form_data,
+        async: false,
+        cache: false,
+        processData: false, // Don't process the files
+        contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+        // contentType: "multipart/form-data",
+        dataType: 'json',
+        success: function() {
+            console.log("file uploaded.");
+        },
+        error: function() {
+            console.log("ops, something went wrong..");
+        },
+        complete: function(data_response) {
+            received = JSON.parse(data_response.responseText);
+        }
+    });
+}
+
 function wms_proxy(bbox, width, height, x, y) {
     $.ajax({
         type: "GET",
