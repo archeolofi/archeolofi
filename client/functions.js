@@ -1,3 +1,4 @@
+
 function read_form() {
     var name = $("#name").val();
     var psw = $("#psw").val();
@@ -8,6 +9,7 @@ function read_form() {
 // INDIANA SERVER
 var server_url = "http://127.0.0.1:5000/";
 var logged_auth = null;
+var last_visited_id = null;
 
 function register(name, psw, email) {
     $.ajax({
@@ -246,13 +248,15 @@ function wms_proxy(bbox, width, height, x, y) {
     $.ajax({
         type: "GET",
         url: server_url + "api/proxy/" + bbox + '&' + width + '&' + height + '&' + x + '&' + y,
-        success: function() {
+        success: function(data) {
             console.log("proxied.");
+            last_visited_id = data.features[0].properties.id_intervento;
         },
         error: function() {
             console.log("ops, something went wrong..");
         },
         complete: function(data_response) {
+            received = JSON.parse(data_response.responseText);
             return data_response.responseText;
         }
     });
