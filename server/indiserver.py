@@ -383,7 +383,7 @@ def file_upload(file_id):
     content.filename = filename
     db.session.add(content)
     db.session.commit()
-    return "Photo uploaded!"
+    return json.dumps("Photo uploaded!")
 
 
 @app.route(
