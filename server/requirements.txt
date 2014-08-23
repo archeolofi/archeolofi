@@ -5,4 +5,4 @@ passlib>=1.6.2
 SQLAlchemy>=0.9.7
 SQLAlchemy-ImageAttach>=0.8.1
 psycopg2>=2.5.3
-requests
+requests>=2.3.0
