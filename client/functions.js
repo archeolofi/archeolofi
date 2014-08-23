@@ -94,8 +94,31 @@ function get_contents(poi) {
             console.log("ops, something went wrong..");
         },
         complete: function(data_response) {
-            return data_response.responseText;
+            received = JSON.parse(data_response.responseText);
+            print_contents(received);
         }
+    });
+}
+
+function print_contents(contents) {
+    // 'contents' is an array with keys: 'num_results', 'objects', 'page', 'total_pages'
+    contents["objects"].forEach(function(entry) {
+        console.log(entry);
+        if(entry["photo_thumb"]) {
+            console.log("c'è un'immagine");
+            var thumb = new Image();
+            thumb.src = 'data:image;base64,' + entry["photo_thumb"];
+        }
+        else {
+            console.log("non c'è nessuna immagine");
+        }
+
+        document.write(
+            entry["comment"] + "<br />" +
+            entry["file_description"] + "<br />"
+        );
+        document.body.appendChild(thumb);
+        document.write("<hr />");
     });
 }
 
