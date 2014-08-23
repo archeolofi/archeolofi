@@ -50,7 +50,7 @@ function login(name, psw) {
     });
 }
 
-function post_a_comment(comment, poi) {
+function post_a_comment(poi, comment) {
     $.ajax({
         type: "POST",
         url: server_url + "api/content",
