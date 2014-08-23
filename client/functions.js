@@ -209,16 +209,12 @@ function upload2(file_id, form_data) {
         cache: false,
         processData: false, // Don't process the files
         contentType: false, // Set content type to false as jQuery will tell the server its a query string request
-        // contentType: "multipart/form-data",
         dataType: 'json',
         success: function() {
             console.log("file uploaded.");
         },
-        error: function() {
-            console.log("ops, something went wrong..");
-        },
-        complete: function(data_response) {
-            received = JSON.parse(data_response.responseText);
+        error: function(x, t, m) {
+            console.log(t);
         }
     });
 }
