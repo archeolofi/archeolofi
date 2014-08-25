@@ -110,6 +110,7 @@ function print_contents(contents) {
             console.log("c'è un'immagine");
             var thumb = new Image();
             thumb.src = 'data:image;base64,' + entry["photo_thumb"];
+            // thumb.src = 'data:image/jpeg;base64,' + entry["photo_thumb"];
         }
         else {
             console.log("non c'è nessuna immagine");
@@ -223,6 +224,7 @@ function upload(poi, form_data, file_description) {
 }
 
 function upload2(file_id, form_data) {
+    // actually post the file
     $.ajax({
         type: "POST",
         url: server_url + "api/file/" + file_id,
@@ -304,20 +306,4 @@ function display_opengeo(data) {
             <br />"
         );
     }
-}
-
-function testApi() {
-    $.ajax({
-        type:"GET",
-        // url: "http://127.0.0.1:5000/api/indiana_user",
-        // url: "http://opengeo.eu/archeofi2/api/archeofi_api.php?rit_id=13",
-        url: "http://127.0.0.1:5000/api/cross_domain",
-        datatype: "JSON",
-        success: function(data) {
-            alert(data);
-        },
-        error: function (response) {
-            alert("ciao");
-        }
-    });
 }
