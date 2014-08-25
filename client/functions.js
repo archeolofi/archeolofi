@@ -292,13 +292,48 @@ function wms_proxy(bbox, width, height, x, y,e) {
     return last_visited_id;
 }
 
-function testOpenGeo() {
+// OPENGEO SERVER
+function ask_opengeo(id_intervento) {
     $.getJSON(
-        "http://opengeo.eu/archeofi2/api/archeofi_api.php?rit_id=13&jsoncallback=?",
+        "http://opengeo.eu/archeofi2/api/archeofi_api.php?rit_id=" + id_intervento + "&jsoncallback=?",
         function(data) {
-            alert(data[0]["descr"]);
+            console.log(data);
+            display_opengeo(data);
         }
     );
+}
+
+function opengeo_make_link(link) {
+    return link.replace("/home/archeofi/homes", "http://opengeo.eu/archeofi2");
+}
+
+function display_opengeo(data) {
+    document.write(
+        "Descrizione approfondita:<br />" +
+        data[0]["descr"] + "<hr />Bibliografia:<br />"
+    );
+    for(var i=0, l=data[0]["bibliografia"].length; i<l; i++) {
+        document.write(
+            data[0]["bibliografia"][i]["biblio"] + "   " + data[0]["bibliografia"][i]["pagine"] + "<br />"
+        );
+    }
+    var images = data[0]["images"];
+    if(images.length > 0) {
+        document.write(
+            "<hr />Immagini:<br />"
+        );
+    }
+    for(var i=0, l=images.length; i<l; i++) {
+        var link = opengeo_make_link(images[i]["link"]);
+        var thumb = opengeo_make_link(images[i]["thumbnail"]);
+        images[i]["descr"]
+        document.write(
+            "<a href='" + link + "' > \
+                <img src='" + thumb + "'' alt='" + images[i]["descr"] + "'' /> \
+            </a> \
+            <br />"
+        );
+    }
 }
 
 function testApi() {

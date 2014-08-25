@@ -62,6 +62,15 @@
                 });
             });
 
+            $(function() {
+                $('#upload_file').click(function() {
+                    var poi = 14;
+                    var form_data = new FormData($('#upload_file_form')[0]);
+                    var file_decription = 'bada ganzo';
+                    upload(poi, form_data, file_decription);
+                });
+            });
+
             $(document).ready( function() {
                 var bbox = "43.77134173380578,11.248315572738647,43.773510955400546,11.262048482894897";
                 var width = 1280;
@@ -74,12 +83,10 @@
                 });
             });
 
-            $(function() {
-                $('#upload_file').click(function() {
-                    var poi = 14;
-                    var form_data = new FormData($('#upload_file_form')[0]);
-                    var file_decription = 'bada ganzo';
-                    upload(poi, form_data, file_decription);
+            $(document).ready( function() {
+                var id = 5;
+                $("#opengeo").click( function() {
+                    ask_opengeo(id);
                 });
             });
         </script>
@@ -130,6 +137,9 @@
         <br />
         <input type="button" id="get_wms_json" data-icon="edit" value="Get WMS json">
         <input type="button" id="which_last_id" data-icon="edit" value="Which was the last id?" onclick="alert(last_visited_id);">
+
+        <br />
+        <input type="button" id="opengeo" data-icon="edit" value="test opengeo">
 
     </body>
 </html>
