@@ -1,0 +1,112 @@
+
+PUNTO
+
+info ritrovamento( OGGETTO 0)
+
+cono_ac_dc: "a.C."
+crono_ac_dc_fine: "d.C."
+data_fine: 199
+data_inizio: -30
+definizione: "Cinta muraria"
+descrizione: "Tratto di fondazione delle mura romane. Non sappiamo quando fu asportato l'elevato delle mura."
+descrizione_min: "Tratto di fondazione delle mura romane"
+id_intervento: 35
+id_ritrovamento: 287
+periodo_fine: "Età Romana"
+periodo_inizio: "Età Romana"
+precisaz_secolo_fine: ""
+precisaz_secolo_inizio: "Fine"
+precisazione_ubicazion: "Piazza del Duomo/Via dell'Oriuolo"
+secolo_fine: "II secolo"
+secolo_inizio: "I secolo"
+tipologia_ritrov: "Struttura di fortificazione"
+
+info intervento( OGGETTO 1)
+
+approvazione: "1"
+catasto_foglio: 167
+catasto_particella: ""
+comune: "Firenze"
+data_aggiornamento: null
+data_approvazione: null
+data_compilazione: "2007-07-18Z"
+data_richiesta_approvazione: null
+dir_scientifica: "Maetzke?"
+email_compilatore: ""
+ente_resp: "SBAT - Firenze"
+ente_schedatore: "Università di Siena"
+esecutore_intervento: "Maetzke?"
+esito: ""
+fine_interv_integer: 1978
+fine_intervento: null
+gruppo: "scampoli"
+id_interv_nuovo: 35
+inizio_interv_integer: 1978
+inizio_intervento: null
+link: null
+localita: "Firenze"
+metodo: "Non specificato"
+motiv_intervento: "Opere pubbliche"
+nome_compilatore: "Emiliano Scampoli"
+note_approvazione: null
+note_georef: "Posizione certa"
+note_quota: ""
+osservazioni: ""
+precisazione_georef: "Posizione esatta"
+profondita_max: null
+proprieta: ""
+provincia: "FI"
+regione: "Toscana"
+settore: null
+tecnica_georef: "2"
+tipo_intervento: "Scavo "
+tipo_particella: "Strada"
+tipo_quota: ""
+ubicazione: "Piazza del Duomo/Via dell'Oriolo"
+visibilità: "1"
+
+//////////////////////////////////////////////////
+
+AREA:
+
+approvazione: "1"
+catasto_foglio: 166
+catasto_particella: ""
+comune: "Firenze"
+data_aggiornamento: null
+data_approvazione: null
+data_compilazione: "2007-07-18Z"
+data_richiesta_approvazione: null
+dir_scientifica: "Corinti; Galli;  Borghini"
+email_compilatore: ""
+ente_resp: "SBAT - Firenze"
+ente_schedatore: "UniversitA  di Siena"
+esecutore_intervento: "Corinti; Galli; Borghini"
+esito: "Positivo"
+fine_interv_integer: 1922
+fine_intervento: null
+gruppo: "scampoli"
+id_interv_nuovo: 5
+inizio_interv_integer: 1888
+inizio_intervento: null
+link: null
+localita: "Firenze"
+metodo: "Non specificato"
+motiv_intervento: "Opere pubbliche"
+nome_compilatore: "Emiliano Scampoli"
+note_approvazione: null
+note_georef: "Posizione certa"
+note_quota: "La quota si riferisce al fondo della fognatura (Ritrovamento 248)"
+osservazioni: ""
+precisazione_georef: "Posizione esatta"
+profondita_max: 44.7
+proprieta: ""
+provincia: "FI"
+regione: "Toscana"
+settore: null
+tecnica_georef: "2"
+tipo_intervento: "Scavo "
+tipo_particella: "Strada"
+tipo_quota: "Quota calcolata"
+ubicazione: "Piazza della Repubblica/Intorno al Mercato Vecchio"
+"visibilitA ": "1"
