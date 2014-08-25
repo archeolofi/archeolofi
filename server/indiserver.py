@@ -96,6 +96,9 @@ def create_app(config_mode=None, config_file=None):
     manager = restless.APIManager(app, flask_sqlalchemy_db=db)
 
     # pre/post-processors
+    def debug(*args, **kwargs):
+        set_trace()
+
     def password_encryption(data={}, **kw):
         try:
             data["psw"] = sha256_crypt.encrypt(data["psw"])
