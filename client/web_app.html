@@ -11,6 +11,34 @@
 	    <script src="libs/jquery.mobile-1.4.2/jquery.mobile-1.4.2.js"></script>
         <script type="text/javascript" src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
         
+        <script src="functions.js"></script>
+
+        <script>
+            
+           
+            
+            
+            $(document).ready( function() {
+                $("#bottone_login").click( function() {
+                    data = read_form();
+                    result = login(data[0], data[1]);
+                    // document.write(result);
+                });
+            });
+            
+            $(document).ready( function() {
+                $("#bottone_register").click( function() {
+                    data = read_form();
+                    result = register(data[0], data[1], data[2]);
+                    // document.write(result);
+                });
+            });
+        
+        
+        
+        
+        </script>
+        
         
         <!-- <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=no; target-densityDpi=device-dpi" /> -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -18,6 +46,7 @@
     <body>
         
         <div data-role="page" id="home"  >
+            
             <div data-role="header" data-position="inline">
                 <h1>Pagina principale</h1>
                 <a href="#login" data-role="button" class="ui-btn-right" >Login</a>
@@ -27,28 +56,9 @@
                <div id="map" class="map" ></div>
                 
                 <script>
-                    function register() {
-                        var nome = $("#nome").val();
-                        var password = $("#password").val();
-                        var email = $("#e-mail").val();
-                        var prova= JSON.stringify({ "name": nome, "psw": password, "email": email });
-                        
-                        $.ajax({
-                            type: "POST",
-                            url: "http://127.0.0.1:5000/api/indiana_user",
-                            data: prova,
-                            dataType: "json",
-                            contentType: "application/json",
-                            success: function(data) { alert("ok"); },
-                            error: function() {
-                                alert("ops, something went wrong..");
-                            }
-                        });
-                    }
-                    /* var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                    osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-                    osm = L.tileLayer(osmUrl, {maxZoom: 18, attribution: osmAttrib}); */
                     
+                    
+                    ///////////////////////// INSERIMENTO DELLA MAPPA ////////////////////////////
                     var map = L.map('map')
 
                     L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -76,57 +86,43 @@
                     map.on('locationerror', onLocationError);
                     
                  
-                    </script>
-                    <script type="text/javascript" src="punti_coordinate.js"></script>
-                    <script type="text/javascript" src="aree_coordinate.js"></script>
-                    <script> 
+                     
+                    ///////////////////// INSERIMENTO LAYER WMS SCAVI ARCHEOLOGICI ///////////////////
                     
-                    var point_style = {
-                        radius: 8,
-                        fillColor: "#ff7800",
-                        color: "#000",
-                        weight: 1,
-                        opacity: 1,
-                        fillOpacity: 0.8
                         
-                    }
-                        
-                    var area_style = {
-                        "color": "#993300"
+                    var datilayer1 = L.tileLayer.wms('http://datigis.comune.fi.it/geoserver/wms?', {
+                                    layers: 'archeologia:scavi_archeo',
+                                    format: 'image/png',
+                                    transparent: true,
+                                    attribution: ""
+                                });
                         
                         
-                    };
+                    datilayer1.addTo(map);
+                        
+                    ////////////// GESTIONE POPUP INFORMAZIONI TRAMITE CLICK SU MAPPA   /////////
+                        
+                        
+                    map.addEventListener('click', onMapClick);
+                        
+                    popup = new L.Popup({ width: 50 });
                     
-                    function descrition_popup_punto(feature, layer) {
-                        
-                        var feat = feature;
-                        
-                        layer.bindPopup( "DESCRIZIONE: " + feat.properties.descrizion + " " + "LUOGO: " + feature.properties.luogo + '<a href="#info" >   More info</a>' );   
-                        
-                    }
-                    function descrition_popup_area(feature, layer) {
-                        
-                        layer.bindPopup( "LOCALIZZAZIONE: " + feature.properties.localizzaz + " " + "TIPO SCAVO: " + feature.properties.tipo_scavo + '<a href="#info">   More info</a>');
-                        
-                    } 
-                        
-                
-                  
                     
-                    L.geoJson(area, { 
-                        style: area_style,
-                        onEachFeature: descrition_popup_area,
-                                                                    
-                                        }).addTo(map);
-                    
-                    L.geoJson(punti, {
-                        onEachFeature: descrition_popup_punto,
-                        pointToLayer: function( feature,latlng) {
-                                                return L.circleMarker(latlng, point_style); } 
-                                    }).addTo(map);
-
-
-
+                    function onMapClick(e) {
+                        
+                        var latlngStr = '(' + e.latlng.lat.toFixed(3) + ' , ' + e.latlng.lng.toFixed(3) + ')';
+                        var BBOX = map.getBounds()._southWest.lat+","+map.getBounds()._southWest.lng+","+map.getBounds()._northEast.lat+","+map.getBounds()._northEast.lng; // coordinate server ( long, lat ) coordinate standard ( lat, long)
+                        //console.log(BBOX);
+                        var WIDTH = map.getSize().x;
+                        var HEIGHT = map.getSize().y;
+                        var X = map.layerPointToContainerPoint(e.layerPoint).x;
+                        var Y = map.layerPointToContainerPoint(e.layerPoint).y;
+                        var URL = 'http://datigis.comune.fi.it/geoserver/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&BBOX='+BBOX+' &CRS=EPSG:4326&WIDTH='+WIDTH+'&HEIGHT='+HEIGHT+'&LAYERS=archeologia:scavi_archeo&STYLES=&FORMAT=image/png&QUERY_LAYERS=archeologia:scavi_archeo&INFO_FORMAT=text/plain&I='+X+'&J='+Y+'&FEATURE_COUNT=10';
+                        ////////////// APERTURA POPUP E GESTIONE INFO  /////////
+                        wms_proxy(BBOX, WIDTH, HEIGHT, X, Y, e);
+                        
+                        };
+                            
                     
                     </script>
                 </div>    
@@ -134,7 +130,11 @@
         
         
         
-       
+       <!-- ----------------------------- INFO -------------------------------------- -->
+
+        
+        
+        
         
         <div data-role="page" id="info">
             <div data-role="header" >
@@ -147,8 +147,17 @@
                 
                 <div data-role="collapsible-set">
                     <div data-role="collapsible" data-collapsed="false">
-                        <h3></h3>
-                        <p><script>document.write();</script></p>
+                        <h3>informazioni meta-data</h3>
+                        <p><script>
+                            
+                            document.write(storeObject.firstname);
+                            //document.write("<iframe src='"+dato+"' frameborder='0'></iframe>");
+                            
+                            
+                            </script>
+                            
+                            
+                        </p>
                     </div>
                     
                     <div data-role="collapsible" >
@@ -168,6 +177,11 @@
         
         </div>
         
+    <!-- ----------------------------- LOGIN & REGISTER -------------------------------------- -->
+        
+        
+        
+        
         <div data-role="page" id="login">
             <div data-role="header" >
                 <a href="#home">Map</a>
@@ -180,12 +194,12 @@
                 <form name= "login" >
                     <div data-role="fieldcontain" class="ui-hide-label">
                         <label for="username">Username:</label>
-                        <input type="text" name="username" id="nome" value="" placeholder="Username"/>
+                        <input type="text" name="name" id="name" value="" placeholder="Username"/>
                     </div>
 
                     <div data-role="fieldcontain" class="ui-hide-label">
                         <label for="password">Passord:</label>
-                        <input type="text" name="password" id="password" value="" placeholder="Password"/>
+                        <input type="text" name="psw" id="psw" value="" placeholder="Password"/>
                     </div>
 
                     <input type="button" id="bottone_login" data-icon="check" value="Login">    
@@ -195,7 +209,7 @@
 
                         <div data-role="fieldcontain" class="ui-hide-label">
                             <label for="e-mail">E-mail:</label>
-                            <input type="text" name="e-mail" id="e-mail" value="" placeholder="e-mail"/>
+                            <input type="text" name="email" id="email" value="" placeholder="e-mail"/>
                         </div>
                         
                         <input type="button" id="bottone_register" data-icon="edit" value="Register">
@@ -203,70 +217,27 @@
                     </div>
                 </form>
                 
-                <script>
-                    function testApi() {
-                        $.ajax({
-                            type:"GET",
-                            // url: "http://127.0.0.1:5000/api/indiana_user",
-                            // url: "http://opengeo.eu/archeofi2/api/archeofi_api.php?rit_id=13",
-                            url: "http://127.0.0.1:5000/api/cross_domain",
-                            datatype: "JSON",
-                            success: function(data) {
-                                alert(data);
-                            },
-                            error: function (response) {
-                                alert("ciao");
-                            }
-                        });
-                    }
-
-
-                    function login() {
-                        var nome = $("#nome").val();
-                        var password = $("#password").val();
-                        var user = [{ "name": nome, "pass": password }];
-                        
-                        $.ajax({
-                            type:"POST",
-                            url: "....",
-                            data: { "user": JSON.stringify({  "user": user})},
-                            datatype: "JSON",
-                            success: function(data) { console.log(data.objects); },
-                            error: function()
-                              {
-                                alert("CHE CAZZO FAIII????");
-                              }
-                        });
-                    }
-
-
-                    $(document).ready( function() {
-                        $("#bottone_login").click( function() {
-                            // login(); 
-                            testApi();                            
-                        });
-                    });
-
-                    
-                    $(document).ready( function() {
-                        $("#bottone_register").click( function() {
-                            register();
-                        });
-                    });
-                    
-                    
-                    /*
-                    "q": JSON.stringify({[ 
-                                    "username": nome,
-                                    "password": password,
-                                    "email": email
-                                                             ]})}
-                    
-                    
-                    
-                    */
-                </script>
+                
+            
+            
+            
             </div>
+            
+        
         </div>
+        
+        
+        
+    
+        
+        
+        
+        
+        
+        
     </body>
-</html>
+    
+    
+    
+    
+   

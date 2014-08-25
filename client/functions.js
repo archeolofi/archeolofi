@@ -10,6 +10,25 @@ function read_form() {
 var server_url = "http://127.0.0.1:5000/";
 var logged_auth = null;
 var last_visited_id = null;
+var id = null;
+
+////////////// PASSAGGIO IN #INFO CON ID    /////////
+$(document).on('pagebeforeshow', '#home', function(){       
+    $(document).on('click', '#passinfo', function(){     
+        // store some data
+        id = last_visited_id;
+        
+        //Change page
+        $.mobile.changePage("#info");
+    });    
+});
+
+$(document).on('pageshow', '#info', function(){     
+    alert('My name is ' + id );
+    
+    
+});
+
 
 function register(name, psw, email) {
     $.ajax({
@@ -244,13 +263,22 @@ function upload2(file_id, form_data) {
     });
 }
 
-function wms_proxy(bbox, width, height, x, y) {
+function wms_proxy(bbox, width, height, x, y,e) {
     $.ajax({
         type: "GET",
         url: server_url + "api/proxy/" + bbox + '&' + width + '&' + height + '&' + x + '&' + y,
+        //async: false,
         success: function(data) {
             console.log("proxied.");
-            last_visited_id = data.features[0].properties.id_intervento;
+            last_visited_id = data.features[0].properties.id_ritrovamento;
+            
+            popup.setLatLng(e.latlng);
+            popup.setContent( last_visited_id + '<a href="#" id="passinfo"  class="ui-btn ui-icon-plus ui-btn-icon-left" data-icon="plus">More Info</a>');
+            map.openPopup(popup);
+            
+            
+            
+            
         },
         error: function() {
             console.log("ops, something went wrong..");
@@ -259,7 +287,9 @@ function wms_proxy(bbox, width, height, x, y) {
             received = JSON.parse(data_response.responseText);
             return data_response.responseText;
         }
+        
     });
+    return last_visited_id;
 }
 
 function testOpenGeo() {
