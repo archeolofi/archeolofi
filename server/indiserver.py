@@ -12,6 +12,7 @@ import requests
 import Image
 import json
 import os
+import re
 
 # local imports
 from credentials import DATABASE_URL
@@ -99,6 +100,16 @@ def create_app(config_mode=None, config_file=None):
     def debug(*args, **kwargs):
         set_trace()
 
+    def validation(data={}, **kw):
+        if not data["name"] or not data["psw"]:
+            raise restless.ProcessingException(
+                description="Missing data or username", code=400
+            )
+        if not re.match("^.+@.+\..+$", data["email"]):
+            raise restless.ProcessingException(
+                description="Invalid email", code=400
+            )
+
     def password_encryption(data={}, **kw):
         try:
             data["psw"] = sha256_crypt.encrypt(data["psw"])
@@ -162,7 +173,7 @@ def create_app(config_mode=None, config_file=None):
     manager.create_api(
         IndianaUser,
         preprocessors={
-            "POST": [password_encryption]
+            "POST": [validation, password_encryption]
         },
         methods=["POST"]
     )
