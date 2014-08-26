@@ -13,8 +13,8 @@ var last_visited_id = null;
 var id = null;
 
 ////////////// PASSAGGIO IN #INFO CON ID    /////////
-$(document).on('pagebeforeshow', '#home', function(){       
-    $(document).on('click', '#passinfo', function(){     
+$(document).on('pagebeforeshow', '#home', function() {       
+    $(document).on('click', '#passinfo', function() {     
         // store some data
         id = last_visited_id;
         
@@ -23,10 +23,8 @@ $(document).on('pagebeforeshow', '#home', function(){
     });    
 });
 
-$(document).on('pageshow', '#info', function(){     
+$(document).on('pageshow', '#info', function() {     
     alert('My name is ' + id );
-    
-    
 });
 
 
@@ -265,6 +263,36 @@ function upload2(file_id, form_data) {
     });
 }
 
+function pop_the_popup(data, e) {
+    console.log(data);
+
+    // se il dato è punto o linea
+    if ( data.features[0].properties.id_ritrovamento != null ) {
+        last_visited_id = data.features[0].properties.id_ritrovamento;
+        definizione = data.features[0].properties.definizione;
+        ubicazione = data.features[0].properties.precisazione_ubicazion;
+    }
+    //se il dato è area
+    else {
+        last_visited_id = data.features[0].properties.id_interv_nuovo;
+        definizione = data.features[0].properties.tipo_intervento;
+        ubicazione = data.features[0].properties.ubicazione;
+    }
+    
+    popup.setLatLng(e.latlng);
+    popup.setContent(
+        'id: ' + last_visited_id +
+        '<br>' +
+        'definizione: ' + definizione +
+        '<br>' +
+        'ubicazione: ' + ubicazione +
+        '<a href="#" id="passinfo"  class="ui-btn ui-icon-plus ui-btn-icon-left" data-icon="plus"> \
+            Altre informazioni \
+        </a>'
+    );
+    map.openPopup(popup);
+}
+
 function wms_proxy(bbox, width, height, x, y,e) {
     $.ajax({
         type: "GET",
@@ -272,27 +300,7 @@ function wms_proxy(bbox, width, height, x, y,e) {
         //async: false,
         success: function(data) {
             console.log("proxied.");
-            if ( data.features[0].properties.id_ritrovamento != null ){ // se il dato è punto o linea
-                last_visited_id = data.features[0].properties.id_ritrovamento;
-                definizione = data.features[0].properties.definizione;
-                ubicazione = data.features[0].properties.precisazione_ubicazion;
-            }
-            else { //se il dato è area
-                last_visited_id = data.features[0].properties.id_interv_nuovo;
-                definizione = data.features[0].properties.tipo_intervento;
-                ubicazione = data.features[0].properties.ubicazione;
-            }
-            
-            
-            console.log(data);
-            
-            popup.setLatLng(e.latlng);
-            popup.setContent( 'id: ' + last_visited_id + '<br>' + 'definizione: ' + definizione + '<br>' + 'ubicazione: ' + ubicazione + '<a href="#" id="passinfo"  class="ui-btn ui-icon-plus ui-btn-icon-left" data-icon="plus">More Info</a>');
-            map.openPopup(popup);
-            
-            
-            
-            
+            pop_the_popup(data, e);
         },
         error: function() {
             console.log("ops, something went wrong..");
