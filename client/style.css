@@ -1,6 +1,7 @@
 #map {
     height: 100%;
 }
+
 .ui-content {
     position: absolute;
     top: 40px;
@@ -8,4 +9,25 @@
     bottom: 0;
     left: 0;
     padding: 0 !important;
+}
+
+.popups {
+    display: none;
+}
+
+.pop_elem {
+    font-family: 'Lato', Helvetica, sans-serif;
+}
+
+ul.pop_elem {
+    list-style-type: none;
+}
+
+span.ritr {
+    display: block;
+    margin-top: 5px;
+}
+
+span.inte {
+    margin-left: 5px;
 }

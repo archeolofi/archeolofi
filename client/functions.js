@@ -265,31 +265,41 @@ function upload2(file_id, form_data) {
 
 function pop_the_popup(data, e) {
     console.log(data);
+    var more_info = '<a href="#" id="passinfo"  class="ui-btn ui-icon-plus ui-btn-icon-left" data-icon="plus"> \
+            Altre informazioni \
+        </a>'
+
+    var obj = data.features[0].properties;
+    last_visited_id = obj.id_ritrovamento;
 
     // se il dato è punto o linea
-    if ( data.features[0].properties.id_ritrovamento != null ) {
-        last_visited_id = data.features[0].properties.id_ritrovamento;
-        definizione = data.features[0].properties.definizione;
-        ubicazione = data.features[0].properties.precisazione_ubicazion;
+    if (obj.id_ritrovamento != null) {
+        $("#popup_ritrovamento h3").html(obj.definizione || null);
+        $("#popup_ritrovamento p").html(obj.descrizione_min || null);
+        $("#popup_ritrovamento #periodo").html(obj.periodo_fine || null);
+        $("#popup_ritrovamento #tipologia_ritrov").html(obj.tipologia_ritrov || null);
+
+        popup.setContent(
+            $("#popup_ritrovamento").html() + more_info
+        );
     }
     //se il dato è area
     else {
-        last_visited_id = data.features[0].properties.id_interv_nuovo;
-        definizione = data.features[0].properties.tipo_intervento;
-        ubicazione = data.features[0].properties.ubicazione;
+        $("#popup_intervento h3").html(obj.tipo_intervento || null);
+        $("#popup_intervento time").html(obj.data_compilazione || null);
+        $("#popup_intervento #metodo").html(obj.metodo || null);
+        $("#popup_intervento #dir_scentifica").html(obj.dir_scentifica || null);
+        $("#popup_intervento #ente_resp").html(obj.ente_resp || null);
+        $("#popup_intervento #ente_schedatore").html(obj.ente_schedatore || null);
+        $("#popup_intervento #esecutore_intervento").html(obj.esecutore_intervento || null);
+        $("#popup_intervento #tipo_particella").html(obj.tipo_particella || null);
+
+        popup.setContent(
+            $("#popup_intervento").html() + more_info
+        );
     }
     
     popup.setLatLng(e.latlng);
-    popup.setContent(
-        'id: ' + last_visited_id +
-        '<br>' +
-        'definizione: ' + definizione +
-        '<br>' +
-        'ubicazione: ' + ubicazione +
-        '<a href="#" id="passinfo"  class="ui-btn ui-icon-plus ui-btn-icon-left" data-icon="plus"> \
-            Altre informazioni \
-        </a>'
-    );
     map.openPopup(popup);
 }
 
