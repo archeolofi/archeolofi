@@ -146,23 +146,15 @@
             <div data role="content">
                 
                 <div data-role="collapsible-set">
-                    <div data-role="collapsible" data-collapsed="false">
-                        <h3>informazioni meta-data</h3>
-                        <p><script>
-                            
-                            document.write(storeObject.firstname);
-                            //document.write("<iframe src='"+dato+"' frameborder='0'></iframe>");
-                            
-                            
-                            </script>
-                            
-                            
-                        </p>
-                    </div>
                     
-                    <div data-role="collapsible" >
-                        <h3>informazioni prese dal sito</h3>
-                        <p>info archeologiche del sito</p>
+                    
+                    <div data-role="collapsible" data-collapsed="false" id="info_sito">
+                        <h3>INFORMAZIONI</h3>
+                        <p id="more_info">
+                            <h4>Descrizione approfondita:</h4><span id="descri"></span>
+                            <h4><hr />Bibliografia:<br /></h4><span id="biblio"></span>
+                            <h4 id="titolo_imm"></h4><span id="image"></span>
+                        </p>
                     </div>
                     
                     <div data-role="collapsible" >

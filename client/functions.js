@@ -24,7 +24,8 @@ $(document).on('pagebeforeshow', '#home', function() {
 });
 
 $(document).on('pageshow', '#info', function() {     
-    alert('My name is ' + id );
+    //alert('My name is ' + id );
+    ask_opengeo(id);
 });
 
 
@@ -325,14 +326,15 @@ function wms_proxy(bbox, width, height, x, y,e) {
 }
 
 // OPENGEO SERVER
-function ask_opengeo(id_intervento) {
+function ask_opengeo(id_ritrovamento) {
     $.getJSON(
-        "http://opengeo.eu/archeofi2/api/archeofi_api.php?rit_id=" + id_intervento + "&jsoncallback=?",
+        "http://opengeo.eu/archeofi2/api/archeofi_api.php?rit_id=" + id_ritrovamento + "&jsoncallback=?",
         function(data) {
             console.log(data);
             display_opengeo(data);
         }
     );
+    
 }
 
 function opengeo_make_link(link) {
@@ -340,30 +342,38 @@ function opengeo_make_link(link) {
 }
 
 function display_opengeo(data) {
-    document.write(
-        "Descrizione approfondita:<br />" +
-        data[0]["descr"] + "<hr />Bibliografia:<br />"
-    );
+    
+        $("#descri").html(data[0]["descr"]);
+        //data[0]["descr"]
+        
+    content = '';
     for(var i=0, l=data[0]["bibliografia"].length; i<l; i++) {
-        document.write(
-            data[0]["bibliografia"][i]["biblio"] + "   " + data[0]["bibliografia"][i]["pagine"] + "<br />"
-        );
+        content += data[0]["bibliografia"][i]["biblio"] + "   " + data[0]["bibliografia"][i]["pagine"] + data[0]["bibliografia"][i]["pagine"] + "<br />";
+          
     }
+    $("#biblio").html( content); 
+    
     var images = data[0]["images"];
     if(images.length > 0) {
-        document.write(
-            "<hr />Immagini:<br />"
-        );
+        $("#titolo_imm").html('<hr />Immagini:<br />');
+        
     }
+    $("#image").empty();
+    
     for(var i=0, l=images.length; i<l; i++) {
         var link = opengeo_make_link(images[i]["link"]);
         var thumb = opengeo_make_link(images[i]["thumbnail"]);
-        images[i]["descr"]
-        document.write(
-            "<a href='" + link + "' > \
+        //images[i]["descr"]
+        $("#image").append( "<a href='" + link + "' > \
                 <img src='" + thumb + "'' alt='" + images[i]["descr"] + "'' /> \
-            </a> \
-            <br />"
-        );
+            </a>");
+        
+            
     }
+    
+    
+    
+    
+
 }
+
