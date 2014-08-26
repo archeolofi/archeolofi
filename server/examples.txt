@@ -91,9 +91,8 @@ r = requests.patch(
 )
 
 
-# rimuovere un commento
+# rimuovere un contenuto
 content_id = 4
-modified_content = "new content"
 r = requests.delete(
     "".join([url, "content/", str(content_id)]),
     headers={
@@ -118,6 +117,7 @@ filepath = "/home/emilio/Scaricati/amd-catalyst-13.12-linux-x86.x86_64.zip"   # 
 filepath = "/home/emilio/Scrivania/test/main.sql"   # type error
 filepath = "/home/emilio/Scrivania/test/vlc.pdf"
 filepath = "/home/emilio/Scrivania/test/1367157964.jpg"
+content_id = None
 
 def post_a_file():
     r = requests.post(
@@ -129,6 +129,8 @@ def post_a_file():
         }),
         headers={"content-type":"application/json", 'Authorization': make_basic_auth(u["name"], u["psw"])}
     )
+    global content_id
+    content_id = json.loads(r.text)["id_"]
     file_id = str(json.loads(r.text)["filename"])
     r = requests.post(
         "".join([url, "file/", file_id]),

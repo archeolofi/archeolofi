@@ -48,6 +48,7 @@ app.config['MAX_CONTENT_LENGTH'] = 64 * 1024 * 1024
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 db = flask.ext.sqlalchemy.SQLAlchemy(app)
 
+files_to_be_removed = {}
 
 def verify_password():
     try:
@@ -159,6 +160,22 @@ def create_app(config_mode=None, config_file=None):
                         description="Not modifiable", code=401
                     )
 
+    def check_files(instance_id=None, **kw):
+        content = Content.query.get(instance_id)
+        if content.filename:
+            files_to_be_removed[request.url] = content.filename
+
+    def remove_file(is_deleted=None, **kw):
+        if not is_deleted:
+            return
+
+        try:
+            to_remove = CONTENTS + files_to_be_removed[request.url]
+        except KeyError:
+            pass
+        else:
+            os.remove(to_remove)
+
     def add_like_fields(result=None, search_params=None, **kw):
         for cnt in result["objects"]:
             cnt["like"] = 0
@@ -183,10 +200,11 @@ def create_app(config_mode=None, config_file=None):
         preprocessors={
             "POST": [add_user_field, manage_upload_announcement],
             "PATCH_SINGLE": [pre_modification],
-            "DELETE": [pre_modification]
+            "DELETE": [pre_modification, check_files]
         },
         postprocessors={
-            "GET_MANY": [add_like_fields]
+            "GET_MANY": [add_like_fields],
+            "DELETE": [remove_file]
         },
         results_per_page=10
     )
