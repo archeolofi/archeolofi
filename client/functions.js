@@ -272,10 +272,22 @@ function wms_proxy(bbox, width, height, x, y,e) {
         //async: false,
         success: function(data) {
             console.log("proxied.");
-            last_visited_id = data.features[0].properties.id_ritrovamento;
+            if ( data.features[0].properties.id_ritrovamento != null ){ // se il dato è punto o linea
+                last_visited_id = data.features[0].properties.id_ritrovamento;
+                definizione = data.features[0].properties.definizione;
+                ubicazione = data.features[0].properties.precisazione_ubicazion;
+            }
+            else { //se il dato è area
+                last_visited_id = data.features[0].properties.id_interv_nuovo;
+                definizione = data.features[0].properties.tipo_intervento;
+                ubicazione = data.features[0].properties.ubicazione;
+            }
+            
+            
+            console.log(data);
             
             popup.setLatLng(e.latlng);
-            popup.setContent( last_visited_id + '<a href="#" id="passinfo"  class="ui-btn ui-icon-plus ui-btn-icon-left" data-icon="plus">More Info</a>');
+            popup.setContent( 'id: ' + last_visited_id + '<br>' + 'definizione: ' + definizione + '<br>' + 'ubicazione: ' + ubicazione + '<a href="#" id="passinfo"  class="ui-btn ui-icon-plus ui-btn-icon-left" data-icon="plus">More Info</a>');
             map.openPopup(popup);
             
             
