@@ -338,9 +338,15 @@ function wms_proxy(bbox, width, height, x, y,e) {
 }
 
 // OPENGEO SERVER
-function ask_opengeo(id_intervento) {
+function ask_opengeo(type, id) {
+    if(type == "ritrovamento")
+        var prefix = "rit_id=";
+    else if(type == "intervento")
+        var prefix = "interv_id=";
+    else
+        return;
     $.getJSON(
-        "http://opengeo.eu/archeofi2/api/archeofi_api.php?rit_id=" + id_intervento + "&jsoncallback=?",
+        "http://opengeo.eu/archeofi2/api/archeofi_api.php?" + prefix + id + "&jsoncallback=?",
         function(data) {
             console.log(data);
             display_opengeo(data);
