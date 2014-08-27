@@ -1,3 +1,10 @@
+
+var server_url = "http://127.0.0.1:5000/";
+var logged_auth = null;
+var last_visited_id = null;
+var last_visited_type = null;
+
+
 // HTML MANAGEMENT
 function read_form(type) {
     var name = $("#name").val();
@@ -20,12 +27,12 @@ function read_form(type) {
 }
 
 function pop_the_popup(data, e) {
-    console.log(data);
     var obj = data.features[0].properties;
-    last_visited_id = obj.id_ritrovamento;
 
-    // se il dato è punto o linea
-    if (obj.id_ritrovamento != null) {
+    if(obj.id_ritrovamento != null) {
+        last_visited_id = obj.id_ritrovamento;
+        last_visited_type = "ritrovamento";
+
         $("#popup_ritrovamento h3").html(obj.definizione || null);
         $("#popup_ritrovamento p").html(obj.descrizione_min || null);
         $("#popup_ritrovamento #periodo").html(obj.periodo_fine || null);
@@ -35,8 +42,10 @@ function pop_the_popup(data, e) {
             $("#popup_ritrovamento").html()
         );
     }
-    //se il dato è area
     else {
+        last_visited_id = obj.id_interv_nuovo;
+        last_visited_type = "intervento";
+
         $("#popup_intervento h3").html(obj.tipo_intervento || null);
         $("#popup_intervento time").html(obj.data_compilazione || null);
         $("#popup_intervento #metodo").html(obj.metodo || null);
@@ -50,13 +59,12 @@ function pop_the_popup(data, e) {
             $("#popup_intervento").html()
         );
     }
-    
+
     popup.setLatLng(e.latlng);
     map.openPopup(popup);
 }
 
 function display_opengeo(data) {
-    alert("qui");
     // clean-up from the previous info displayed
     $("#image").empty();
 
@@ -64,7 +72,6 @@ function display_opengeo(data) {
     $("#descri").html(data[0]["descr"]);
 
     var bibliography = data[0]["bibliografia"];
-    alert(bibliography);
     for(var i=0, l=bibliography.length; i<l; i++) {
         var content = bibliography[i]["biblio"] + "&emsp;" + bibliography[i]["pagine"] + "<br />";
     }
@@ -72,7 +79,6 @@ function display_opengeo(data) {
 
     var images = data[0]["images"];
     if(images.length > 0) {
-        $("#titolo_imm").html('<hr />Immagini:<br />');
 
         for(var i=0, l=images.length; i<l; i++) {
             var link = opengeo_make_link(images[i]["link"]);
@@ -89,24 +95,18 @@ function display_opengeo(data) {
 $(document).on('pagebeforeshow', '#home', function() {
     $(document).on('click', '#passinfo', function() {
         // store some data
-        id = last_visited_id;
         
-        //Change page
+        // Change page
         $.mobile.changePage("#info");
     });
 });
 
 $(document).on('pageshow', '#info', function() {
-    ask_opengeo(id);            //TODO: type?
+    ask_opengeo(last_visited_type, last_visited_id);
 });
 
 
 // INDIANA SERVER
-var server_url = "http://127.0.0.1:5000/";
-var logged_auth = null;
-var last_visited_id = null;
-var id = null;
-
 function register(name, psw, email) {
     $.ajax({
         type: "POST",
@@ -342,13 +342,13 @@ function upload2(file_id, form_data) {
     });
 }
 
-function wms_proxy(bbox, width, height, x, y,e) {
+function wms_proxy(bbox, width, height, x, y, e) {
     $.ajax({
         type: "GET",
         url: server_url + "api/proxy/" + bbox + '&' + width + '&' + height + '&' + x + '&' + y,
-        //async: false,
         success: function(data) {
             console.log("proxied.");
+            console.log(data);
             pop_the_popup(data, e);
         },
         error: function() {
@@ -360,7 +360,6 @@ function wms_proxy(bbox, width, height, x, y,e) {
         }
         
     });
-    return last_visited_id;
 }
 
 
