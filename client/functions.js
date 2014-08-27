@@ -66,6 +66,9 @@ function pop_the_popup(data, e) {
 
 function display_opengeo(data) {
     // clean-up from the previous info displayed
+    $("#descri").empty();
+    $("#biblio").empty();
+    $("#gallery").hide();
     $("#image").empty();
 
     // add new infos
@@ -79,6 +82,7 @@ function display_opengeo(data) {
 
     var images = data[0]["images"];
     if(images.length > 0) {
+        $("#gallery").show();
 
         for(var i=0, l=images.length; i<l; i++) {
             var link = opengeo_make_link(images[i]["link"]);
