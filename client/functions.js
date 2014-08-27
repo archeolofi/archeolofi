@@ -21,10 +21,6 @@ function read_form(type) {
 
 function pop_the_popup(data, e) {
     console.log(data);
-    var more_info = '<a href="#" id="passinfo"  class="ui-btn ui-icon-plus ui-btn-icon-left" data-icon="plus"> \
-            Altre informazioni \
-        </a>'
-
     var obj = data.features[0].properties;
     last_visited_id = obj.id_ritrovamento;
 
@@ -36,7 +32,7 @@ function pop_the_popup(data, e) {
         $("#popup_ritrovamento #tipologia_ritrov").html(obj.tipologia_ritrov || null);
 
         popup.setContent(
-            $("#popup_ritrovamento").html() + more_info
+            $("#popup_ritrovamento").html()
         );
     }
     //se il dato è area
@@ -51,7 +47,7 @@ function pop_the_popup(data, e) {
         $("#popup_intervento #tipo_particella").html(obj.tipo_particella || null);
 
         popup.setContent(
-            $("#popup_intervento").html() + more_info
+            $("#popup_intervento").html()
         );
     }
     
