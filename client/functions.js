@@ -1,9 +1,22 @@
-
-function read_form() {
+// HTML MANAGEMENT
+function read_form(type) {
     var name = $("#name").val();
     var psw = $("#psw").val();
-    var email = $("#email").val();
-    return [name, psw, email];
+    if(!name || !psw) {
+        alert("Inserisci i campi richiesti");
+        return false;
+    }
+    if(type == "login") {
+        return [name, psw];
+    }
+    else {
+        var email = $("#email").val();
+        if(! /^.+@.+\..+$/.test(email)) {
+            alert("Email non valida");
+            return false;
+        }
+        return [name, psw, email];
+    }
 }
 
 // INDIANA SERVER
@@ -326,9 +339,21 @@ function wms_proxy(bbox, width, height, x, y,e) {
 }
 
 // OPENGEO SERVER
+<<<<<<< HEAD
 function ask_opengeo(id_ritrovamento) {
     $.getJSON(
         "http://opengeo.eu/archeofi2/api/archeofi_api.php?rit_id=" + id_ritrovamento + "&jsoncallback=?",
+=======
+function ask_opengeo(type, id) {
+    if(type == "ritrovamento")
+        var prefix = "rit_id=";
+    else if(type == "intervento")
+        var prefix = "interv_id=";
+    else
+        return;
+    $.getJSON(
+        "http://opengeo.eu/archeofi2/api/archeofi_api.php?" + prefix + id + "&jsoncallback=?",
+>>>>>>> c8da75458d51956ec238ef59cdc4a414c92fb8d4
         function(data) {
             console.log(data);
             display_opengeo(data);

@@ -20,17 +20,19 @@
             
             $(document).ready( function() {
                 $("#bottone_login").click( function() {
-                    data = read_form();
-                    result = login(data[0], data[1]);
-                    // document.write(result);
+                    data = read_form("login");
+                    if(!data)
+                        return;
+                    login(data[0], data[1]);
                 });
             });
             
             $(document).ready( function() {
                 $("#bottone_register").click( function() {
-                    data = read_form();
-                    result = register(data[0], data[1], data[2]);
-                    // document.write(result);
+                    data = read_form("register");
+                    if(!data)
+                        return;
+                    register(data[0], data[1], data[2]);
                 });
             });
         
@@ -170,53 +172,42 @@
         </div>
         
     <!-- ----------------------------- LOGIN & REGISTER -------------------------------------- -->
-        
-        
-        
-        
         <div data-role="page" id="login">
             <div data-role="header" >
                 <a href="#home">Map</a>
-                
                 <h2>Login</h2>
-                
-                
             </div>
-            <div data role="content">
+            <div data-role="content">
                 <form name= "login" >
                     <div data-role="fieldcontain" class="ui-hide-label">
                         <label for="username">Username:</label>
-                        <input type="text" name="name" id="name" value="" placeholder="Username"/>
+                        <input type="text" name="name" id="name" value="" placeholder="Username" required/>
                     </div>
 
                     <div data-role="fieldcontain" class="ui-hide-label">
                         <label for="password">Password:</label>
-                        <input type="password" name="psw" id="psw" value="" placeholder="Password"/>
+                        <input type="password" name="psw" id="psw" value="" placeholder="Password" required/>
                     </div>
 
                     <input type="button" id="bottone_login" data-icon="check" value="Login">    
                 
-                    <div data-role="collapsible" data-collapsed="true" data-theme="a">
-                        <h3>Se non sei ancora registrato inserisci anche la tua e-mail </h3>
+                    <div data-role="collapsible" data-collapsed="true" data-theme="a" id="registration">
+                        <h3>Se non sei ancora registrato inserisci anche la tua e-mail</h3>
 
                         <div data-role="fieldcontain" class="ui-hide-label">
                             <label for="e-mail">E-mail:</label>
-                            <input type="text" name="email" id="email" value="" placeholder="e-mail"/>
+                            <input type="text" name="email" id="email" value="" placeholder="e-mail" />
                         </div>
                         
                         <input type="button" id="bottone_register" data-icon="edit" value="Register">
-
                     </div>
                 </form>
-                
-                
-            
-            
-            
+
             </div>
             
         
         </div>
+
         
         <div class="popups" id="popup_ritrovamento">
             <h3 class="pop_elem"><!-- definizione --></h3>
