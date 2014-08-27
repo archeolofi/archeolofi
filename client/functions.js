@@ -94,17 +94,6 @@ function display_opengeo(data) {
     }
 }
 
-
-// PASSAGGIO IN #INFO CON ID
-$(document).on('pagebeforeshow', '#home', function() {
-    $(document).on('click', '#passinfo', function() {
-        // store some data
-        
-        // Change page
-        $.mobile.changePage("#info");
-    });
-});
-
 $(document).on('pageshow', '#info', function() {
     ask_opengeo(last_visited_type, last_visited_id);
 });
@@ -357,12 +346,7 @@ function wms_proxy(bbox, width, height, x, y, e) {
         },
         error: function() {
             console.log("ops, something went wrong..");
-        },
-        complete: function(data_response) {
-            received = JSON.parse(data_response.responseText);
-            return data_response.responseText;
         }
-        
     });
 }
 
