@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
     <head>
         <meta charset="utf-8">
         <title></title>
@@ -11,11 +10,9 @@
         <script type="text/javascript" src="libs/jquery.mobile-1.4.2/jquery.mobile-1.4.2.js"></script>
         <script type="text/javascript" src="libs/leaflet-0.7.3/leaflet.js"></script>
 
+        <script src="functions.js"></script>
         <script>
-            
-           
-            
-            
+            ///////////////////////////// BUTTONS /////////////////////////////
             $(document).ready( function() {
                 $("#bottone_login").click( function() {
                     data = read_form("login");
@@ -24,7 +21,7 @@
                     login(data[0], data[1]);
                 });
             });
-            
+
             $(document).ready( function() {
                 $("#bottone_register").click( function() {
                     data = read_form("register");
@@ -33,73 +30,51 @@
                     register(data[0], data[1], data[2]);
                 });
             });
-        
-        
-        
-        
         </script>
-        
-        
+
         <!-- <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=no; target-densityDpi=device-dpi" /> -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     </head>
+
     <body>
-        
-        <div data-role="page" id="home"  >
-            
+        <div data-role="page" id="home">
             <div data-role="header" data-position="inline">
-                <h1>Pagina principale</h1>
+                <h1>Indiana Mapps</h1>
                 <a href="#login" data-role="button" class="ui-btn-right" >Login</a>
             </div>
-            
             <div data-role="content" >
-               <div id="map" class="map" ></div>
-                
-                </div>    
+                <div id="map" class="map" ></div>
+            </div>
         </div>
-        
-        
-        
-       <!-- ----------------------------- INFO -------------------------------------- -->
 
-        
-        
-        
-        
+    <!-- ============================== INFO ============================== -->
         <div data-role="page" id="info">
             <div data-role="header" >
                 <h1>Info</h1>
                 <a href="#home">Map</a>
             </div>
 
-            
             <div data role="content">
-                
                 <div data-role="collapsible-set">
-                    
-                    
                     <div data-role="collapsible" data-collapsed="false" id="info_sito">
                         <h3>INFORMAZIONI</h3>
                         <p id="more_info">
                             <h4>Descrizione approfondita:</h4><span id="descri"></span>
-                            <h4><hr />Bibliografia:<br /></h4><span id="biblio"></span>
+                            <hr />
+                            <h4>Bibliografia:<br /></h4><span id="biblio"></span>
                             <h4 id="titolo_imm"></h4><span id="image"></span>
                         </p>
                     </div>
-                    
-                    <div data-role="collapsible" >
+
+                    <div data-role="collapsible">
                         <h3>commenti utenti</h3>
                         <p>puoi scrivere un tuo commento e mettere una foto</p>
                     </div>
                 </div>
-            
-            
             </div>
-            
-        
         </div>
-        
-    <!-- ----------------------------- LOGIN & REGISTER -------------------------------------- -->
+
+    <!-- ======================== LOGIN & REGISTER ======================== -->
         <div data-role="page" id="login">
             <div data-role="header" >
                 <a href="#home">Map</a>
@@ -117,7 +92,7 @@
                         <input type="password" name="psw" id="psw" value="" placeholder="Password" required/>
                     </div>
 
-                    <input type="button" id="bottone_login" data-icon="check" value="Login">    
+                    <input type="button" id="bottone_login" data-icon="check" value="Login">
                 
                     <div data-role="collapsible" data-collapsed="true" data-theme="a" id="registration">
                         <h3>Se non sei ancora registrato inserisci anche la tua e-mail</h3>
@@ -126,17 +101,14 @@
                             <label for="e-mail">E-mail:</label>
                             <input type="text" name="email" id="email" value="" placeholder="e-mail" />
                         </div>
-                        
+
                         <input type="button" id="bottone_register" data-icon="edit" value="Register">
                     </div>
                 </form>
-
             </div>
-            
-        
         </div>
 
-        
+        <!-- =========================== POPUP =========================== -->
         <div class="popups" id="popup_ritrovamento">
             <h3 class="pop_elem"><!-- definizione --></h3>
             <p class="pop_elem"><!-- descrizione_min --></p>

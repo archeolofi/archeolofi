@@ -19,28 +19,97 @@ function read_form(type) {
     }
 }
 
-// INDIANA SERVER
-var server_url = "http://127.0.0.1:5000/";
-var logged_auth = null;
-var last_visited_id = null;
-var id = null;
+function pop_the_popup(data, e) {
+    console.log(data);
+    var more_info = '<a href="#" id="passinfo"  class="ui-btn ui-icon-plus ui-btn-icon-left" data-icon="plus"> \
+            Altre informazioni \
+        </a>'
 
-////////////// PASSAGGIO IN #INFO CON ID    /////////
-$(document).on('pagebeforeshow', '#home', function() {       
-    $(document).on('click', '#passinfo', function() {     
+    var obj = data.features[0].properties;
+    last_visited_id = obj.id_ritrovamento;
+
+    // se il dato è punto o linea
+    if (obj.id_ritrovamento != null) {
+        $("#popup_ritrovamento h3").html(obj.definizione || null);
+        $("#popup_ritrovamento p").html(obj.descrizione_min || null);
+        $("#popup_ritrovamento #periodo").html(obj.periodo_fine || null);
+        $("#popup_ritrovamento #tipologia_ritrov").html(obj.tipologia_ritrov || null);
+
+        popup.setContent(
+            $("#popup_ritrovamento").html() + more_info
+        );
+    }
+    //se il dato è area
+    else {
+        $("#popup_intervento h3").html(obj.tipo_intervento || null);
+        $("#popup_intervento time").html(obj.data_compilazione || null);
+        $("#popup_intervento #metodo").html(obj.metodo || null);
+        $("#popup_intervento #dir_scentifica").html(obj.dir_scentifica || null);
+        $("#popup_intervento #ente_resp").html(obj.ente_resp || null);
+        $("#popup_intervento #ente_schedatore").html(obj.ente_schedatore || null);
+        $("#popup_intervento #esecutore_intervento").html(obj.esecutore_intervento || null);
+        $("#popup_intervento #tipo_particella").html(obj.tipo_particella || null);
+
+        popup.setContent(
+            $("#popup_intervento").html() + more_info
+        );
+    }
+    
+    popup.setLatLng(e.latlng);
+    map.openPopup(popup);
+}
+
+function display_opengeo(data) {
+    alert("qui");
+    // clean-up from the previous info displayed
+    $("#image").empty();
+
+    // add new infos
+    $("#descri").html(data[0]["descr"]);
+
+    var bibliography = data[0]["bibliografia"];
+    alert(bibliography);
+    for(var i=0, l=bibliography.length; i<l; i++) {
+        var content = bibliography[i]["biblio"] + "&emsp;" + bibliography[i]["pagine"] + "<br />";
+    }
+    $("#biblio").html( content);
+
+    var images = data[0]["images"];
+    if(images.length > 0) {
+        $("#titolo_imm").html('<hr />Immagini:<br />');
+
+        for(var i=0, l=images.length; i<l; i++) {
+            var link = opengeo_make_link(images[i]["link"]);
+            var thumb = opengeo_make_link(images[i]["thumbnail"]);
+            $("#image").append( "<a href='" + link + "' > \
+                    <img src='" + thumb + "'' alt='" + images[i]["descr"] + "'' /> \
+                </a>");
+        }
+    }
+}
+
+
+// PASSAGGIO IN #INFO CON ID
+$(document).on('pagebeforeshow', '#home', function() {
+    $(document).on('click', '#passinfo', function() {
         // store some data
         id = last_visited_id;
         
         //Change page
         $.mobile.changePage("#info");
-    });    
+    });
 });
 
-$(document).on('pageshow', '#info', function() {     
-    //alert('My name is ' + id );
-    ask_opengeo(id);
+$(document).on('pageshow', '#info', function() {
+    ask_opengeo(id);            //TODO: type?
 });
 
+
+// INDIANA SERVER
+var server_url = "http://127.0.0.1:5000/";
+var logged_auth = null;
+var last_visited_id = null;
+var id = null;
 
 function register(name, psw, email) {
     $.ajax({
@@ -277,46 +346,6 @@ function upload2(file_id, form_data) {
     });
 }
 
-function pop_the_popup(data, e) {
-    console.log(data);
-    var more_info = '<a href="#" id="passinfo"  class="ui-btn ui-icon-plus ui-btn-icon-left" data-icon="plus"> \
-            Altre informazioni \
-        </a>'
-
-    var obj = data.features[0].properties;
-    last_visited_id = obj.id_ritrovamento;
-
-    // se il dato è punto o linea
-    if (obj.id_ritrovamento != null) {
-        $("#popup_ritrovamento h3").html(obj.definizione || null);
-        $("#popup_ritrovamento p").html(obj.descrizione_min || null);
-        $("#popup_ritrovamento #periodo").html(obj.periodo_fine || null);
-        $("#popup_ritrovamento #tipologia_ritrov").html(obj.tipologia_ritrov || null);
-
-        popup.setContent(
-            $("#popup_ritrovamento").html() + more_info
-        );
-    }
-    //se il dato è area
-    else {
-        $("#popup_intervento h3").html(obj.tipo_intervento || null);
-        $("#popup_intervento time").html(obj.data_compilazione || null);
-        $("#popup_intervento #metodo").html(obj.metodo || null);
-        $("#popup_intervento #dir_scentifica").html(obj.dir_scentifica || null);
-        $("#popup_intervento #ente_resp").html(obj.ente_resp || null);
-        $("#popup_intervento #ente_schedatore").html(obj.ente_schedatore || null);
-        $("#popup_intervento #esecutore_intervento").html(obj.esecutore_intervento || null);
-        $("#popup_intervento #tipo_particella").html(obj.tipo_particella || null);
-
-        popup.setContent(
-            $("#popup_intervento").html() + more_info
-        );
-    }
-    
-    popup.setLatLng(e.latlng);
-    map.openPopup(popup);
-}
-
 function wms_proxy(bbox, width, height, x, y,e) {
     $.ajax({
         type: "GET",
@@ -338,12 +367,8 @@ function wms_proxy(bbox, width, height, x, y,e) {
     return last_visited_id;
 }
 
+
 // OPENGEO SERVER
-<<<<<<< HEAD
-function ask_opengeo(id_ritrovamento) {
-    $.getJSON(
-        "http://opengeo.eu/archeofi2/api/archeofi_api.php?rit_id=" + id_ritrovamento + "&jsoncallback=?",
-=======
 function ask_opengeo(type, id) {
     if(type == "ritrovamento")
         var prefix = "rit_id=";
@@ -353,52 +378,13 @@ function ask_opengeo(type, id) {
         return;
     $.getJSON(
         "http://opengeo.eu/archeofi2/api/archeofi_api.php?" + prefix + id + "&jsoncallback=?",
->>>>>>> c8da75458d51956ec238ef59cdc4a414c92fb8d4
         function(data) {
             console.log(data);
             display_opengeo(data);
         }
     );
-    
 }
 
 function opengeo_make_link(link) {
     return link.replace("/home/archeofi/homes", "http://opengeo.eu/archeofi2");
 }
-
-function display_opengeo(data) {
-    
-        $("#descri").html(data[0]["descr"]);
-        //data[0]["descr"]
-        
-    content = '';
-    for(var i=0, l=data[0]["bibliografia"].length; i<l; i++) {
-        content += data[0]["bibliografia"][i]["biblio"] + "   " + data[0]["bibliografia"][i]["pagine"] + data[0]["bibliografia"][i]["pagine"] + "<br />";
-          
-    }
-    $("#biblio").html( content); 
-    
-    var images = data[0]["images"];
-    if(images.length > 0) {
-        $("#titolo_imm").html('<hr />Immagini:<br />');
-        
-    }
-    $("#image").empty();
-    
-    for(var i=0, l=images.length; i<l; i++) {
-        var link = opengeo_make_link(images[i]["link"]);
-        var thumb = opengeo_make_link(images[i]["thumbnail"]);
-        //images[i]["descr"]
-        $("#image").append( "<a href='" + link + "' > \
-                <img src='" + thumb + "'' alt='" + images[i]["descr"] + "'' /> \
-            </a>");
-        
-            
-    }
-    
-    
-    
-    
-
-}
-
