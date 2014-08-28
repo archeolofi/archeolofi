@@ -96,6 +96,14 @@ function display_opengeo(data) {
 
 $(document).on('pageshow', '#info', function() {
     ask_opengeo(last_visited_type, last_visited_id);
+    if(!logged_auth) {
+        $("#add_content").hide();
+        $("#login_required").show();
+    }
+    else {
+        $("#add_content").show();
+        $("#login_required").hide();
+    }
 });
 
 
@@ -156,9 +164,6 @@ function post_a_comment(poi, comment) {
         },
         error: function() {
             console.log("ops, something went wrong..");
-        },
-        complete: function(data_response) {
-            return data_response.responseText;
         }
     });
 }
