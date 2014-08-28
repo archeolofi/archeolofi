@@ -281,7 +281,7 @@ function like(content_id, do_like) {
     });
 }
 
-function upload(poi, form_data, file_description) {
+function upload(poi, comment, form_data, file_description) {
     var file_id = null;
 
     // posting announcement
@@ -292,22 +292,20 @@ function upload(poi, form_data, file_description) {
           "Authorization": logged_auth
         },
         data: JSON.stringify ({
-            "upload_announcement": true,
             "poi": poi,
+            "comment": comment,
+            "upload_announcement": true,
             "file_description": file_description
         }),
         dataType: "json",
         contentType: "application/json",
-        success: function() {
+        success: function(data) {
             console.log("file announced.");
+            file_id = data["filename"];
+            upload2(file_id, form_data);
         },
         error: function() {
             console.log("ops, something went wrong..");
-        },
-        complete: function(data_response) {
-            received = JSON.parse(data_response.responseText);
-            file_id = received["filename"];
-            upload2(file_id, form_data);
         }
     });
 }

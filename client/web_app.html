@@ -30,6 +30,20 @@
                     register(data[0], data[1], data[2]);
                 });
             });
+
+            $(function() {
+                $('#upload').click(function() {
+                    console.log($('#content_form'));
+                    var comment = $('#content_form #comment').val();
+                    if($('#content_form #file').val()) {
+                        var form_data = new FormData($('#content_form')[0]);
+                        var file_decription = $('#content_form #description').val();
+                        upload(last_visited_id, comment, form_data, file_decription);
+                    }
+                    else
+                        post_a_comment(last_visited_id, comment)
+                });
+            });
         </script>
 
         <!-- <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=no; target-densityDpi=device-dpi" /> -->
@@ -71,45 +85,30 @@
                     </div>
 
                     <div data-role="collapsible">
-                        <h3>COMMENTI UTENTI</h3>
-                        <p>
-                            <form name= "comment">
-                                <div data-role="fieldcontain" id="insert_comment">
-                                    <h4>Inserisci il tuo commento:</h4>
-                                    
-                                    <textarea cols="30" rows="15"  name="text_comment" id="text_comment"  required/></textarea>
-                                    <input type="button" id="send_comment"  data-icon="comment" value="Pubblica commento">
-                                    <input type="button" id="send_content"  data-icon="camera" value="Pubblica foto">
-                                    
-                                    
-                                </div>
-                                
-                        
-                        
-                        
-                        
-                        
-                        
-                            
-                        
-                        
-                            </form>
-                        
-                        
-                        </p>
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
+                        <h3>CONTENUTI DEGLI UTENTI</h3>
+                    </div>
+
+                    <div data-role="collapsible" id="add_content">
+                        <h3>AGGIUNGI UN CONTENUTO</h3>
+                        <form id="content_form" method="post" enctype="multipart/form-data">
+                            <div data-role="fieldcontain">
+                                <label for="comment">Inserisci un tuo commento:</h4>
+                                <textarea name="comment" id="comment" /></textarea>
+                            </div>
+                            <div data-role="fieldcontain">
+                                <fieldset>
+                                    <label for="file">Seleziona un file:</label>
+                                    <input name="file" type="file" id="file">
+                                </fieldset>
+                                <fieldset>
+                                    <label for="description">Descrivi il file:</label>
+                                    <input name="description" type="text" id="description">
+                                </fieldset>
+                            </div>
+                            <div data-role="fieldcontain">
+                                <button id="upload" type="button" data-icon="comment">Pubblica</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
