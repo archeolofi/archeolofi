@@ -1,5 +1,6 @@
 
 var server_url = "http://127.0.0.1:5000/";
+var logged_name = null;
 var logged_auth = null;
 var last_visited_id = null;
 var last_visited_type = null;
@@ -133,18 +134,16 @@ function login(name, psw) {
         headers: {
           "Authorization": auth
         },
-        success: function() {
+        success: function(logged) {
             console.log("successfully logged");
+            if(logged) {
+                logged_auth = auth;
+                logged_name = name;
+                alert("User and psw saved.");
+            }
         },
         error: function() {
             alert("ops, something went wrong..");
-        },
-        complete: function(data_response) {
-            logged = JSON.parse(data_response.responseText);
-            if(logged) {
-                logged_auth = auth;
-                alert("User and psw saved.");
-            }
         }
     });
 }
