@@ -31,3 +31,23 @@ span.ritr {
 span.inte {
     margin-left: 5px;
 }
+
+.single_comment{
+    border: 1px solid #DDDDDD;
+    padding: 5px;
+    border-radius: 10px 10px 10px 10px;
+    
+     
+}
+
+.user_comment{
+    font-size:80%;
+    font-weight: bold;
+  
+}
+.data_hours{
+    font-size:80%;
+    color: gray;
+    
+    
+}
