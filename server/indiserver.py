@@ -322,7 +322,6 @@ class Content(db.Model):
     )
     poi = db.Column(
         db.Integer,
-        # db.ForeignKey("poi.id"),
         nullable=False
     )
     user = db.Column(

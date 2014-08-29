@@ -75,7 +75,10 @@
                         <p id="more_info">
                             <h4>Descrizione approfondita:</h4><span id="descri"></span>
                             <hr />
-                            <h4>Bibliografia:<br /></h4><span id="biblio"></span>
+                            <div id="bibliography">
+                                <h4>Bibliografia:</h4>
+                                <span id="biblio"></span>
+                            </div>
                             <div id="gallery">
                                 <hr />
                                 <h4>Immagini:</h4>
@@ -213,7 +216,7 @@
         </div>
 
         <!-- =========================== POPUP =========================== -->
-        <div class="popups" id="popup_ritrovamento">
+        <div class="hidden" id="popup_ritrovamento">
             <h3 class="pop_elem"><!-- definizione --></h3>
             <p class="pop_elem"><!-- descrizione_min --></p>
             <span id="periodo" class="pop_elem ritr"></span>
@@ -222,7 +225,7 @@
                 Altre informazioni
             </a>
         </div>
-        <div class="popups" id="popup_intervento">
+        <div class="hidden" id="popup_intervento">
             <h3 class="pop_elem"><!-- tipo_intervento --></h3>
             <time id="data_compilazione" class="pop_elem"></time>
             <ul class="pop_elem">

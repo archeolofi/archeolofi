@@ -66,6 +66,11 @@ function pop_the_popup(data, e) {
     map.openPopup(popup);
 }
 
+
+function opengeo_make_link(link) {
+    return link.replace("/home/archeofi/homes", "http://opengeo.eu/archeofi2");
+}
+
 function display_opengeo(data) {
     // clean-up from the previous info displayed
     $("#descri").empty();
@@ -406,8 +411,4 @@ function ask_opengeo(type, id) {
             display_opengeo(data);
         }
     );
-}
-
-function opengeo_make_link(link) {
-    return link.replace("/home/archeofi/homes", "http://opengeo.eu/archeofi2");
 }

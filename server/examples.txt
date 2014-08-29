@@ -25,7 +25,7 @@ url = "http://localhost:5000/api/"
 # creazione di un utente
 import json
 import requests
-u = {"name": "Plautino", "psw": "misterious", "email": "email..."}
+u = {"name": "Plautino", "psw": "misterious", "email": "email@io.it"}
 r = requests.post(
     url + "indiana_user",
     data=json.dumps(u),
