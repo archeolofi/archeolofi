@@ -34,14 +34,14 @@ HTTP_CONFLICT = 409
 CONTENTS = "static/"
 IMAGE_TYPES = [
     ".bmp", ".dib", ".dcx", ".eps", ".ps", ".gif", ".im", ".jpg", ".jpe",
-    ".jpeg", ".pcd", ".pcx", ".pdf", ".png", ".pbm", ".pgm", ".ppm", ".tif",
+    ".jpeg", ".pcd", ".pcx", ".png", ".pbm", ".pgm", ".ppm", ".tif",
     ".tiff", ".xbm", ".xpm"
 ]
 ALLOWED_TYPES = [
     '.odf', '.gnumeric', '.plist', '.7z', '.ods', '.xml', '.docx', '.abw',
     '.zip', '.wav', '.yaml', '.xlsx', '.yml', '.rtf', '.ini', '.svg', '.aac',
     '.doc', '.mp3', '.xls', '.tar', '.json', '.csv', '.flac', '.bz2', '.txt',
-    '.tgz', '.txz', '.ogg', '.oga', '.gz', ".psd"
+    '.tgz', '.txz', '.ogg', '.oga', '.gz', ".psd", ".pdf"
 ]
 
 app = Flask(__name__)
