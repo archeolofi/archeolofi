@@ -69,6 +69,7 @@ function pop_the_popup(data, e) {
 function display_opengeo(data) {
     // clean-up from the previous info displayed
     $("#descri").empty();
+    $("#bibliography").hide();
     $("#biblio").empty();
     $("#gallery").hide();
     $("#image").empty();
@@ -77,15 +78,16 @@ function display_opengeo(data) {
     $("#descri").html(data[0]["descr"]);
 
     var bibliography = data[0]["bibliografia"];
-    for(var i=0, l=bibliography.length; i<l; i++) {
-        var content = bibliography[i]["biblio"] + "&emsp;" + bibliography[i]["pagine"] + "<br />";
+    if(bibliography) {
+        for(var i=0, l=bibliography.length; i<l; i++) {
+            var content = bibliography[i]["biblio"] + "&emsp;" + bibliography[i]["pagine"] + "<br />";
+        }
+        $("#biblio").html( content);
+        $("#bibliography").show();
     }
-    $("#biblio").html( content);
 
     var images = data[0]["images"];
     if(images.length > 0) {
-        $("#gallery").show();
-
         for(var i=0, l=images.length; i<l; i++) {
             var link = opengeo_make_link(images[i]["link"]);
             var thumb = opengeo_make_link(images[i]["thumbnail"]);
@@ -93,6 +95,7 @@ function display_opengeo(data) {
                     <img src='" + thumb + "'' alt='" + images[i]["descr"] + "'' /> \
                 </a>");
         }
+        $("#gallery").show();
     }
 }
 
