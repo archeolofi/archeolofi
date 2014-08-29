@@ -1,5 +1,6 @@
 
 var server_url = "http://127.0.0.1:5000/";
+var file_icon = "images/document_icon.png"
 var logged_name = null;
 var logged_auth = null;
 var last_visited_id = null;
@@ -95,8 +96,68 @@ function display_opengeo(data) {
     }
 }
 
+function file_thumb(entry) {
+    // TODO: correggere in 'data:image/jpeg;base64,' + entry["photo_thumb"];
+    var thumb = (
+            '<a href="' + server_url + 'static/' + entry["filename"] + '">'
+        +   '   <img src="'
+        +   (entry["photo_thumb"] ? 'data:image;base64,' + entry["photo_thumb"] : file_icon) + '"'
+        +   '        alt="' + entry["file_description"] + " />"
+        +   '</a>'
+    )
+    return thumb
+}
+
+function display_contents(contents) {
+    // 'contents' is a map with keys: 'num_results', 'objects', 'page', 'total_pages'
+    $("#contents").empty();
+
+    console.log(contents);
+
+    contents["objects"].forEach( function(entry) {
+        console.log(entry);
+
+        $("#contents").append(
+                '<div data-role="fieldcontain" class="single_comment">'
+            +   '   <div id="content_id" class="hidden">'
+            +           entry["id_"]
+            +   '   </div>'
+            +   (entry["comment"] ? '<span class="view_text_comment">' + entry["comment"] + '</span>' : '')
+            +   (entry["filename"] ? file_thumb(entry) : '')
+            +   '   <div class="comment_properties">'
+            +   '       <span class="comment_user">'
+            +               entry["user"]
+            +   '       </span>'
+            +   '       <span class="data_hours">'
+            +               entry["creation_time"]
+            +   '       </span>'
+            +   '   </div>'
+            +   '   <div class="like_button">'
+            +   '       <button class="ui-btn ui-icon-like ui-btn-icon-notext ui-corner-all ui-nodisc-icon ui-btn-inline">'
+            +   '           mi piace'
+            +   '       </button>'
+            +   '       <button class="ui-btn ui-icon-dislike ui-btn-icon-notext ui-corner-all ui-nodisc-icon ui-btn-inline">'
+            +   '           non mi piace'
+            +   '       </button>'
+            +   '   </div>'
+            +   '   <div class="like_dislike">'
+            +   '       <span class="counter_like">'
+            +   '           +' + entry["like"]
+            +   '       </span>'
+            +   '       <span class="counter_dislike">'
+            +   '           -' + entry["unlike"]
+            +   '       </span>'
+            +   '   </div>'
+            +   '</div>'
+        );
+    });
+}
+
 $(document).on('pageshow', '#info', function() {
     ask_opengeo(last_visited_type, last_visited_id);
+    // TODO: risolvere problema doppi id
+    get_contents(last_visited_id);
+
     if(!logged_auth) {
         $("#add_content").hide();
         $("#login_required").show();
@@ -182,39 +243,13 @@ function get_contents(poi) {
         },
         dataType: "json",
         contentType: "application/json",
-        success: function() {
+        success: function(received) {
             console.log("contents received.");
+            display_contents(received);
         },
         error: function() {
             console.log("ops, something went wrong..");
-        },
-        complete: function(data_response) {
-            received = JSON.parse(data_response.responseText);
-            print_contents(received);
         }
-    });
-}
-
-function print_contents(contents) {
-    // 'contents' is an array with keys: 'num_results', 'objects', 'page', 'total_pages'
-    contents["objects"].forEach(function(entry) {
-        console.log(entry);
-        if(entry["photo_thumb"]) {
-            console.log("c'è un'immagine");
-            var thumb = new Image();
-            thumb.src = 'data:image;base64,' + entry["photo_thumb"];
-            // thumb.src = 'data:image/jpeg;base64,' + entry["photo_thumb"];
-        }
-        else {
-            console.log("non c'è nessuna immagine");
-        }
-
-        document.write(
-            entry["comment"] + "<br />" +
-            entry["file_description"] + "<br />"
-        );
-        document.body.appendChild(thumb);
-        document.write("<hr />");
     });
 }
 
