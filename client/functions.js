@@ -1,6 +1,11 @@
 
 var server_url = "http://127.0.0.1:5000/";
 var file_icon = "images/document_icon.png"
+var MONTHS = [
+    "gennaio", "febbraio", "marzo", "aprile", "maggio", "giugno",
+    "luglio", "agosto", "settembre", "ottobre", "novembre", "dicembre"
+]
+
 var logged_name = null;
 var logged_auth = null;
 var last_visited_id = null;
@@ -115,6 +120,11 @@ function file_thumb(entry) {
     )
     return thumb;
 }
+
+function convert_time(epoch) {
+    var date = new Date(1000 * epoch);
+    return date.getDate() + ' ' + MONTHS[date.getMonth()] + ' ' + date.getFullYear()
+            + ' ' + date.getHours() + ',' + date.getMinutes();
 }
 
 function display_contents(contents) {
@@ -138,7 +148,7 @@ function display_contents(contents) {
             +               entry["user"]
             +   '       </span>'
             +   '       <span class="data_hours">'
-            +               entry["creation_time"]
+            +               convert_time(entry["creation_time"])
             +   '       </span>'
             +   '   </div>'
             +   '   <div class="like_button">'
