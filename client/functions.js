@@ -109,11 +109,12 @@ function file_thumb(entry) {
     var thumb = (
             '<a href="' + server_url + 'static/' + entry["filename"] + '">'
         +   '   <img src="'
-        +   (entry["photo_thumb"] ? 'data:image;base64,' + entry["photo_thumb"] : file_icon) + '"'
-        +   '        alt="' + entry["file_description"] + " />"
-        +   '</a>'
+        +   (entry["photo_thumb"] ? 'data:image;base64,' + entry["photo_thumb"] : file_icon) + '" '
+        +   '        alt="' + entry["file_description"] + '" />'
+        +   '</a>\n'
     )
-    return thumb
+    return thumb;
+}
 }
 
 function display_contents(contents) {
