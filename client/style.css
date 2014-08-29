@@ -39,6 +39,13 @@ span.inte {
     
      
 }
+.view_text_comment{
+    float:left;
+    
+}
+.properties_comment{
+    float:right;
+}
 
 .user_comment{
     font-size:80%;
@@ -51,3 +58,38 @@ span.inte {
     
     
 }
+
+.like_button{
+    float:left;   
+}
+
+.like_dislike{
+    float: left;
+    font-size:90%;
+    padding: 0.9em;
+    font-weight: bold;    
+}
+.plus{
+    color: #03C03C;
+}
+.minus{
+    color: #D21F1B;
+    
+}
+.counter_like{
+    color: #03C03C;
+}
+.counter_dislike{
+    color: #D21F1B;
+}
+.ui-icon-like:after {
+	background-image: url("like_18x18_senza_sfondo.png");
+    background-size: 18px 18px;
+    box-shadow: none;
+}
+.ui-icon-dislike:after {
+	background-image: url("dislike_18x18_senza_sfondo.png");
+    background-size: 18px 18px;
+    box-shadow: none;
+}
+
