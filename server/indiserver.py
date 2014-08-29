@@ -11,6 +11,7 @@ import flask.ext.sqlalchemy
 import requests
 import Image
 import json
+import time
 import os
 import re
 
@@ -125,6 +126,9 @@ def create_app(config_mode=None, config_file=None):
         if verify_password():
             data["user"] = request.authorization["username"]
 
+    def add_creation_time(data={}, **kw):
+        data["creation_time"] = int(time.time())
+
     def manage_upload_announcement(data, **kw):
         """
         At least one between upload announcement or comment has to be present.
@@ -190,7 +194,11 @@ def create_app(config_mode=None, config_file=None):
     manager.create_api(
         IndianaUser,
         preprocessors={
-            "POST": [validation, password_encryption]
+            "POST": [
+                validation,
+                password_encryption,
+                add_creation_time
+            ]
         },
         methods=["POST"]
     )
@@ -198,7 +206,11 @@ def create_app(config_mode=None, config_file=None):
         Content,
         methods=["GET", "POST", "PATCH", "DELETE"],
         preprocessors={
-            "POST": [add_user_field, manage_upload_announcement],
+            "POST": [
+                add_user_field,
+                add_creation_time,
+                manage_upload_announcement
+            ],
             "PATCH_SINGLE": [pre_modification],
             "DELETE": [pre_modification, check_files]
         },
@@ -297,6 +309,7 @@ class IndianaUser(db.Model):
     name = db.Column(db.Unicode(30), primary_key=True, nullable=False)
     psw = db.Column(db.Unicode(80), nullable=False)
     email = db.Column(db.Unicode(50), nullable=False)
+    creation_time = db.Column(db.Integer, nullable=False)
 
     # contents = db.relationship("content", backref=db.backref("user", lazy='dynamic'))
     # likes = db.relationship("like", backref=db.backref("user", lazy='dynamic'))
@@ -315,6 +328,10 @@ class Content(db.Model):
     user = db.Column(
         db.Unicode(30),
         db.ForeignKey("indiana_user.name"),
+        nullable=False
+    )
+    creation_time = db.Column(
+        db.Integer,
         nullable=False
     )
     comment = db.Column(
