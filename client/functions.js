@@ -152,10 +152,12 @@ function display_contents(contents) {
             +   '       </span>'
             +   '   </div>'
             +   '   <div class="like_button">'
-            +   '       <button class="ui-btn ui-icon-like ui-btn-icon-notext ui-corner-all ui-nodisc-icon ui-btn-inline">'
+            +   '       <button class="ui-btn ui-icon-like ui-btn-icon-notext ui-corner-all ui-nodisc-icon ui-btn-inline" '
+            +   '               onclick="like(' + entry["id_"] + ', true);">'
             +   '           mi piace'
             +   '       </button>'
-            +   '       <button class="ui-btn ui-icon-dislike ui-btn-icon-notext ui-corner-all ui-nodisc-icon ui-btn-inline">'
+            +   '       <button class="ui-btn ui-icon-dislike ui-btn-icon-notext ui-corner-all ui-nodisc-icon ui-btn-inline" '
+            +   '               onclick="like(' + entry["id_"] + ', false);">'
             +   '           non mi piace'
             +   '       </button>'
             +   '   </div>'
@@ -316,6 +318,10 @@ function remove_content(content_id) {
 }
 
 function like(content_id, do_like) {
+    if(!logged_auth) {
+        alert("per dire se ti piace o no, prima devi fare login");
+        return;
+    }
     $.ajax({
         type: "POST",
         url: server_url + "api/like",
