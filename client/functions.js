@@ -123,8 +123,10 @@ function file_thumb(entry) {
 
 function convert_time(epoch) {
     var date = new Date(1000 * epoch);
+    var minutes = date.getMinutes().toString();
     return date.getDate() + ' ' + MONTHS[date.getMonth()] + ' ' + date.getFullYear()
-            + ' ' + date.getHours() + ',' + date.getMinutes();
+            + ' ' + date.getHours() + ','
+            + (minutes.length < 2 ? "0" + minutes : minutes);
 }
 
 function display_contents(contents) {
