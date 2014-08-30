@@ -201,7 +201,7 @@ function register(name, psw, email) {
         dataType: "json",
         contentType: "application/json",
         success: function(data) {
-            alert("Benvenuto " + name + "!\nAdesso puoi fare login");
+            alert("Benvenuto " + name + "!\nAdesso puoi accedere");
             $("form#user_data")[0].reset();
         },
         error: function() {
