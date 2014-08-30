@@ -20,7 +20,7 @@ function onLocationFound(e) {
     var radius = e.accuracy / 2;
 
     L.circle(e.latlng, radius).addTo(map).bindPopup(
-        "You are within " + radius + " meters from this point"
+        "Sei a circa " + radius + " metri da questo punto"
     ).openPopup();
     console.log(e);
 }
