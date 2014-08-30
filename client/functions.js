@@ -1,6 +1,6 @@
 
-var server_url = "http://127.0.0.1:5000/";
-var file_icon = "images/document_icon.png"
+var SERVER_URL = "http://127.0.0.1:5000/";
+var FILE_ICON = "images/document_icon.png"
 var MONTHS = [
     "gennaio", "febbraio", "marzo", "aprile", "maggio", "giugno",
     "luglio", "agosto", "settembre", "ottobre", "novembre", "dicembre"
@@ -112,9 +112,9 @@ function display_opengeo(data) {
 function file_thumb(entry) {
     // TODO: correggere in 'data:image/jpeg;base64,' + entry["photo_thumb"];
     var thumb = (
-            '<a href="' + server_url + 'static/' + entry["filename"] + '">'
+            '<a href="' + SERVER_URL + 'static/' + entry["filename"] + '">'
         +   '   <img src="'
-        +   (entry["photo_thumb"] ? 'data:image;base64,' + entry["photo_thumb"] : file_icon) + '" '
+        +   (entry["photo_thumb"] ? 'data:image;base64,' + entry["photo_thumb"] : FILE_ICON) + '" '
         +   '        alt="' + entry["file_description"] + '" />'
         +   '</a>\n'
     )
@@ -194,7 +194,7 @@ $(document).on('pageshow', '#info', function() {
 function register(name, psw, email) {
     $.ajax({
         type: "POST",
-        url: server_url + "api/indiana_user",
+        url: SERVER_URL + "api/indiana_user",
         data: JSON.stringify({ "name": name, "psw": psw, "email": email }),
         dataType: "json",
         contentType: "application/json",
@@ -212,7 +212,7 @@ function login(name, psw) {
     var auth = "Basic " + btoa(name + ":" + psw);
     $.ajax({
         type: "GET",
-        url: server_url + "api/login/",
+        url: SERVER_URL + "api/login/",
         headers: {
           "Authorization": auth
         },
@@ -233,7 +233,7 @@ function login(name, psw) {
 function post_a_comment(poi, comment) {
     $.ajax({
         type: "POST",
-        url: server_url + "api/content",
+        url: SERVER_URL + "api/content",
         headers: {
           "Authorization": logged_auth
         },
@@ -252,7 +252,7 @@ function post_a_comment(poi, comment) {
 function get_contents(poi) {
     $.ajax({
         type: "GET",
-        url: server_url + "api/content",
+        url: SERVER_URL + "api/content",
         data: {
             "q": JSON.stringify({
                 "filters": [{
@@ -277,7 +277,7 @@ function get_contents(poi) {
 function modify_comment(content_id, modified_content) {
     $.ajax({
         type: "PATCH",
-        url: server_url + "api/content/" + content_id,
+        url: SERVER_URL + "api/content/" + content_id,
         headers: {
           "Authorization": logged_auth
         },
@@ -300,7 +300,7 @@ function modify_comment(content_id, modified_content) {
 function remove_content(content_id) {
     $.ajax({
         type: "DELETE",
-        url: server_url + "api/content/" + content_id,
+        url: SERVER_URL + "api/content/" + content_id,
         headers: {
           "Authorization": logged_auth
         },
@@ -324,7 +324,7 @@ function like(content_id, do_like) {
     }
     $.ajax({
         type: "POST",
-        url: server_url + "api/like",
+        url: SERVER_URL + "api/like",
         headers: {
           "Authorization": logged_auth
         },
@@ -351,7 +351,7 @@ function upload(poi, comment, form_data, file_description) {
     // posting announcement
     $.ajax({
         type: "POST",
-        url: server_url + "api/content",
+        url: SERVER_URL + "api/content",
         headers: {
           "Authorization": logged_auth
         },
@@ -378,7 +378,7 @@ function upload2(file_id, form_data) {
     // actually post the file
     $.ajax({
         type: "POST",
-        url: server_url + "api/file/" + file_id,
+        url: SERVER_URL + "api/file/" + file_id,
         headers: {
           "Authorization": logged_auth
         },
@@ -400,7 +400,7 @@ function upload2(file_id, form_data) {
 function wms_proxy(bbox, width, height, x, y, e) {
     $.ajax({
         type: "GET",
-        url: server_url + "api/proxy/" + bbox + '&' + width + '&' + height + '&' + x + '&' + y,
+        url: SERVER_URL + "api/proxy/" + bbox + '&' + width + '&' + height + '&' + x + '&' + y,
         success: function(data) {
             console.log("proxied.");
             console.log(data);
