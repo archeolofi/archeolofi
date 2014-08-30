@@ -201,8 +201,8 @@ function register(name, psw, email) {
         dataType: "json",
         contentType: "application/json",
         success: function(data) {
-            alert("ok");
-            return data.objects;
+            alert("Benvenuto " + name + "!\nAdesso puoi fare login");
+            $("form#user_data")[0].reset();
         },
         error: function() {
             alert("ops, something went wrong..");
@@ -223,8 +223,9 @@ function login(name, psw) {
             if(logged) {
                 logged_auth = auth;
                 logged_name = name;
-                alert("User and psw saved.");
+                alert("Ciao " + logged_name + "!");
             }
+            $("form#user_data")[0].reset();
         },
         error: function() {
             alert("ops, something went wrong..");
@@ -244,6 +245,7 @@ function post_a_comment(poi, comment) {
         contentType: "application/json",
         success: function() {
             console.log("comment published!");
+            $("form#content_form")[0].reset();
         },
         error: function() {
             console.log("ops, something went wrong..");
@@ -392,6 +394,7 @@ function upload2(file_id, form_data) {
         dataType: 'json',
         success: function() {
             console.log("file uploaded.");
+            $("form#content_form")[0].reset();
         },
         error: function(x, t, m) {
             console.log(t);
