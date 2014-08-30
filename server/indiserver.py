@@ -366,7 +366,7 @@ class Like(db.Model):
     )
 
 
-@app.route("/api/login/", methods=["GET"])
+@app.route("/api/login/", methods=["GET", "OPTIONS"])
 @crossdomain(origin='*', headers="Authorization")
 def login():
     if verify_password():
