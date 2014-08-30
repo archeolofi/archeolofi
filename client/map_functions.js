@@ -27,7 +27,8 @@ function onLocationFound(e) {
 map.on('locationfound', onLocationFound);
 
 function onLocationError(e) {
-    alert(e.message);
+    map.setView([43.771473, 11.253766], 18);
+    console.log(e.message);
 }
 map.on('locationerror', onLocationError);
 
