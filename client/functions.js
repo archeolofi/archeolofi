@@ -135,39 +135,43 @@ function display_contents(contents) {
 
     contents["objects"].forEach( function(entry) {
         console.log(entry);
-
+//data-role="fieldcontain"
         $("#contents").append(
-                '<div data-role="fieldcontain" class="single_comment">'
+                '<div  class="single_comment">'
             +   '   <div id="content_id" class="hidden">'
             +           entry["id_"]
             +   '   </div>'
             +   (entry["comment"] ? '<span class="view_text_comment">' + entry["comment"] + '</span>' : '')
             +   (entry["filename"] ? file_thumb(entry) : '')
-            +   '   <div class="comment_properties">'
-            +   '       <span class="comment_user">'
-            +               entry["user"]
-            +   '       </span>'
-            +   '       <span class="data_hours">'
-            +               convert_time(entry["creation_time"])
-            +   '       </span>'
-            +   '   </div>'
-            +   '   <div class="like_button">'
-            +   '       <button class="ui-btn ui-icon-like ui-btn-icon-notext ui-corner-all ui-nodisc-icon ui-btn-inline" '
-            +   '               onclick="like(' + entry["id_"] + ', true);">'
-            +   '           mi piace'
-            +   '       </button>'
-            +   '       <button class="ui-btn ui-icon-dislike ui-btn-icon-notext ui-corner-all ui-nodisc-icon ui-btn-inline" '
-            +   '               onclick="like(' + entry["id_"] + ', false);">'
-            +   '           non mi piace'
-            +   '       </button>'
-            +   '   </div>'
-            +   '   <div class="like_dislike">'
-            +   '       <span class="counter_like">'
-            +   '           +' + entry["like"]
-            +   '       </span>'
-            +   '       <span class="counter_dislike">'
-            +   '           -' + entry["unlike"]
-            +   '       </span>'
+            +   '   <div class="info_comment">'
+            +   '       <div class="comment_properties">'
+            +   '           <span class="comment_user">'
+            +                   entry["user"]
+            +   '           </span>'
+            +   '           <span class="data_hours">'
+            +                   convert_time(entry["creation_time"])
+            +   '           </span>'
+            +   '       </div>'
+            +   '       <div class="layout_like_dislike">'   
+            +   '           <div class="like_button">'
+            +   '               <button class="ui-btn ui-icon-like ui-btn-icon-notext ui-corner-all ui-nodisc-icon ui-btn-inline" '
+            +   '                   onclick="like(' + entry["id_"] + ', true);">'
+            +   '               mi piace'
+            +   '               </button>'
+            +   '               <button class="ui-btn ui-icon-dislike ui-btn-icon-notext ui-corner-all ui-nodisc-icon ui-btn-inline" '
+            +   '                   onclick="like(' + entry["id_"] + ', false);">'
+            +   '               non mi piace'
+            +   '               </button>'
+            +   '           </div>'
+            +   '           <div class="like_dislike">'
+            +   '               <span class="counter_like">'
+            +   '                   +' + entry["like"]
+            +   '               </span>'
+            +   '               <span class="counter_dislike">'
+            +   '                   -' + entry["unlike"]
+            +   '               </span>'
+            +   '           </div>'
+            +   '       </div>'
             +   '   </div>'
             +   '</div>'
         );
