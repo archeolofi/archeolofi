@@ -20,14 +20,15 @@ function onLocationFound(e) {
     var radius = e.accuracy / 2;
 
     L.circle(e.latlng, radius).addTo(map).bindPopup(
-        "You are within " + radius + " meters from this point"
+        "Sei a circa " + radius + " metri da questo punto"
     ).openPopup();
     console.log(e);
 }
 map.on('locationfound', onLocationFound);
 
 function onLocationError(e) {
-    alert(e.message);
+    map.setView([43.771473, 11.253766], 18);
+    console.log(e.message);
 }
 map.on('locationerror', onLocationError);
 

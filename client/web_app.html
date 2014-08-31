@@ -14,7 +14,7 @@
         <script>
             ///////////////////////////// BUTTONS /////////////////////////////
             $(document).ready( function() {
-                $("#bottone_login").click( function() {
+                $("#login_button").click( function() {
                     data = read_form("login");
                     if(!data)
                         return;
@@ -23,7 +23,7 @@
             });
 
             $(document).ready( function() {
-                $("#bottone_register").click( function() {
+                $("#register_button").click( function() {
                     data = read_form("register");
                     if(!data)
                         return;
@@ -163,7 +163,7 @@
                 <h2>Login</h2>
             </div>
             <div data-role="content">
-                <form name= "login" >
+                <form name="login" id="user_data">
                     <div data-role="fieldcontain" class="ui-hide-label">
                         <label for="username">Username:</label>
                         <input type="text" name="name" id="name" value="" placeholder="Username" required/>
@@ -174,17 +174,17 @@
                         <input type="password" name="psw" id="psw" value="" placeholder="Password" required/>
                     </div>
 
-                    <input type="button" id="bottone_login" data-icon="check" value="Login">
+                    <input type="button" id="login_button" data-icon="check" value="Accedi">
                 
                     <div data-role="collapsible" data-collapsed="true" data-theme="a" id="registration">
-                        <h3>Se non sei ancora registrato inserisci anche la tua e-mail</h3>
-
+                        <h3>Registrazione</h3>
+                        <p>Se non sei ancora registrato inserisci anche la tua email:</p>
                         <div data-role="fieldcontain" class="ui-hide-label">
-                            <label for="e-mail">E-mail:</label>
-                            <input type="text" name="email" id="email" value="" placeholder="e-mail" />
+                            <label for="email">email:</label>
+                            <input type="text" name="email" id="email" value="" placeholder="email" />
                         </div>
 
-                        <input type="button" id="bottone_register" data-icon="edit" value="Register">
+                        <input type="button" id="register_button" data-icon="edit" value="Registrati">
                     </div>
                 </form>
             </div>
