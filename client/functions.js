@@ -77,6 +77,9 @@ function opengeo_make_link(link) {
 }
 
 function display_opengeo(data) {
+    
+    
+    
     // clean-up from the previous info displayed
     $("#descri").empty();
     $("#bibliography").hide();
@@ -107,6 +110,68 @@ function display_opengeo(data) {
         }
         $("#gallery").show();
     }
+}
+
+function setting_info(data){
+    //inserimento informazioni base da json
+    
+    $("#descri").empty();
+    $("#json_definizione").empty();
+    $("#json_ubicazione_punto").empty();
+    $("#json_descrizione").empty();
+    $("#json_cronologia").empty();
+    $("#ubicazione_punto").empty();
+    $("#json_approvazione").empty();
+    $("#json_catasto_foglio").empty();
+    $("#json_catasto_particella").empty();
+    $("#json_comune").empty();
+    $("#json_data_aggiornamento").empty();
+    $("#json_motiv_intervento").empty();
+    $("#json_nome_compilatore").empty();
+    
+    
+    
+    
+    
+    var obj = data.features[0].properties;
+
+    if(obj.id_ritrovamento != null) {
+        
+        $("#json_definizione").html(obj.tipologia_ritrov +": " + obj.definizione  || null);
+        $("#json_ubicazione").html("ubicazione: " + obj.precisazione_ubicazion || null);
+        $("#json_descrizione").html("Descrizione: " + obj.descrizione || null);
+        $("#json_cronologia").html("Cronologia: " + obj.data_inizio + " " + obj.cono_ac_dc + " - " + obj.data_fine + " " + obj.crono_ac_dc_fine || null);
+        
+
+        
+    }
+    else {
+                                
+        
+        $("#json_ubicazione").html("ubicazione: " + obj.ubicazione || null);
+        $("#json_approvazione").html("Approvazione: " + obj.approvazione || null);
+        $("#json_catasto_foglio").html("Catasto foglio: " + obj.catasto_foglio || null);
+        $("#json_catasto_particella").html("Catasto particella: " + obj.catasto_particella || null);
+        $("#json_comune").html("Comune: " + obj.comune || null);
+        $("#json_data_aggiornamento").html("Data aggiornamento: " + obj.data_aggiornamento || null);
+        $("#json_motiv_intervento").html("Data aggiornamento: " + obj.motiv_intervento || null);
+        $("#json_nome_compilatore").html("Data aggiornamento: " + obj.nome_compilatore || null);
+        
+        
+        /*$("#popup_intervento h3").html(obj.tipo_intervento || null);
+        $("#popup_intervento time").html(obj.data_compilazione || null);
+        $("#popup_intervento #metodo").html(obj.metodo || null);
+        $("#popup_intervento #dir_scentifica").html(obj.dir_scentifica || null);
+        $("#popup_intervento #ente_resp").html(obj.ente_resp || null);
+        $("#popup_intervento #ente_schedatore").html(obj.ente_schedatore || null);
+        $("#popup_intervento #esecutore_intervento").html(obj.esecutore_intervento || null);
+        $("#popup_intervento #tipo_particella").html(obj.tipo_particella || null); */
+
+        
+}
+    
+
+    
 }
 
 function file_thumb(entry) {
@@ -414,6 +479,7 @@ function wms_proxy(bbox, width, height, x, y, e) {
             console.log("proxied.");
             console.log(data);
             pop_the_popup(data, e);
+            setting_info(data); // aggiunta
         },
         error: function() {
             console.log("ops, something went wrong..");

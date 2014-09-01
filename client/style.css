@@ -43,6 +43,19 @@ span.inte {
     margin-left: 5px;
 }
 
+#info_json_punto{
+    color: #C80815;
+    
+}
+
+#info_json_area{
+    color: #964B00;		
+    
+}
+
+
+<!-- SPAZIO COMMENTI -->
+
 #contents{
     float:left;
     
