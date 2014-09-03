@@ -28,22 +28,74 @@ span.ritr {
     margin-top: 5px;
 }
 
+#addcontent{
+    
+}
+    
+
+#layout_contents{
+    
+    
+    
+}
+
 span.inte {
     margin-left: 5px;
 }
 
+#info_json_punto{
+    color: #C80815;
+    
+}
+
+#info_json_area{
+    color: #964B00;		
+    
+}
+
+
+<!-- SPAZIO COMMENTI -->
+
+#contents{
+    float:left;
+    
+}
+
+#collapse_contents{
+    
+
+    
+}
+
 .single_comment{
+    
+    float:left;
+    clear: both;
+    
     border: 1px solid #DDDDDD;
-    padding: 5px;
+    padding: 0.4em;
+    margin: 0.2em;
     border-radius: 10px 10px 10px 10px;
 }
 
 .view_text_comment{
-    float:left;
+    display: block;
+    float: left;
+    
+    
+    
+    
+}
+.info_comment{
+    float: left;
+    display: block;
+    clear: both;
+        
     
 }
 .comment_properties{
     float:right;
+    padding: 0.6em;
 }
 
 .comment_user{
@@ -55,9 +107,13 @@ span.inte {
     font-size:80%;
     color: gray;
 }
+.layout_like_dislike{
+    float:left;
+    
+}
 
 .like_button{
-    float:left;
+    float: left;
 }
 
 .like_dislike{

@@ -51,10 +51,12 @@
     </head>
 
     <body>
+        <!-- ============================== HOME: MAP! ============================== -->
         <div data-role="page" id="home">
-            <div data-role="header" data-position="inline">
+            <div data-role="header" data-position="inline" >
                 <h1>Indiana Mapps</h1>
-                <a href="#login" data-role="button" class="ui-btn-right" >Login</a>
+                <a href="#login" data-role="button" class="ui-btn-right"  data-inline=”true” >Login</a>
+                //<a href="#credits" data-role="button"   data-inline=”true” >Credits</a>
             </div>
             <div data-role="content" >
                 <div id="map" class="map" ></div>
@@ -65,13 +67,40 @@
         <div data-role="page" id="info">
             <div data-role="header" >
                 <h1>Info</h1>
-                <a href="#home">Map</a>
+                <a href="#home">Mappa</a>
             </div>
 
             <div data role="content">
                 <div data-role="collapsible-set">
-                    <div data-role="collapsible" data-collapsed="false" id="info_sito">
-                        <h3>INFORMAZIONI</h3>
+                    <div data-role="collapsible" data-collapsed="false" id="info_json">
+                        <h3>INFORMAZIONI SITO ARCHEOLOGICO</h3>
+                        
+                            <div>
+                                <h4 id="json_definizione"></h4>
+                                <h5 id="json_ubicazione"></h5>
+                                <div id="info_json_punto">
+                                    <p id="json_descrizione"></p>
+                                    <p id="json_cronologia"></p>
+                                </div>
+                                
+                                
+                                <div id="info_json_area">
+                                    <p id="json_approvazione"></p>
+                                    <p id="json_catasto_foglio"></p>
+                                    <p id="json_catasto_particella"></p>
+                                    <p id="json_comune"></p>
+                                    <p id="json_data_aggiornamento"></p>
+                                    <p id="json_motiv_intervento"></p>
+                                    <p id="json_nome_compilatore"></p>
+                                    
+                                </div>
+                        
+                            </div>
+ 
+                        
+                    </div> 
+                    <div data-role="collapsible"  id="info_sito" >
+                        <h3>MAGGIORI INFORMAZIONI</h3>
                         <p id="more_info">
                             <h4>Descrizione approfondita:</h4><span id="descri"></span>
                             <hr />
@@ -88,65 +117,10 @@
                     </div>
 
                     
-
-                        <!-- <h3>COMMENTI UTENTI</h3>
-                        <p>
-                            <form name= "comment">
-                                <div data-role="fieldcontain" id="insert_comment">
-                                    <h4>Inserisci il tuo commento:</h4>
-                                    
-                                    <textarea cols="30" rows="15"  name="text_comment" id="text_comment"  required/></textarea>
-                                    <div> 
-                                    <input type="button" id="send_comment"  data-icon="comment" value="Pubblica commento">
-                                    <input type="button" id="send_content"  data-icon="camera" value="Pubblica foto">
-                                    </div>
-                                </div>
-                            </form>    
-
-                        </p> -->
-                
-                <!-- <div data-role="collapsible" data-collapsed-icon="arrow-d" data-expanded-icon="arrow-u">
-                                    <h4>COMMENTI</h4>
-                                    <p>
-                                    <div data-role="fieldcontain" class="single_comment">
-                                        <span  class="view_text_comment">Ciao a tutti, consiglio a tutti di vedere questo sito archeologico, veramente molto bello.
-                                        Vorrei anche ringraziare Emilio e Francesco per questa app fantastica, sono veramenti dei ganzi! </span>
-                                        <div class="properties_comment" >
-                                            <span class="user_comment">francesco marchetti</span>
-                                            <span class="data_hours">28 agosto 15:00</span>
-                                             
-                                        </div>
-                                        <div data-role="controlgroup" data-type="horizontal">
-                                            <input type="button" id="send_comment"   value="Mi piace">
-                                            <input type="button" id="send_content"   value="Non mi piace">
-                                            
-                                            
-                                        </div>
-                                    </div>
-                                    
-                                    
-                                    
-                                    <div class="single_comment">
-                                        <span class="view_text_comment">secondo commento</span>
-                                        <div class="properties_comment">
-                                            <span class="user_comment">francesco marchetti</span>
-                                            <span class="data_hours">28 agosto 15:10</span>
-                                            
-                                        </div>
-                                    </div>
-                                    </p>
-                                    
-                                    
-                        </div> -->
-                                
-                
-
-                
-                    
-
                     <div data-role="collapsible">
                         <h3>AGGIUNGI UN CONTENUTO</h3>
-                        <div id="add_content">
+                        
+                        <div id="addcontent">
                             <form id="content_form" method="post" enctype="multipart/form-data">
                                 <div data-role="fieldcontain">
                                     <label for="comment">Inserisci un tuo commento:</label>
@@ -172,19 +146,24 @@
                             <a href="#login" data-role="button">Login</a>
                         </div>
 
-                        <div data-role="collapsible" data-collapsed-icon="arrow-d" data-expanded-icon="arrow-u">
+                        <div id="layout_contents" data-role="collapsible" data-collapsed-icon="arrow-d" data-expanded-icon="arrow-u">
                             <h4>CONTENUTI</h4>
+                            
                             <div id="contents"></div>
+                            <p>è importante la tua opinione e esperienza: commenta!</p>
+                            
+                            
                         </div>
+                        
                     </div>
                 </div>
             </div>
         </div>
 
     <!-- ======================== LOGIN & REGISTER ======================== -->
-        <div data-role="page" id="login">
-            <div data-role="header" >
-                <a href="#home">Map</a>
+        <div data-role="page" id="login"  >
+            <div data-role="header"  >
+                <a href="#" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-notext"></a>
                 <h2>Login</h2>
             </div>
             <div data-role="content">
@@ -214,6 +193,19 @@
                 </form>
             </div>
         </div>
+
+        <div data-role="page" id="credits"  >
+            <div data-role="header"  >
+                <a href="#" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-notext"></a>
+                <h2>Credits</h2>
+            </div>
+            <div data-role="content">
+                la web_app "Indiana MAPps"( nono, non Indiana lo stato dei stati uniti ma il personaggio della disney amico di topol.......no vabbè se non lo conosci sei una merda dai come si fa??? ) è stata sviluppata da( ordine alfabetico) Marchetti Francesco e Veloci Emilio con l'aiuto dell'assistente Ferracani Andrea e l'archeologo-informatico Scampoli Emiliano bla bla bla bla bla.............
+                
+            </div>
+        </div>
+
+        
 
         <!-- =========================== POPUP =========================== -->
         <div class="hidden" id="popup_ritrovamento">

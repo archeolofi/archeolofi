@@ -77,6 +77,9 @@ function opengeo_make_link(link) {
 }
 
 function display_opengeo(data) {
+    
+    
+    
     // clean-up from the previous info displayed
     $("#descri").empty();
     $("#bibliography").hide();
@@ -109,6 +112,68 @@ function display_opengeo(data) {
     }
 }
 
+function setting_info(data){
+    //inserimento informazioni base da json
+    
+    $("#descri").empty();
+    $("#json_definizione").empty();
+    $("#json_ubicazione_punto").empty();
+    $("#json_descrizione").empty();
+    $("#json_cronologia").empty();
+    $("#ubicazione_punto").empty();
+    $("#json_approvazione").empty();
+    $("#json_catasto_foglio").empty();
+    $("#json_catasto_particella").empty();
+    $("#json_comune").empty();
+    $("#json_data_aggiornamento").empty();
+    $("#json_motiv_intervento").empty();
+    $("#json_nome_compilatore").empty();
+    
+    
+    
+    
+    
+    var obj = data.features[0].properties;
+
+    if(obj.id_ritrovamento != null) {
+        
+        $("#json_definizione").html(obj.tipologia_ritrov +": " + obj.definizione  || null);
+        $("#json_ubicazione").html("ubicazione: " + obj.precisazione_ubicazion || null);
+        $("#json_descrizione").html("Descrizione: " + obj.descrizione || null);
+        $("#json_cronologia").html("Cronologia: " + obj.data_inizio + " " + obj.cono_ac_dc + " - " + obj.data_fine + " " + obj.crono_ac_dc_fine || null);
+        
+
+        
+    }
+    else {
+                                
+        
+        $("#json_ubicazione").html("ubicazione: " + obj.ubicazione || null);
+        $("#json_approvazione").html("Approvazione: " + obj.approvazione || null);
+        $("#json_catasto_foglio").html("Catasto foglio: " + obj.catasto_foglio || null);
+        $("#json_catasto_particella").html("Catasto particella: " + obj.catasto_particella || null);
+        $("#json_comune").html("Comune: " + obj.comune || null);
+        $("#json_data_aggiornamento").html("Data aggiornamento: " + obj.data_aggiornamento || null);
+        $("#json_motiv_intervento").html("Data aggiornamento: " + obj.motiv_intervento || null);
+        $("#json_nome_compilatore").html("Data aggiornamento: " + obj.nome_compilatore || null);
+        
+        
+        /*$("#popup_intervento h3").html(obj.tipo_intervento || null);
+        $("#popup_intervento time").html(obj.data_compilazione || null);
+        $("#popup_intervento #metodo").html(obj.metodo || null);
+        $("#popup_intervento #dir_scentifica").html(obj.dir_scentifica || null);
+        $("#popup_intervento #ente_resp").html(obj.ente_resp || null);
+        $("#popup_intervento #ente_schedatore").html(obj.ente_schedatore || null);
+        $("#popup_intervento #esecutore_intervento").html(obj.esecutore_intervento || null);
+        $("#popup_intervento #tipo_particella").html(obj.tipo_particella || null); */
+
+        
+}
+    
+
+    
+}
+
 function file_thumb(entry) {
     // TODO: correggere in 'data:image/jpeg;base64,' + entry["photo_thumb"];
     var thumb = (
@@ -137,39 +202,43 @@ function display_contents(contents) {
 
     contents["objects"].forEach( function(entry) {
         console.log(entry);
-
+//data-role="fieldcontain"
         $("#contents").append(
-                '<div data-role="fieldcontain" class="single_comment">'
+                '<div  class="single_comment">'
             +   '   <div id="content_id" class="hidden">'
             +           entry["id_"]
             +   '   </div>'
             +   (entry["comment"] ? '<span class="view_text_comment">' + entry["comment"] + '</span>' : '')
             +   (entry["filename"] ? file_thumb(entry) : '')
-            +   '   <div class="comment_properties">'
-            +   '       <span class="comment_user">'
-            +               entry["user"]
-            +   '       </span>'
-            +   '       <span class="data_hours">'
-            +               convert_time(entry["creation_time"])
-            +   '       </span>'
-            +   '   </div>'
-            +   '   <div class="like_button">'
-            +   '       <button class="ui-btn ui-icon-like ui-btn-icon-notext ui-corner-all ui-nodisc-icon ui-btn-inline" '
-            +   '               onclick="like(' + entry["id_"] + ', true);">'
-            +   '           mi piace'
-            +   '       </button>'
-            +   '       <button class="ui-btn ui-icon-dislike ui-btn-icon-notext ui-corner-all ui-nodisc-icon ui-btn-inline" '
-            +   '               onclick="like(' + entry["id_"] + ', false);">'
-            +   '           non mi piace'
-            +   '       </button>'
-            +   '   </div>'
-            +   '   <div class="like_dislike">'
-            +   '       <span class="counter_like">'
-            +   '           +' + entry["like"]
-            +   '       </span>'
-            +   '       <span class="counter_dislike">'
-            +   '           -' + entry["unlike"]
-            +   '       </span>'
+            +   '   <div class="info_comment">'
+            +   '       <div class="comment_properties">'
+            +   '           <span class="comment_user">'
+            +                   entry["user"]
+            +   '           </span>'
+            +   '           <span class="data_hours">'
+            +                   convert_time(entry["creation_time"])
+            +   '           </span>'
+            +   '       </div>'
+            +   '       <div class="layout_like_dislike">'   
+            +   '           <div class="like_button">'
+            +   '               <button class="ui-btn ui-icon-like ui-btn-icon-notext ui-corner-all ui-nodisc-icon ui-btn-inline" '
+            +   '                   onclick="like(' + entry["id_"] + ', true);">'
+            +   '               mi piace'
+            +   '               </button>'
+            +   '               <button class="ui-btn ui-icon-dislike ui-btn-icon-notext ui-corner-all ui-nodisc-icon ui-btn-inline" '
+            +   '                   onclick="like(' + entry["id_"] + ', false);">'
+            +   '               non mi piace'
+            +   '               </button>'
+            +   '           </div>'
+            +   '           <div class="like_dislike">'
+            +   '               <span class="counter_like">'
+            +   '                   +' + entry["like"]
+            +   '               </span>'
+            +   '               <span class="counter_dislike">'
+            +   '                   -' + entry["unlike"]
+            +   '               </span>'
+            +   '           </div>'
+            +   '       </div>'
             +   '   </div>'
             +   '</div>'
         );
@@ -412,6 +481,7 @@ function wms_proxy(bbox, width, height, x, y, e) {
             console.log("proxied.");
             console.log(data);
             pop_the_popup(data, e);
+            setting_info(data); // aggiunta
         },
         error: function() {
             console.log("ops, something went wrong..");
