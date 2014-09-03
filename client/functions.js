@@ -246,6 +246,7 @@ function post_a_comment(poi, comment) {
         success: function() {
             console.log("comment published!");
             $("form#content_form")[0].reset();
+            get_contents(poi);
         },
         error: function() {
             console.log("ops, something went wrong..");
@@ -370,7 +371,7 @@ function upload(poi, comment, form_data, file_description) {
         success: function(data) {
             console.log("file announced.");
             file_id = data["filename"];
-            upload2(file_id, form_data);
+            upload2(poi, file_id, form_data);
         },
         error: function() {
             console.log("ops, something went wrong..");
@@ -378,7 +379,7 @@ function upload(poi, comment, form_data, file_description) {
     });
 }
 
-function upload2(file_id, form_data) {
+function upload2(poi, file_id, form_data) {
     // actually post the file
     $.ajax({
         type: "POST",
@@ -395,6 +396,7 @@ function upload2(file_id, form_data) {
         success: function() {
             console.log("file uploaded.");
             $("form#content_form")[0].reset();
+            get_contents(poi);
         },
         error: function(x, t, m) {
             console.log(t);
