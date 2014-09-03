@@ -2,6 +2,7 @@
 sudo -u postgres psql
 \c indiana
 \d
+\q
 SELECT * FROM indiana_user;
 SELECT * FROM "like";
 
@@ -20,6 +21,7 @@ CREATE DATABASE indiana;
 ### chiamate con requests
 url = "http://firenzearcheo-feedingaliencat.rhcloud.com/api/"
 url = "http://localhost:5000/api/"
+url = "http://indiana-feedingaliencat.rhcloud.com/api/"
 
 
 # creazione di un utente
@@ -118,6 +120,17 @@ filepath = "/home/emilio/Scrivania/test/main.sql"   # type error
 filepath = "/home/emilio/Scrivania/test/vlc.pdf"
 filepath = "/home/emilio/Scrivania/test/1367157964.jpg"
 content_id = None
+
+r = requests.post(
+    url + "content",
+    data=json.dumps({
+        "comment":"beautiful reperto!",
+        "poi": 15,
+        "upload_announcement": True
+    }),
+    headers={"content-type":"application/json", 'Authorization': make_basic_auth(u["name"], u["psw"])}
+)
+
 
 def post_a_file():
     r = requests.post(
