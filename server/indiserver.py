@@ -454,9 +454,5 @@ def datagis_proxy(bbox, width, height, x, y):
 
 if __name__ == "__main__":
     create_app()
-
-    # Create the database tables
     db.create_all()
-
-    # TODO: carica il database
     app.run(host="0.0.0.0", debug=True)         # TODO: remove debug=True
