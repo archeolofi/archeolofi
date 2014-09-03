@@ -77,9 +77,6 @@ function opengeo_make_link(link) {
 }
 
 function display_opengeo(data) {
-    
-    
-    
     // clean-up from the previous info displayed
     $("#descri").empty();
     $("#bibliography").hide();
@@ -114,7 +111,6 @@ function display_opengeo(data) {
 
 function setting_info(data){
     //inserimento informazioni base da json
-    
     $("#descri").empty();
     $("#json_definizione").empty();
     $("#json_ubicazione_punto").empty();
@@ -128,26 +124,18 @@ function setting_info(data){
     $("#json_data_aggiornamento").empty();
     $("#json_motiv_intervento").empty();
     $("#json_nome_compilatore").empty();
-    
-    
-    
-    
-    
-    var obj = data.features[0].properties;
 
+    var obj = data.features[0].properties;
     if(obj.id_ritrovamento != null) {
-        
         $("#json_definizione").html(obj.tipologia_ritrov +": " + obj.definizione  || null);
         $("#json_ubicazione").html("ubicazione: " + obj.precisazione_ubicazion || null);
         $("#json_descrizione").html("Descrizione: " + obj.descrizione || null);
-        $("#json_cronologia").html("Cronologia: " + obj.data_inizio + " " + obj.cono_ac_dc + " - " + obj.data_fine + " " + obj.crono_ac_dc_fine || null);
-        
-
-        
+        $("#json_cronologia").html(
+            "Cronologia: " + obj.data_inizio + " " + obj.cono_ac_dc + " - "
+            + obj.data_fine + " " + obj.crono_ac_dc_fine || null
+        );
     }
     else {
-                                
-        
         $("#json_ubicazione").html("ubicazione: " + obj.ubicazione || null);
         $("#json_approvazione").html("Approvazione: " + obj.approvazione || null);
         $("#json_catasto_foglio").html("Catasto foglio: " + obj.catasto_foglio || null);
@@ -156,8 +144,7 @@ function setting_info(data){
         $("#json_data_aggiornamento").html("Data aggiornamento: " + obj.data_aggiornamento || null);
         $("#json_motiv_intervento").html("Data aggiornamento: " + obj.motiv_intervento || null);
         $("#json_nome_compilatore").html("Data aggiornamento: " + obj.nome_compilatore || null);
-        
-        
+
         /*$("#popup_intervento h3").html(obj.tipo_intervento || null);
         $("#popup_intervento time").html(obj.data_compilazione || null);
         $("#popup_intervento #metodo").html(obj.metodo || null);
@@ -166,12 +153,7 @@ function setting_info(data){
         $("#popup_intervento #ente_schedatore").html(obj.ente_schedatore || null);
         $("#popup_intervento #esecutore_intervento").html(obj.esecutore_intervento || null);
         $("#popup_intervento #tipo_particella").html(obj.tipo_particella || null); */
-
-        
-}
-    
-
-    
+    }
 }
 
 function file_thumb(entry) {
@@ -202,7 +184,7 @@ function display_contents(contents) {
 
     contents["objects"].forEach( function(entry) {
         console.log(entry);
-//data-role="fieldcontain"
+        //data-role="fieldcontain"
         $("#contents").append(
                 '<div  class="single_comment">'
             +   '   <div id="content_id" class="hidden">'
