@@ -72,34 +72,8 @@
 
             <div data role="content">
                 <div data-role="collapsible-set">
-                    <div data-role="collapsible" data-collapsed="false" id="info_json">
-                        <h3>INFORMAZIONI SITO ARCHEOLOGICO</h3>
-                        
-                            <div>
-                                <h4 id="json_definizione"></h4>
-                                <h5 id="json_ubicazione"></h5>
-                                <div id="info_json_punto">
-                                    <p id="json_descrizione"></p>
-                                    <p id="json_cronologia"></p>
-                                </div>
-                                
-                                
-                                <div id="info_json_area">
-                                    <p id="json_approvazione"></p>
-                                    <p id="json_catasto_foglio"></p>
-                                    <p id="json_catasto_particella"></p>
-                                    <p id="json_comune"></p>
-                                    <p id="json_data_aggiornamento"></p>
-                                    <p id="json_motiv_intervento"></p>
-                                    <p id="json_nome_compilatore"></p>
-                                    
-                                </div>
-                        
-                            </div>
- 
-                        
-                    </div> 
-                    <div data-role="collapsible"  id="info_sito" >
+                    
+                    <div data-role="collapsible"  id="info_sito" data-collapsed-icon="arrow-d" data-expanded-icon="arrow-u" >
                         <h3>MAGGIORI INFORMAZIONI</h3>
                         <p id="more_info">
                             <h4>Descrizione approfondita:</h4><span id="descri"></span>
@@ -115,7 +89,21 @@
                             </div>
                         </p>
                     </div>
-
+                
+                    <div data-role="collapsible" id="layout_contents" data-collapsed-icon="arrow-d" data-expanded-icon="arrow-u">
+                        <h4>CONTENUTI UTENTI</h4>
+                            
+                            <div id="contents"></div>
+                            <p id="important">è importante la tua opinione e esperienza: commenta!</p>
+                        
+                
+                
+                
+                
+                
+                
+                    </div>
+                
                     
                     <div data-role="collapsible">
                         <h3>AGGIUNGI UN CONTENUTO</h3>
@@ -144,15 +132,6 @@
                         <div id="login_required">
                             fai login prima di aggiungere un contenuto:
                             <a href="#login" data-role="button">Login</a>
-                        </div>
-
-                        <div id="layout_contents" data-role="collapsible" data-collapsed-icon="arrow-d" data-expanded-icon="arrow-u">
-                            <h4>CONTENUTI</h4>
-                            
-                            <div id="contents"></div>
-                            <p>è importante la tua opinione e esperienza: commenta!</p>
-                            
-                            
                         </div>
                         
                     </div>
