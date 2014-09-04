@@ -18,7 +18,8 @@ function read_form(type) {
         var name = $("#name_login").val();
         var psw = $("#psw_login").val();
         if(!name || !psw) {
-            alert("Inserisci i campi richiesti");
+            //alert("Inserisci i campi richiesti");
+            $("#login_situation").html("Errore durante il Login! Inserisci i campi richiesti" || null)
             return false;
             }
         return [name, psw];
@@ -27,8 +28,14 @@ function read_form(type) {
         var name = $("#name_register").val();
         var psw = $("#psw_register").val();
         var email = $("#email").val();
+        if(!name || !psw) {
+            //alert("Inserisci i campi richiesti");
+            $("#register_error").html("Errore durante la registrazione! Inserisci i campi richiesti" || null)
+            return false;
+            }
         if(! /^.+@.+\..+$/.test(email)) {
-            alert("Email non valida");
+            //alert("Email non valida");
+            $("#register_error").html("Errore durante la registrazione! E-mail non valida!");
             return false;
         }
         return [name, psw, email];
@@ -256,11 +263,13 @@ function register(name, psw, email) {
         success: function(data) {
             //alert("Benvenuto " + name + "!\nAdesso puoi accedere");
             $("form#user_data_register")[0].reset();
-            $("#register_ok").html("Registrazione avvenuta! Adesso puoi loggarti!");
+            $("#login_situation").html("Registrazione avvenuta! Adesso puoi loggarti!");
+            $("#register_error").empty();
             $.mobile.changePage( "#login" );
         },
         error: function() {
-            alert("ops, something went wrong..");
+            //alert("ops, something went wrong..");
+            $("#register_error").html("Errore durante la registrazione! Campi errati!");
         }
     });
 }
@@ -281,14 +290,16 @@ function login(name, psw) {
                 //alert("Ciao " + logged_name + "!");
             }
             $("form#user_data_login")[0].reset();
-            $("#user_login").html("utente loggato: " + name || null);
-            $("#user_login_info").html("utente loggato: " + name || null);
-            $("#register_ok").empty();
+            $("#user_login").html("Utente loggato: " + name || null);
+            $("#user_login_info").html("Utente loggato: " + name || null);
+            $("#login_situation").empty();
+            $("#register_error").empty();
             $.mobile.changePage( "#home" );
             
         },
         error: function() {
-            alert("ops, something went wrong..");
+            //alert("ops, something went wrong..");
+            $("#login_situation").html("Errore durante il Login! Username e/o password errate!" || null)
         }
     });
 }
