@@ -14,16 +14,18 @@ var last_visited_type = null;
 
 // HTML MANAGEMENT
 function read_form(type) {
-    var name = $("#name").val();
-    var psw = $("#psw").val();
-    if(!name || !psw) {
-        alert("Inserisci i campi richiesti");
-        return false;
-    }
     if(type == "login") {
+        var name = $("#name_login").val();
+        var psw = $("#psw_login").val();
+        if(!name || !psw) {
+            alert("Inserisci i campi richiesti");
+            return false;
+            }
         return [name, psw];
     }
-    else {
+    if(type == "register") {
+        var name = $("#name_register").val();
+        var psw = $("#psw_register").val();
         var email = $("#email").val();
         if(! /^.+@.+\..+$/.test(email)) {
             alert("Email non valida");
@@ -252,8 +254,10 @@ function register(name, psw, email) {
         dataType: "json",
         contentType: "application/json",
         success: function(data) {
-            alert("Benvenuto " + name + "!\nAdesso puoi accedere");
-            $("form#user_data")[0].reset();
+            //alert("Benvenuto " + name + "!\nAdesso puoi accedere");
+            $("form#user_data_register")[0].reset();
+            $("#register_ok").html("Registrazione avvenuta! Adesso puoi loggarti!");
+            $.mobile.changePage( "#login" );
         },
         error: function() {
             alert("ops, something went wrong..");
@@ -274,9 +278,14 @@ function login(name, psw) {
             if(logged) {
                 logged_auth = auth;
                 logged_name = name;
-                alert("Ciao " + logged_name + "!");
+                //alert("Ciao " + logged_name + "!");
             }
-            $("form#user_data")[0].reset();
+            $("form#user_data_login")[0].reset();
+            $("#user_login").html("utente loggato: " + name || null);
+            $("#user_login_info").html("utente loggato: " + name || null);
+            $("#register_ok").empty();
+            $.mobile.changePage( "#home" );
+            
         },
         error: function() {
             alert("ops, something went wrong..");
