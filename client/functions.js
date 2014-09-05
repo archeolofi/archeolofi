@@ -255,11 +255,11 @@ $(document).on('pageshow', '#info', function() {
     get_contents(last_visited_id);
 
     if(!logged_auth) {
-        $("#add_content").hide();
+        $("#addcontent").hide();
         $("#login_required").show();
     }
     else {
-        $("#add_content").show();
+        $("#addcontent").show();
         $("#login_required").hide();
     }
 });
