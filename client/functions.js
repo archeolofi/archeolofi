@@ -118,14 +118,19 @@ function display_opengeo(data) {
     }
 }
 
+
+
+
+
+
+
 function setting_info(data){
     //inserimento informazioni base da json
     $("#descri").empty();
     $("#json_definizione").empty();
-    $("#json_ubicazione_punto").empty();
-    $("#json_descrizione").empty();
+    $("#json_ubicazione").empty();
     $("#json_cronologia").empty();
-    $("#ubicazione_punto").empty();
+    
     $("#json_approvazione").empty();
     $("#json_catasto_foglio").empty();
     $("#json_catasto_particella").empty();
@@ -136,23 +141,24 @@ function setting_info(data){
 
     var obj = data.features[0].properties;
     if(obj.id_ritrovamento != null) {
-        $("#json_definizione").html(obj.tipologia_ritrov +": " + obj.definizione  || null);
-        $("#json_ubicazione").html("ubicazione: " + obj.precisazione_ubicazion || null);
-        $("#json_descrizione").html("Descrizione: " + obj.descrizione || null);
-        $("#json_cronologia").html(
-            "Cronologia: " + obj.data_inizio + " " + obj.cono_ac_dc + " - "
+        
+        $("#json_definizione").html(obj.tipologia_ritrov + ": " + obj.definizione);
+        $("#json_ubicazione").html("<b>Ubicazione: </b>" + obj.precisazione_ubicazion || null);
+        $("#json_cronologia").html("<b>Cronologia: </b>" +
+            obj.data_inizio + " " + obj.cono_ac_dc + " - "
             + obj.data_fine + " " + obj.crono_ac_dc_fine || null
         );
     }
     else {
-        $("#json_ubicazione").html("ubicazione: " + obj.ubicazione || null);
-        $("#json_approvazione").html("Approvazione: " + obj.approvazione || null);
-        $("#json_catasto_foglio").html("Catasto foglio: " + obj.catasto_foglio || null);
-        $("#json_catasto_particella").html("Catasto particella: " + obj.catasto_particella || null);
-        $("#json_comune").html("Comune: " + obj.comune || null);
-        $("#json_data_aggiornamento").html("Data aggiornamento: " + obj.data_aggiornamento || null);
-        $("#json_motiv_intervento").html("Data aggiornamento: " + obj.motiv_intervento || null);
-        $("#json_nome_compilatore").html("Data aggiornamento: " + obj.nome_compilatore || null);
+        
+        $("#json_ubicazione").html("<b>Ubicazione: </b>" + obj.ubicazione || null);
+        $("#json_approvazione").html("<b>Approvazione: </b>" + obj.approvazione || null);
+        $("#json_catasto_foglio").html("<b>Catasto foglio: </b>" + obj.catasto_foglio || null);
+        $("#json_catasto_particella").html("<b>Catasto particella: </b>" + obj.catasto_particella || null);
+        $("#json_comune").html("<b>Comune: </b>" + obj.comune || null);
+        $("#json_data_aggiornamento").html("<b>Data aggiornamento: </b>" + obj.data_aggiornamento || null);
+        $("#json_motiv_intervento").html("<b>Motivo Intervento: </b>" + obj.motiv_intervento || null);
+        $("#json_nome_compilatore").html("<b>Nome Compilatore: </b>" + obj.nome_compilatore || null);
 
         /*$("#popup_intervento h3").html(obj.tipo_intervento || null);
         $("#popup_intervento time").html(obj.data_compilazione || null);
@@ -164,6 +170,13 @@ function setting_info(data){
         $("#popup_intervento #tipo_particella").html(obj.tipo_particella || null); */
     }
 }
+
+
+
+
+
+
+
 
 function file_thumb(entry) {
     // TODO: correggere in 'data:image/jpeg;base64,' + entry["photo_thumb"];
