@@ -184,7 +184,7 @@ function file_thumb(entry) {
             '<a href="' + SERVER_URL + 'static/' + entry["filename"] + '">'
         +   '   <img src="'
         +   (entry["photo_thumb"] ? 'data:image;base64,' + entry["photo_thumb"] : FILE_ICON) + '" '
-        +   '        alt="' + entry["file_description"] + '" />'
+        +   '" />'
         +   '</a>\n'
     )
     return thumb;
@@ -331,9 +331,14 @@ function post_a_comment(poi, comment) {
             console.log("comment published!");
             $("form#content_form")[0].reset();
             get_contents(poi);
+            $("#result_comment").html("Commento Aggiunto!" || null)
+            
         },
         error: function() {
             console.log("ops, something went wrong..");
+            $("#result_comment").html("Errore! Commento non pubblicato" || null)
+            $("#result_comment").empty();
+            
         }
     });
 }
@@ -434,7 +439,7 @@ function like(content_id, do_like) {
     });
 }
 
-function upload(poi, comment, form_data, file_description) {
+function upload(poi, comment, form_data) {
     var file_id = null;
 
     // posting announcement
@@ -448,14 +453,17 @@ function upload(poi, comment, form_data, file_description) {
             "poi": poi,
             "comment": comment,
             "upload_announcement": true,
-            "file_description": file_description
+            
         }),
         dataType: "json",
         contentType: "application/json",
         success: function(data) {
             console.log("file announced.");
             file_id = data["filename"];
+            $("form#content_form")[0].reset();
             upload2(poi, file_id, form_data);
+            $("#result_comment").html("Commento Aggiunto!" || null)
+            get_contents(poi);
         },
         error: function() {
             console.log("ops, something went wrong..");
@@ -479,8 +487,8 @@ function upload2(poi, file_id, form_data) {
         dataType: 'json',
         success: function() {
             console.log("file uploaded.");
-            $("form#content_form")[0].reset();
-            get_contents(poi);
+            
+            //get_contents(poi);
         },
         error: function(x, t, m) {
             console.log(t);

@@ -7,7 +7,7 @@
         <link rel="stylesheet" type="text/css" href="libs/leaflet-0.7.3/leaflet.css" />
         <link rel="stylesheet" type="text/css" href="style.css" />
         <link rel="stylesheet" href="bottoni.css" />  
-        <link rel="stylesheet" href="jquery.mobile.icons.min.css" />
+        <!-- <link rel="stylesheet" href="jquery.mobile.icons.min.css" /> -->
          
         <script type="text/javascript" src="libs/jquery-1.11.1.min.js"></script>
         <script type="text/javascript" src="libs/jquery.mobile-1.4.2/jquery.mobile-1.4.2.js"></script>
@@ -40,8 +40,7 @@
                     var comment = $('#content_form #comment').val();
                     if($('#content_form #file').val()) {
                         var form_data = new FormData($('#content_form')[0]);
-                        var file_decription = $('#content_form #description').val();
-                        upload(last_visited_id, comment, form_data, file_decription);
+                        upload(last_visited_id, comment, form_data);
                     }
                     else
                         post_a_comment(last_visited_id, comment)
@@ -135,10 +134,7 @@
                                         <label for="file">Seleziona un file:</label>
                                         <input name="file" type="file" id="file">
                                     </fieldset>
-                                    <fieldset>
-                                        <label for="description">Descrivi il file:</label>
-                                        <input name="description" type="text" id="description">
-                                    </fieldset>
+                                    
                                 </div>
                                 <div data-role="fieldcontain">
                                     <button id="upload" type="button" data-icon="comment" data-theme="d" >Pubblica</button>
@@ -149,9 +145,11 @@
                             fai login prima di aggiungere un contenuto:
                             <a href="#login" data-role="button" data-theme="e">Login</a>
                         </div>
+                        <h2 id="result_comment"></h2>
                         
                     </div>
                 </div>
+                
             </div>
         </div>
 
