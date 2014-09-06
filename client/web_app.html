@@ -55,12 +55,10 @@
     <body>
     <!-- =========================== HOME: MAP! =========================== -->
         <div data-role="page" id="home">
-            <div data-role="header" data-position="inline" >
+            <div data-role="header" data-position="inline">
                 <h1>Indiana Mapps</h1>
-                <a href="#login" data-role="button" class="ui-btn-right"  data-inline=”true” >Login</a>
-                <h2 class="ui-btn-left" id="user_login"></h2>
-                
-                <!--<a href="#credits" data-role="button"   data-inline=”true” >Credits</a> -->
+                <a href="#login" data-role="button" class="ui-btn-right user_unlogged" data-inline="true">Login</a>
+                <a href="#login" data-role="button" class="ui-btn-right user_logged username" data-inline="true"></a>
             </div>
             <div data-role="content" >
                 <div id="map" class="map" ></div>
@@ -69,16 +67,18 @@
 
     <!-- ============================== INFO ============================== -->
         <div data-role="page" id="info">
-            <div data-role="header" >
+            <div data-role="header">
                 <h1>Info</h1>
-                <a href="#home">Mappa</a>
-                <h2 class="ui-btn-right" id="user_login_info"></h2>
+                <a href="#home" class="ui-btn-left">Mappa</a>
+                <a href="#login" data-role="button" class="ui-btn-right user_unlogged" data-inline="true">Login</a>
+                <a href="#login" data-role="button" class="ui-btn-right user_logged username" data-inline="true"></a>
             </div>
 
             <div data role="content">
                 <div data-role="collapsible-set">
                     
-                    <div data-role="collapsible" data-collapsed="false"  id="info_sito" data-collapsed-icon="arrow-d" data-expanded-icon="arrow-u" >
+                    <div data-role="collapsible" data-collapsed="false"  id="info_sito"
+                            data-collapsed-icon="arrow-d" data-expanded-icon="arrow-u" >
                         <h4>MAGGIORI INFORMAZIONI</h4>
                         <p class="more_info">
                             <h3 id="json_definizione"></h3>
@@ -123,7 +123,7 @@
                     <div data-role="collapsible">
                         <h4>AGGIUNGI UN CONTENUTO</h4>
                         
-                        <div id="addcontent">
+                        <div id="addcontent" class="user_logged">
                             <form id="content_form" method="post" enctype="multipart/form-data">
                                 <div data-role="fieldcontain">
                                     <label for="comment">Inserisci un tuo commento:</label>
@@ -141,7 +141,7 @@
                                 </div>
                             </form>
                         </div>
-                        <div id="login_required">
+                        <div id="login_required" class="user_unlogged">
                             fai login prima di aggiungere un contenuto:
                             <a href="#login" data-role="button" data-theme="e">Login</a>
                         </div>

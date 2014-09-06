@@ -249,18 +249,29 @@ function display_contents(contents) {
     });
 }
 
+$(document).on('pageshow', '#home', function() {
+    if(!logged_auth) {
+        $(".user_logged").hide()
+        $(".user_unlogged").show()
+    }
+    else {
+        $(".user_logged").show()
+        $(".user_unlogged").hide()
+    }
+});
+
 $(document).on('pageshow', '#info', function() {
     ask_opengeo(last_visited_type, last_visited_id);
     // TODO: risolvere problema doppi id
     get_contents(last_visited_id);
 
     if(!logged_auth) {
-        $("#addcontent").hide();
-        $("#login_required").show();
+        $(".user_logged").hide()
+        $(".user_unlogged").show()
     }
     else {
-        $("#addcontent").show();
-        $("#login_required").hide();
+        $(".user_logged").show()
+        $(".user_unlogged").hide()
     }
 });
 
@@ -300,11 +311,12 @@ function login(name, psw) {
             if(logged) {
                 logged_auth = auth;
                 logged_name = name;
-                //alert("Ciao " + logged_name + "!");
             }
             $("form#user_data_login")[0].reset();
-            $("#user_login").html("Utente loggato: " + name || null);
-            $("#user_login_info").html("Utente loggato: " + name || null);
+            $(".username.user_logged").html(logged_name);
+            $(".user_unlogged").hide();
+            $(".user_logged").show();
+
             $("#login_situation").empty();
             $("#register_error").empty();
             $.mobile.changePage( "#home" );
