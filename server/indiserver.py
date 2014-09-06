@@ -76,6 +76,13 @@ def verify_owner(content):
         )
 
 
+def escape_html(data={}, **kw):
+    for key, value in data.iteritems():
+        if isinstance(value, basestring):
+            escaped = value.replace("<", " ").replace(">", " ")
+            data[key] = escaped
+
+
 def create_app(config_mode=None, config_file=None):
 
     def add_cors_header(response):
@@ -197,7 +204,8 @@ def create_app(config_mode=None, config_file=None):
             "POST": [
                 validation,
                 password_encryption,
-                add_creation_time
+                add_creation_time,
+                escape_html
             ]
         },
         methods=["POST"]
@@ -209,9 +217,13 @@ def create_app(config_mode=None, config_file=None):
             "POST": [
                 add_user_field,
                 add_creation_time,
-                manage_upload_announcement
+                manage_upload_announcement,
+                escape_html
             ],
-            "PATCH_SINGLE": [pre_modification],
+            "PATCH_SINGLE": [
+                pre_modification,
+                escape_html
+            ],
             "DELETE": [pre_modification, check_files]
         },
         postprocessors={
