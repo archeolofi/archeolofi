@@ -132,13 +132,13 @@ span.inte {
 }
 
 .ui-icon-like:after {
-    background-image: url("like_18x18_senza_sfondo.png");
+    background-image: url("images/like_18x18_senza_sfondo.png");
     background-size: 18px 18px;
     box-shadow: none;
 }
 
 .ui-icon-dislike:after {
-    background-image: url("dislike_18x18_senza_sfondo.png");
+    background-image: url("images/dislike_18x18_senza_sfondo.png");
     background-size: 18px 18px;
     box-shadow: none;
 }
