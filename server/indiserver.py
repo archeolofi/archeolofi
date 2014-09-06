@@ -426,8 +426,7 @@ def file_upload(file_id):
 
         content.photo_thumb = b64photo
 
-    if not content.file_description:
-        content.file_description = original_name
+    content.file_description = original_name
     content.filename = filename
     db.session.add(content)
     db.session.commit()
