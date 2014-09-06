@@ -148,3 +148,33 @@ span.inte {
     clear:both;
     
 }
+
+#register_error{
+    text-align: center;
+    border: 1px solid #DDDDDD;
+    padding: 0.4em;
+    margin: 0.2em;
+    border-radius: 10px 10px 10px 10px;
+}
+
+#login_situation{
+    text-align: center;
+    border: 1px solid #DDDDDD;
+    padding: 0.4em;
+    margin: 0.2em;
+    border-radius: 10px 10px 10px 10px;
+    
+}
+#result_comment{
+    text-align: center;
+    
+}
+
+
+
+#info_sito span  {
+    display: block;
+    
+}
+
+

@@ -14,19 +14,28 @@ var last_visited_type = null;
 
 // HTML MANAGEMENT
 function read_form(type) {
-    var name = $("#name").val();
-    var psw = $("#psw").val();
-    if(!name || !psw) {
-        alert("Inserisci i campi richiesti");
-        return false;
-    }
     if(type == "login") {
+        var name = $("#name_login").val();
+        var psw = $("#psw_login").val();
+        if(!name || !psw) {
+            //alert("Inserisci i campi richiesti");
+            $("#login_situation").html("Errore durante il Login! Inserisci i campi richiesti" || null)
+            return false;
+            }
         return [name, psw];
     }
-    else {
+    if(type == "register") {
+        var name = $("#name_register").val();
+        var psw = $("#psw_register").val();
         var email = $("#email").val();
+        if(!name || !psw) {
+            //alert("Inserisci i campi richiesti");
+            $("#register_error").html("Errore durante la registrazione! Inserisci i campi richiesti" || null)
+            return false;
+            }
         if(! /^.+@.+\..+$/.test(email)) {
-            alert("Email non valida");
+            //alert("Email non valida");
+            $("#register_error").html("Errore durante la registrazione! E-mail non valida!");
             return false;
         }
         return [name, psw, email];
@@ -109,14 +118,19 @@ function display_opengeo(data) {
     }
 }
 
+
+
+
+
+
+
 function setting_info(data){
     //inserimento informazioni base da json
     $("#descri").empty();
     $("#json_definizione").empty();
-    $("#json_ubicazione_punto").empty();
-    $("#json_descrizione").empty();
+    $("#json_ubicazione").empty();
     $("#json_cronologia").empty();
-    $("#ubicazione_punto").empty();
+    
     $("#json_approvazione").empty();
     $("#json_catasto_foglio").empty();
     $("#json_catasto_particella").empty();
@@ -127,23 +141,24 @@ function setting_info(data){
 
     var obj = data.features[0].properties;
     if(obj.id_ritrovamento != null) {
-        $("#json_definizione").html(obj.tipologia_ritrov +": " + obj.definizione  || null);
-        $("#json_ubicazione").html("ubicazione: " + obj.precisazione_ubicazion || null);
-        $("#json_descrizione").html("Descrizione: " + obj.descrizione || null);
-        $("#json_cronologia").html(
-            "Cronologia: " + obj.data_inizio + " " + obj.cono_ac_dc + " - "
+        
+        $("#json_definizione").html(obj.tipologia_ritrov + ": " + obj.definizione);
+        $("#json_ubicazione").html("<b>Ubicazione: </b>" + obj.precisazione_ubicazion || null);
+        $("#json_cronologia").html("<b>Cronologia: </b>" +
+            obj.data_inizio + " " + obj.cono_ac_dc + " - "
             + obj.data_fine + " " + obj.crono_ac_dc_fine || null
         );
     }
     else {
-        $("#json_ubicazione").html("ubicazione: " + obj.ubicazione || null);
-        $("#json_approvazione").html("Approvazione: " + obj.approvazione || null);
-        $("#json_catasto_foglio").html("Catasto foglio: " + obj.catasto_foglio || null);
-        $("#json_catasto_particella").html("Catasto particella: " + obj.catasto_particella || null);
-        $("#json_comune").html("Comune: " + obj.comune || null);
-        $("#json_data_aggiornamento").html("Data aggiornamento: " + obj.data_aggiornamento || null);
-        $("#json_motiv_intervento").html("Data aggiornamento: " + obj.motiv_intervento || null);
-        $("#json_nome_compilatore").html("Data aggiornamento: " + obj.nome_compilatore || null);
+        
+        $("#json_ubicazione").html("<b>Ubicazione: </b>" + obj.ubicazione || null);
+        $("#json_approvazione").html("<b>Approvazione: </b>" + obj.approvazione || null);
+        $("#json_catasto_foglio").html("<b>Catasto foglio: </b>" + obj.catasto_foglio || null);
+        $("#json_catasto_particella").html("<b>Catasto particella: </b>" + obj.catasto_particella || null);
+        $("#json_comune").html("<b>Comune: </b>" + obj.comune || null);
+        $("#json_data_aggiornamento").html("<b>Data aggiornamento: </b>" + obj.data_aggiornamento || null);
+        $("#json_motiv_intervento").html("<b>Motivo Intervento: </b>" + obj.motiv_intervento || null);
+        $("#json_nome_compilatore").html("<b>Nome Compilatore: </b>" + obj.nome_compilatore || null);
 
         /*$("#popup_intervento h3").html(obj.tipo_intervento || null);
         $("#popup_intervento time").html(obj.data_compilazione || null);
@@ -156,13 +171,20 @@ function setting_info(data){
     }
 }
 
+
+
+
+
+
+
+
 function file_thumb(entry) {
     // TODO: correggere in 'data:image/jpeg;base64,' + entry["photo_thumb"];
     var thumb = (
             '<a href="' + SERVER_URL + 'static/' + entry["filename"] + '">'
         +   '   <img src="'
         +   (entry["photo_thumb"] ? 'data:image;base64,' + entry["photo_thumb"] : FILE_ICON) + '" '
-        +   '        alt="' + entry["file_description"] + '" />'
+        +   '" />'
         +   '</a>\n'
     )
     return thumb;
@@ -233,11 +255,11 @@ $(document).on('pageshow', '#info', function() {
     get_contents(last_visited_id);
 
     if(!logged_auth) {
-        $("#add_content").hide();
+        $("#addcontent").hide();
         $("#login_required").show();
     }
     else {
-        $("#add_content").show();
+        $("#addcontent").show();
         $("#login_required").hide();
     }
 });
@@ -252,11 +274,15 @@ function register(name, psw, email) {
         dataType: "json",
         contentType: "application/json",
         success: function(data) {
-            alert("Benvenuto " + name + "!\nAdesso puoi accedere");
-            $("form#user_data")[0].reset();
+            //alert("Benvenuto " + name + "!\nAdesso puoi accedere");
+            $("form#user_data_register")[0].reset();
+            $("#login_situation").html("Registrazione avvenuta! Adesso puoi loggarti!");
+            $("#register_error").empty();
+            $.mobile.changePage( "#login" );
         },
         error: function() {
-            alert("ops, something went wrong..");
+            //alert("ops, something went wrong..");
+            $("#register_error").html("Errore durante la registrazione! Campi errati!");
         }
     });
 }
@@ -274,12 +300,19 @@ function login(name, psw) {
             if(logged) {
                 logged_auth = auth;
                 logged_name = name;
-                alert("Ciao " + logged_name + "!");
+                //alert("Ciao " + logged_name + "!");
             }
-            $("form#user_data")[0].reset();
+            $("form#user_data_login")[0].reset();
+            $("#user_login").html("Utente loggato: " + name || null);
+            $("#user_login_info").html("Utente loggato: " + name || null);
+            $("#login_situation").empty();
+            $("#register_error").empty();
+            $.mobile.changePage( "#home" );
+            
         },
         error: function() {
-            alert("ops, something went wrong..");
+            //alert("ops, something went wrong..");
+            $("#login_situation").html("Errore durante il Login! Username e/o password errate!" || null)
         }
     });
 }
@@ -298,9 +331,14 @@ function post_a_comment(poi, comment) {
             console.log("comment published!");
             $("form#content_form")[0].reset();
             get_contents(poi);
+            $("#result_comment").html("Commento Aggiunto!" || null)
+            
         },
         error: function() {
             console.log("ops, something went wrong..");
+            $("#result_comment").html("Errore! Commento non pubblicato" || null)
+            $("#result_comment").empty();
+            
         }
     });
 }
@@ -401,7 +439,7 @@ function like(content_id, do_like) {
     });
 }
 
-function upload(poi, comment, form_data, file_description) {
+function upload(poi, comment, form_data) {
     var file_id = null;
 
     // posting announcement
@@ -415,14 +453,17 @@ function upload(poi, comment, form_data, file_description) {
             "poi": poi,
             "comment": comment,
             "upload_announcement": true,
-            "file_description": file_description
+            
         }),
         dataType: "json",
         contentType: "application/json",
         success: function(data) {
             console.log("file announced.");
             file_id = data["filename"];
+            $("form#content_form")[0].reset();
             upload2(poi, file_id, form_data);
+            $("#result_comment").html("Commento Aggiunto!" || null)
+            get_contents(poi);
         },
         error: function() {
             console.log("ops, something went wrong..");
@@ -446,8 +487,8 @@ function upload2(poi, file_id, form_data) {
         dataType: 'json',
         success: function() {
             console.log("file uploaded.");
-            $("form#content_form")[0].reset();
-            get_contents(poi);
+            
+            //get_contents(poi);
         },
         error: function(x, t, m) {
             console.log(t);

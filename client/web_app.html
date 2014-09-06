@@ -6,6 +6,9 @@
         <link rel="stylesheet" type="text/css" href="libs/jquery.mobile-1.4.2/jquery.mobile-1.4.2.css">
         <link rel="stylesheet" type="text/css" href="libs/leaflet-0.7.3/leaflet.css" />
         <link rel="stylesheet" type="text/css" href="style.css" />
+        <link rel="stylesheet" href="bottoni.css" />  
+        <!-- <link rel="stylesheet" href="jquery.mobile.icons.min.css" /> -->
+         
         <script type="text/javascript" src="libs/jquery-1.11.1.min.js"></script>
         <script type="text/javascript" src="libs/jquery.mobile-1.4.2/jquery.mobile-1.4.2.js"></script>
         <script type="text/javascript" src="libs/leaflet-0.7.3/leaflet.js"></script>
@@ -37,8 +40,7 @@
                     var comment = $('#content_form #comment').val();
                     if($('#content_form #file').val()) {
                         var form_data = new FormData($('#content_form')[0]);
-                        var file_decription = $('#content_form #description').val();
-                        upload(last_visited_id, comment, form_data, file_decription);
+                        upload(last_visited_id, comment, form_data);
                     }
                     else
                         post_a_comment(last_visited_id, comment)
@@ -56,7 +58,9 @@
             <div data-role="header" data-position="inline" >
                 <h1>Indiana Mapps</h1>
                 <a href="#login" data-role="button" class="ui-btn-right"  data-inline=”true” >Login</a>
-                //<a href="#credits" data-role="button"   data-inline=”true” >Credits</a>
+                <h2 class="ui-btn-left" id="user_login"></h2>
+                
+                <!--<a href="#credits" data-role="button"   data-inline=”true” >Credits</a> -->
             </div>
             <div data-role="content" >
                 <div id="map" class="map" ></div>
@@ -68,14 +72,31 @@
             <div data-role="header" >
                 <h1>Info</h1>
                 <a href="#home">Mappa</a>
+                <h2 class="ui-btn-right" id="user_login_info"></h2>
             </div>
 
             <div data role="content">
                 <div data-role="collapsible-set">
                     
-                    <div data-role="collapsible"  id="info_sito" data-collapsed-icon="arrow-d" data-expanded-icon="arrow-u" >
-                        <h3>MAGGIORI INFORMAZIONI</h3>
-                        <p id="more_info">
+                    <div data-role="collapsible" data-collapsed="false"  id="info_sito" data-collapsed-icon="arrow-d" data-expanded-icon="arrow-u" >
+                        <h4>MAGGIORI INFORMAZIONI</h4>
+                        <p class="more_info">
+                            <h3 id="json_definizione"></h3>
+                            <span id="json_ubicazione"></span>
+                            <span id="json_cronologia"></span>
+                        
+                        
+                            <span id="json_approvazione"></span>
+                            <span id="json_catasto_foglio"></span>
+                            <span id="json_catasto_particella"></span>
+                            <span id="json_comune"></span>
+                            <span id="json_data_aggiornamento"></span>
+                            <span id="json_motiv_intervento"></span>
+                            <span id="json_nome_compilatore"></span>
+                            
+                            
+                        
+                        
                             <h4>Descrizione approfondita:</h4><span id="descri"></span>
                             <hr />
                             <div id="bibliography">
@@ -100,7 +121,7 @@
                     </div>
                 
                     <div data-role="collapsible">
-                        <h3>AGGIUNGI UN CONTENUTO</h3>
+                        <h4>AGGIUNGI UN CONTENUTO</h4>
                         
                         <div id="addcontent">
                             <form id="content_form" method="post" enctype="multipart/form-data">
@@ -113,59 +134,91 @@
                                         <label for="file">Seleziona un file:</label>
                                         <input name="file" type="file" id="file">
                                     </fieldset>
-                                    <fieldset>
-                                        <label for="description">Descrivi il file:</label>
-                                        <input name="description" type="text" id="description">
-                                    </fieldset>
+                                    
                                 </div>
                                 <div data-role="fieldcontain">
-                                    <button id="upload" type="button" data-icon="comment">Pubblica</button>
+                                    <button id="upload" type="button" data-icon="comment" data-theme="d" >Pubblica</button>
                                 </div>
                             </form>
                         </div>
                         <div id="login_required">
                             fai login prima di aggiungere un contenuto:
-                            <a href="#login" data-role="button">Login</a>
+                            <a href="#login" data-role="button" data-theme="e">Login</a>
                         </div>
+                        <h2 id="result_comment"></h2>
                         
                     </div>
                 </div>
+                
             </div>
         </div>
 
-    <!-- ======================== LOGIN & REGISTER ======================== -->
+    <!-- ======================== LOGIN  ======================== -->
         <div data-role="page" id="login"  >
             <div data-role="header"  >
                 <a href="#" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-notext"></a>
+                <a href="#register" data-role="button" class="ui-btn-right"  data-inline=”true” >Register</a>
                 <h2>Login</h2>
+                
             </div>
             <div data-role="content">
-                <form name="login" id="user_data">
+                <form name="login" id="user_data_login">
                     <div data-role="fieldcontain" class="ui-hide-label">
                         <label for="username">Username:</label>
-                        <input type="text" name="name" id="name" value="" placeholder="Username" required/>
+                        <input type="text" name="name_login" id="name_login" value="" placeholder="Username" required/>
                     </div>
 
                     <div data-role="fieldcontain" class="ui-hide-label">
                         <label for="password">Password:</label>
-                        <input type="password" name="psw" id="psw" value="" placeholder="Password" required/>
+                        <input type="password" name="psw_login" id="psw_login" value="" placeholder="Password" required/>
                     </div>
 
-                    <input type="button" id="login_button" data-icon="check" value="Accedi">
-                
-                    <div data-role="collapsible" data-collapsed="true" data-theme="a" id="registration">
-                        <h3>Registrazione</h3>
-                        <p>Se non sei ancora registrato inserisci anche la tua email:</p>
-                        <div data-role="fieldcontain" class="ui-hide-label">
-                            <label for="email">email:</label>
-                            <input type="text" name="email" id="email" value="" placeholder="email" />
-                        </div>
+                    <input type="button" id="login_button" data-icon="check" value="Accedi" data-theme="d">
+                    <h2 id="login_situation"></h2>
+                    
 
-                        <input type="button" id="register_button" data-icon="edit" value="Registrati">
-                    </div>
                 </form>
             </div>
         </div>
+
+        
+
+        <!-- =========================== REGISTER =========================== -->
+
+        <div data-role="page" id="register"  >
+            <div data-role="header"  >
+                <a href="#" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-notext"></a>
+                <h2>Register</h2>
+            </div>
+            <div data-role="content">
+                <form name="register" id="user_data_register">
+                    <div data-role="fieldcontain" class="ui-hide-label">
+                        <label for="username">Username:</label>
+                        <input type="text" name="name_register" id="name_register" value="" placeholder="Username" required/>
+                    </div>
+
+                    <div data-role="fieldcontain" class="ui-hide-label">
+                        <label for="password">Password:</label>
+                        <input type="password" name="psw_register" id="psw_register" value="" placeholder="Password" required/>
+                    </div>
+
+                    <div data-role="fieldcontain" class="ui-hide-label">
+                            <label for="email">email:</label>
+                            <input type="text" name="email" id="email" value="" placeholder="email" />
+                    </div>
+
+                        <input type="button" id="register_button" data-icon="edit" data-theme="d" value="Registrati" >
+                    <h2 id="register_error"></h2>
+                    
+                   
+                </form>
+                
+            </div>
+            
+            
+        </div>
+
+        <!-- =========================== CREDITS =========================== -->
 
         <div data-role="page" id="credits"  >
             <div data-role="header"  >
