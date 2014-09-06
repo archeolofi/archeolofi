@@ -6,7 +6,7 @@ import unittest
 import indiserver
 
 
-class WritingToDatabase(unittest.TestCase):
+class UnitTests(unittest.TestCase):
 
     def setUp(self):
         pass
@@ -31,5 +31,4 @@ class WritingToDatabase(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    # make tests!
     unittest.main()
