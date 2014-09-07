@@ -11,6 +11,11 @@ var logged_auth = null;
 var last_visited_id = null;
 var last_visited_type = null;
 
+function ReloadPage() {
+
+   location.reload();
+
+};
 
 // HTML MANAGEMENT
 function read_form(type) {
@@ -41,7 +46,6 @@ function read_form(type) {
         return [name, psw, email];
     }
 }
-
 function pop_the_popup(data, e) {
     var obj = data.features[0].properties;
 
@@ -53,7 +57,6 @@ function pop_the_popup(data, e) {
         $("#popup_ritrovamento p").html(obj.descrizione_min || null);
         $("#popup_ritrovamento #periodo").html(obj.periodo_fine || null);
         $("#popup_ritrovamento #tipologia_ritrov").html(obj.tipologia_ritrov || null);
-
         popup.setContent(
             $("#popup_ritrovamento").html()
         );
@@ -87,6 +90,12 @@ function opengeo_make_link(link) {
 
 function display_opengeo(data) {
     // clean-up from the previous info displayed
+    
+    last_visited_id= data[0]["id_intervento"];
+    last_visited_type= "intervento";
+    
+    $("back_ritrovamento").hide();
+    
     $("#descri").empty();
     $("#bibliography").hide();
     $("#biblio").empty();
@@ -119,11 +128,6 @@ function display_opengeo(data) {
 }
 
 
-
-
-
-
-
 function setting_info(data){
     //inserimento informazioni base da json
     $("#descri").empty();
@@ -148,6 +152,17 @@ function setting_info(data){
             obj.data_inizio + " " + obj.cono_ac_dc + " - "
             + obj.data_fine + " " + obj.crono_ac_dc_fine || null
         );
+        
+        var obj = data.features[1].properties;
+        $("#json_ubicazione").html("<b>Ubicazione: </b>" + obj.ubicazione || null);
+        $("#json_approvazione").html("<b>Approvazione: </b>" + obj.approvazione || null);
+        $("#json_catasto_foglio").html("<b>Catasto foglio: </b>" + obj.catasto_foglio || null);
+        $("#json_catasto_particella").html("<b>Catasto particella: </b>" + obj.catasto_particella || null);
+        $("#json_comune").html("<b>Comune: </b>" + obj.comune || null);
+        $("#json_data_aggiornamento").html("<b>Data aggiornamento: </b>" + obj.data_aggiornamento || null);
+        $("#json_motiv_intervento").html("<b>Motivo Intervento: </b>" + obj.motiv_intervento || null);
+        $("#json_nome_compilatore").html("<b>Nome Compilatore: </b>" + obj.nome_compilatore || null);
+        $("#info_json_intervento").hide();
     }
     else {
         
@@ -160,22 +175,8 @@ function setting_info(data){
         $("#json_motiv_intervento").html("<b>Motivo Intervento: </b>" + obj.motiv_intervento || null);
         $("#json_nome_compilatore").html("<b>Nome Compilatore: </b>" + obj.nome_compilatore || null);
 
-        /*$("#popup_intervento h3").html(obj.tipo_intervento || null);
-        $("#popup_intervento time").html(obj.data_compilazione || null);
-        $("#popup_intervento #metodo").html(obj.metodo || null);
-        $("#popup_intervento #dir_scentifica").html(obj.dir_scentifica || null);
-        $("#popup_intervento #ente_resp").html(obj.ente_resp || null);
-        $("#popup_intervento #ente_schedatore").html(obj.ente_schedatore || null);
-        $("#popup_intervento #esecutore_intervento").html(obj.esecutore_intervento || null);
-        $("#popup_intervento #tipo_particella").html(obj.tipo_particella || null); */
     }
 }
-
-
-
-
-
-
 
 
 function file_thumb(entry) {
