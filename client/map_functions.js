@@ -11,7 +11,7 @@ L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             CC-BY-SA \
         </a>, \
         Imagery © <a href="http://mapbox.com">Mapbox</a>',
-    maxZoom: 25
+    maxZoom: 30
 }).addTo(map);
 
 map.locate({setView: true, maxZoom: 16});
@@ -34,15 +34,43 @@ map.on('locationerror', onLocationError);
 
 
 //////////// INSERIMENTO LAYER WMS SCAVI ARCHEOLOGICI ////////////
-var datilayer1 = L.tileLayer.wms(
-    'http://datigis.comune.fi.it/geoserver/wms?', {
-        layers: 'archeologia:scavi_archeo',
+var layer_interventi = L.tileLayer.wms(
+    'http://www.opengeo.eu:8080/geoserver/wms?', {
+        layers: 'topp:interventi',
         format: 'image/png',
         transparent: true,
-        attribution: ""
+        attribution: "",
+        maxZoom: '25',
+        minZoom: '15'
     }
 );
-datilayer1.addTo(map);
+//////////// INSERIMENTO LAYER WMS SCAVI ARCHEOLOGICI ////////////
+var layer_ritrovamenti_linee = L.tileLayer.wms(
+    'http://www.opengeo.eu:8080/geoserver/wms?', {
+        layers: 'topp:view_ritro_line',
+        format: 'image/png',
+        transparent: true,
+        attribution: "",
+        maxZoom: '25',
+        minZoom: '19'
+    }
+);
+//////////// INSERIMENTO LAYER WMS SCAVI ARCHEOLOGICI ////////////
+var layer_ritrovamenti_punti = L.tileLayer.wms(
+    'http://www.opengeo.eu:8080/geoserver/wms?', {
+        layers: 'topp:view_ritro_punti',
+        format: 'image/png',
+        transparent: true,
+        attribution: "",
+        maxZoom: '25',
+        minZoom: '19'
+    }
+);
+
+
+layer_interventi.addTo(map);
+layer_ritrovamenti_linee.addTo(map);
+layer_ritrovamenti_punti.addTo(map);
 
 
 /////// GESTIONE POPUP INFORMAZIONI TRAMITE CLICK SU MAPPA ///////
