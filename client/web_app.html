@@ -46,6 +46,22 @@
                         post_a_comment(last_visited_id, comment)
                 });
             });
+            
+            $(document).ready( function() {
+                $("#go_intervento").click( function() {
+                    
+                    $("#info_json_intervento").show();
+                    $("#info_json_ritrovamento").hide();
+                    $.mobile.changePage( "#info", 
+                                        { allowSamePageTransition: true } );
+                    $("#go_intervento").hide();
+                    
+                    
+                    
+                });
+            });
+            
+            
         </script>
 
         <!-- <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=no; target-densityDpi=device-dpi" /> -->
@@ -81,22 +97,25 @@
                             data-collapsed-icon="arrow-d" data-expanded-icon="arrow-u" >
                         <h4>MAGGIORI INFORMAZIONI</h4>
                         <p class="more_info">
-                            <h3 id="json_definizione"></h3>
+                       
+                            <button class="ui-btn ui-corner-all ui-btn-inline ui-btn-d" id="go_intervento" >Intervento</button>
                             <span id="json_ubicazione"></span>
-                            <span id="json_cronologia"></span>
-                        
-                        
-                            <span id="json_approvazione"></span>
-                            <span id="json_catasto_foglio"></span>
-                            <span id="json_catasto_particella"></span>
-                            <span id="json_comune"></span>
-                            <span id="json_data_aggiornamento"></span>
-                            <span id="json_motiv_intervento"></span>
-                            <span id="json_nome_compilatore"></span>
                             
+                            <div id="info_json_ritrovamento">
+                                <h3 id="json_definizione"></h3>
+                                <span id="json_cronologia"></span>
+                            </div>
+                                
+                            <div id="info_json_intervento">
+                                <span id="json_approvazione"></span>
+                                <span id="json_catasto_foglio"></span>
+                                <span id="json_catasto_particella"></span>
+                                <span id="json_comune"></span>
+                                <span id="json_data_aggiornamento"></span>
+                                <span id="json_motiv_intervento"></span>
+                                <span id="json_nome_compilatore"></span>
+                            </div>    
                             
-                        
-                        
                             <h4>Descrizione approfondita:</h4><span id="descri"></span>
                             <hr />
                             <div id="bibliography">
@@ -209,13 +228,8 @@
 
                         <input type="button" id="register_button" data-icon="edit" data-theme="d" value="Registrati" >
                     <h2 id="register_error"></h2>
-                    
-                   
                 </form>
-                
-            </div>
-            
-            
+            </div>    
         </div>
 
         <!-- =========================== CREDITS =========================== -->
