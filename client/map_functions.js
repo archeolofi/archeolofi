@@ -1,18 +1,15 @@
 ///////////////////// INSERIMENTO DELLA MAPPA /////////////////////
 var map = L.map('map')
 
-L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: 'Map data &copy; \
-        <a href="http://openstreetmap.org"> \
-            OpenStreetMap \
-        </a> \
-        contributors, \
-        <a href="http://creativecommons.org/licenses/by-sa/2.0/"> \
-            CC-BY-SA \
-        </a>, \
-        Imagery © <a href="http://mapbox.com">Mapbox</a>',
-    maxZoom: 30
-}).addTo(map);
+// http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
+L.tileLayer(
+    // 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    'http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png',
+    {
+        attribution: 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
+        maxZoom: 30
+    }
+).addTo(map);
 
 map.locate({setView: true, maxZoom: 16});
 
