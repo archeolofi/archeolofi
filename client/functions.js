@@ -186,7 +186,7 @@ function setting_info(data){
 function file_thumb(entry) {
     // TODO: correggere in 'data:image/jpeg;base64,' + entry["photo_thumb"];
     var thumb = (
-            '<a href="' + SERVER_URL + 'static/' + entry["filename"] + '">'
+            '<a href="' + SERVER_URL + 'contents/' + entry["filename"] + '">'
         +   '   <img src="'
         +   (entry["photo_thumb"] ? 'data:image;base64,' + entry["photo_thumb"] : FILE_ICON) + '" '
         +   '" />'
