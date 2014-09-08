@@ -36,7 +36,7 @@ ALLOWED_TYPES = [
     '.tgz', '.txz', '.ogg', '.oga', '.gz', ".psd", ".pdf"
 ]
 
-app = Flask(__name__, static_folder=CONTENTS)
+app = Flask(__name__, static_folder=CONTENTS, static_url_path='/contents')
 app.config['MAX_CONTENT_LENGTH'] = 64 * 1024 * 1024
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 db = flask.ext.sqlalchemy.SQLAlchemy(app)
