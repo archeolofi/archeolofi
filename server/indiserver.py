@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 #-*- coding: utf-8 -*-
 
-# library imports
 from flask import Flask, request, current_app, make_response
 from werkzeug.exceptions import RequestEntityTooLarge
 import flask.ext.restless as restless
@@ -15,15 +14,8 @@ import time
 import os
 import re
 
-# local imports
-from credentials import DATABASE_URL
-# OR, in Openshift:
-#DATABASE_URL = ''.join([
-#    "postgresql://",
-#    os.environ["OPENSHIFT_POSTGRESQL_DB_HOST"],
-#    ":",
-#    os.environ["OPENSHIFT_POSTGRESQL_DB_PORT"]
-#])
+from location import DATABASE_URL, CONTENTS, ID_FILE
+
 
 # HTTP service codes
 HTTP_OK = 200
@@ -32,7 +24,6 @@ HTTP_BAD_REQUEST = 400
 HTTP_NOT_FOUND = 404
 HTTP_CONFLICT = 409
 
-CONTENTS = "static/"
 IMAGE_TYPES = [
     ".bmp", ".dib", ".dcx", ".eps", ".ps", ".gif", ".im", ".jpg", ".jpe",
     ".jpeg", ".pcd", ".pcx", ".png", ".pbm", ".pgm", ".ppm", ".tif",
@@ -45,7 +36,7 @@ ALLOWED_TYPES = [
     '.tgz', '.txz', '.ogg', '.oga', '.gz', ".psd", ".pdf"
 ]
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder=CONTENTS)
 app.config['MAX_CONTENT_LENGTH'] = 64 * 1024 * 1024
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 db = flask.ext.sqlalchemy.SQLAlchemy(app)
@@ -298,11 +289,9 @@ def crossdomain(origin=None, methods=None, headers=None,
 
 
 class FileId(object):
-    CONFIG_FILE = "id.ini"
     last_file_id = -1
-
     try:
-        with open(CONFIG_FILE) as f:
+        with open(ID_FILE) as f:
             last_file_id = int(f.read())
     except (IOError, ValueError):
         pass
@@ -310,7 +299,7 @@ class FileId(object):
     @classmethod
     def get_new(cls):
         cls.last_file_id += 1
-        with open(cls.CONFIG_FILE, "w") as f:
+        with open(ID_FILE, "w") as f:
             f.write(str(cls.last_file_id))
         return cls.last_file_id
 

@@ -20,3 +20,6 @@ DATABASE_URL = ''.join([
     "/",
     db["database"]
 ])
+
+CONTENTS = "static/"
+ID_FILE = "id.ini"
