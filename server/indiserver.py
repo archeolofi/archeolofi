@@ -17,12 +17,13 @@ import re
 
 # local imports
 from credentials import DATABASE_URL
-#in Openshift will be:
-#DATABASE_URL = "postgresql://$OPENSHIFT_POSTGRESQL_DB_HOST:$OPENSHIFT_POSTGRESQL_DB_PORT"
-
-# TODO: remove
-from pdb import set_trace
-
+# OR, in Openshift:
+#DATABASE_URL = ''.join([
+#    "postgresql://",
+#    os.environ["OPENSHIFT_POSTGRESQL_DB_HOST"],
+#    ":",
+#    os.environ["OPENSHIFT_POSTGRESQL_DB_PORT"]
+#])
 
 # HTTP service codes
 HTTP_OK = 200
@@ -50,6 +51,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 db = flask.ext.sqlalchemy.SQLAlchemy(app)
 
 files_to_be_removed = {}
+
 
 def verify_password():
     try:
@@ -107,7 +109,8 @@ def create_app(config_mode=None, config_file=None):
 
     # pre/post-processors
     def debug(*args, **kwargs):
-        set_trace()
+        import pdb
+        pdb.set_trace()
 
     def validation(data={}, **kw):
         if not data["name"] or not data["psw"]:
@@ -293,6 +296,7 @@ def crossdomain(origin=None, methods=None, headers=None,
     return decorator
 #########################################
 
+
 class FileId(object):
     CONFIG_FILE = "id.ini"
     last_file_id = -1
@@ -430,7 +434,7 @@ def file_upload(file_id):
         im.thumbnail(size)
         tmp = "{}thumbnail_{}".format(CONTENTS, filename)
         im.save(tmp)
-    
+
         with open(tmp) as f:
             b64photo = b64encode(f.read())
 
@@ -466,4 +470,8 @@ def datagis_proxy(bbox, width, height, x, y):
 if __name__ == "__main__":
     create_app()
     db.create_all()
-    app.run(host="0.0.0.0", debug=True)         # TODO: remove debug=True
+
+    # local
+    app.run(host="0.0.0.0", debug=True)
+    # Openshift
+    #app.run()
