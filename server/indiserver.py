@@ -7,8 +7,8 @@ import flask.ext.restless as restless
 from passlib.hash import sha256_crypt
 from base64 import b64encode
 import flask.ext.sqlalchemy
+from PIL import Image
 import requests
-import Image
 import json
 import time
 import os
@@ -418,18 +418,22 @@ def file_upload(file_id):
 
     # save a base64 encoded thumbnail in the database
     if ext in IMAGE_TYPES:
-        size = (120, 120)
-        im = Image.open(filepath)
-        im.thumbnail(size)
-        tmp = "{}thumbnail_{}".format(CONTENTS, filename)
-        im.save(tmp)
+        try:
+            size = (120, 120)
+            im = Image.open(filepath)
+            im.thumbnail(size)
+            tmp = "{}thumbnail_{}".format(CONTENTS, filename)
+            im.save(tmp)
 
-        with open(tmp) as f:
-            b64photo = b64encode(f.read())
+            with open(tmp) as f:
+                b64photo = b64encode(f.read())
 
-        os.remove(tmp)
+            os.remove(tmp)
 
-        content.photo_thumb = b64photo
+            content.photo_thumb = b64photo
+        except IOError:
+            # decoder jpeg not available. Handle images as normal files.
+            pass
 
     content.file_description = original_name
     content.filename = filename

@@ -7,7 +7,7 @@ psycopg2>=2.5.3
 requests>=2.3.0
 
 Jinja2>=2.7.3
-PIL>=1.1.7
+Pillow>=2.5.3
 Werkzeug>=0.9.6
 itsdangerous>=0.24
 mimerender>=0.5.4
