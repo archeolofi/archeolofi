@@ -3,8 +3,8 @@ var map = L.map('map')
 
 // http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
 L.tileLayer(
-    // 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    'http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png',
+    'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    // 'http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png',
     {
         attribution: 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
         maxZoom: 30
