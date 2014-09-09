@@ -13,17 +13,16 @@ var MONTHS = [
 var logged_name = null;
 var logged_auth = null;
 var last_visited_id = null;
-var last_visited_type = null;
+var last_visited_type = null;   // "ritrovamento" or "intervento"
 var id_ritrovamento = null;
 var id_intervento = null;
 
-function ReloadPage() {
-
-   location.reload();
-
-};
 
 // HTML MANAGEMENT
+function ReloadPage() {
+   location.reload();
+}
+
 function read_form(type) {
     if(type == "login") {
         var name = $("#name_login").val();
@@ -294,12 +293,12 @@ function list_search_result(data) {
 
 $(document).on('pageshow', '#home', function() {
     if(!logged_auth) {
-        $(".user_logged").hide()
-        $(".user_unlogged").show()
+        $(".user_logged").hide();
+        $(".user_unlogged").show();
     }
     else {
-        $(".user_logged").show()
-        $(".user_unlogged").hide()
+        $(".user_logged").show();
+        $(".user_unlogged").hide();
     }
 });
 
@@ -311,12 +310,13 @@ $(document).on('pageshow', '#info', function() {
     get_contents(last_visited_id);
 
     if(!logged_auth) {
-        $(".user_logged").hide()
-        $(".user_unlogged").show()
+        $(".user_logged").hide();
+        $(".user_unlogged").show();
     }
     else {
-        $(".user_logged").show()
-        $(".user_unlogged").hide()
+        $(".user_logged").show();
+        $(".user_unlogged").hide();
+    }
 
     if(last_visited_type == "intervento") {
         $("#go_ritrovamento").show();
@@ -586,6 +586,7 @@ function ask_opengeo(type, id) {
         var prefix = "interv_id=";
     else
         return;
+
     $.getJSON(
         "http://opengeo.eu/archeofi2/api/archeofi_api.php?" + prefix + id + "&jsoncallback=?",
         function(data) {
