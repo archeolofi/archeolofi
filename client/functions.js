@@ -317,6 +317,14 @@ $(document).on('pageshow', '#info', function() {
     else {
         $(".user_logged").show()
         $(".user_unlogged").hide()
+
+    if(last_visited_type == "intervento") {
+        $("#go_ritrovamento").show();
+        $("#go_intervento").hide();
+    }
+    else {
+        $("#go_ritrovamento").hide();
+        $("#go_intervento").show();
     }
 });
 
