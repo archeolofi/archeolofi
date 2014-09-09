@@ -15,6 +15,10 @@ resettare:
 DROP DATABASE indiana;
 CREATE DATABASE indiana;
 
+rhc app stop indiana
+rhc cartridge start postgresql-9.2
+
+
 
 
 

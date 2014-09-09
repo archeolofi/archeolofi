@@ -324,12 +324,12 @@ function login(name, psw) {
 
             $("#login_situation").empty();
             $("#register_error").empty();
-            $.mobile.changePage( "#home" );
-            
+
+            // TODO: andare indietro a back, qui, invece che alla mappa
+            $.mobile.changePage("#home");
         },
         error: function() {
-            //alert("ops, something went wrong..");
-            $("#login_situation").html("Errore durante il Login! Username e/o password errate!" || null)
+            $("#login_situation").html("Errore durante il Login! Username e/o password errate!")
         }
     });
 }
