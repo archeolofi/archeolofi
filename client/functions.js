@@ -304,6 +304,8 @@ $(document).on('pageshow', '#home', function() {
 });
 
 $(document).on('pageshow', '#info', function() {
+    $("#test").html(last_visited_type + "    " +  last_visited_id);
+
     ask_opengeo(last_visited_type, last_visited_id);
     // TODO: risolvere problema doppi id
     get_contents(last_visited_id);
