@@ -112,10 +112,11 @@ function display_opengeo(data) {
 
     var bibliography = data[0]["bibliografia"];
     if(bibliography) {
+        var content = ""
         for(var i=0, l=bibliography.length; i<l; i++) {
-            var content = bibliography[i]["biblio"] + "&emsp;" + bibliography[i]["pagine"] + "<br />";
+            content += bibliography[i]["biblio"] + "&emsp;" + bibliography[i]["pagine"] + "<br />";
         }
-        $("#biblio").html( content);
+        $("#biblio").html(content);
         $("#bibliography").show();
     }
 
