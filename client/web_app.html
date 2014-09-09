@@ -88,6 +88,7 @@
     <!-- =========================== HOME: MAP! =========================== -->
         <div data-role="page" id="home">
             <div data-role="header" data-position="inline">
+                <a href="#search" data-role="button" class="ui-btn-left" data-icon="search" data-inline="true">cerca</a>
                 <h1>Indiana Mapps</h1>
                 <a href="#login" data-role="button" class="ui-btn-right user_unlogged" data-inline="true">Login</a>
                 <a href="#login" data-role="button" class="ui-btn-right user_logged username" data-inline="true"></a>
@@ -243,6 +244,58 @@
                         <input type="button" id="register_button" data-icon="edit" data-theme="d" value="Registrati" >
                     <h2 id="register_error"></h2>
                 </form>
+            </div>    
+        </div>
+
+
+        <!-- =========================== SEARCH =========================== -->
+        <script>
+            function set_search_placeholder(selected) {
+                if(selected.value == "by_position")
+                    $("#question").attr(
+                        "placeholder",
+                        "via dei Brunelleschi, piazza dei Davanzati..."
+                    );
+                else if(selected.value == "by_type")
+                    $("#question").attr(
+                        "placeholder",
+                        "torre, strada..."
+                    );
+            }
+
+            $(document).ready( function() {
+                $("#search_button").click( function() {
+                    var question = $("#question").val();
+                    var type = $("#search_type option:selected").val();
+                    remote_search(type, question);
+                });
+            });
+        </script>
+        <div data-role="page" id="search">
+            <div data-role="header">
+                <a href="#" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-notext"></a>
+                <h2>Ricerca</h2>
+                <a href="#login" data-role="button" class="ui-btn-right user_logged username" data-inline="true"></a>
+            </div>
+            <div data-role="content">
+                <form name="search" id="search">
+                    <div class="ui-field-contain ui-body ui-br" data-role="fieldcontain">
+                        <label class="select ui-select" for="search_type">
+                            Cerca per:
+                        </label>
+                        <select name="search_type" id="search_type" data-native-menu="false" data-overlay-theme="d"
+                                onchange="set_search_placeholder(this);">
+                            <option value="by_type" selected="selected">tipo</option>
+                            <option value="by_position">ubicazione</option>
+                        </select>
+                        <div data-role="fieldcontain" class="ui-hide-label">
+                            <input type="text" name="question" id="question" required/>
+                        </div>
+                        <input type="button" id="search_button" data-icon="search" data-theme="d" value="Cerca" />
+                    </div>
+                </form>
+                <div id="search_result">
+                </div>
             </div>    
         </div>
 

@@ -259,6 +259,39 @@ function display_contents(contents) {
     });
 }
 
+function list_search_result(data) {
+
+    for(var i=0, l=data.length; i<l; i++) {
+        $("#search_result").append(
+            '<table>'
+            +   '<tr>'
+            +   '   <td>definizione</td>'
+            +   '   <td>' + data[i]["def"] + '</td>'
+            +   '   <td rowspan="3">'
+            +   '       <input type="button" data-theme="d" data-icon="arrow-u" data-iconpos="notext"'
+            +   '               name="' + data[i]["id_ritrov"] + '" value="vai" />'
+            +   '   </td>'
+            +   '</tr>'
+            +   '<tr>'
+            +   '   <td>luogo</td>'
+            +   '   <td>' + data[i]["place"] + '</td>'
+            +   '</tr>'
+            +   '<tr>'
+            +   '   <td>tipo</td>'
+            +   '   <td>' + data[i]["tipo"] + '</td>'
+            +   '</tr>'
+            +'</table>'
+        );
+    }
+
+    $("#search_result input").click(function() {
+        last_visited_id = $(this).attr("name");
+        last_visited_type = "ritrovamento";
+        $.mobile.changePage("#info");
+        // $(this).pagecontainer("change", "#info");
+    });
+}
+
 $(document).on('pageshow', '#home', function() {
     if(!logged_auth) {
         $(".user_logged").hide()
@@ -548,6 +581,25 @@ function ask_opengeo(type, id) {
         function(data) {
             console.log(data);
             display_opengeo(data);
+        }
+    );
+}
+
+function remote_search(type, question) {
+    $("#search_result").html("");
+    console.log(type);
+    if(type == "by_position")
+        var prefix = "ubi";
+    else if(type == "by_type")
+        var prefix = "tipo";
+    else
+        return;
+
+    $.getJSON(
+        "http://opengeo.eu/archeofi2/api/archeofi_api.php?rit_search_" + prefix + "=" + question + "&jsoncallback=?",
+        function(data) {
+            console.log(data);
+            list_search_result(data);
         }
     );
 }
