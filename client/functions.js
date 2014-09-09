@@ -14,6 +14,8 @@ var logged_name = null;
 var logged_auth = null;
 var last_visited_id = null;
 var last_visited_type = null;
+var id_ritrovamento = null;
+var id_intervento = null;
 
 function ReloadPage() {
 
@@ -52,6 +54,8 @@ function read_form(type) {
 }
 function pop_the_popup(data, e) {
     var obj = data.features[0].properties;
+    id_ritrovamento = obj.id_ritrovamento;
+    id_intervento = obj.id_intervento;
 
     if(obj.id_ritrovamento != null) {
         last_visited_id = obj.id_ritrovamento;
@@ -94,9 +98,6 @@ function opengeo_make_link(link) {
 
 function display_opengeo(data) {
     // clean-up from the previous info displayed
-    
-    last_visited_id= data[0]["id_intervento"];
-    last_visited_type= "intervento";
     
     $("back_ritrovamento").hide();
     
@@ -150,6 +151,8 @@ function setting_info(data){
     var obj = data.features[0].properties;
     if(obj.id_ritrovamento != null) {
         
+        $("#go_intervento").show();
+        $("#go_ritrovamento").hide();
         $("#json_definizione").html(obj.tipologia_ritrov + ": " + obj.definizione);
         $("#json_ubicazione").html("<b>Ubicazione: </b>" + obj.precisazione_ubicazion || null);
         $("#json_cronologia").html("<b>Cronologia: </b>" +
@@ -169,7 +172,8 @@ function setting_info(data){
         $("#info_json_intervento").hide();
     }
     else {
-        
+        $("#go_intervento").hide();
+        $("#go_ritrovamento").show();
         $("#json_ubicazione").html("<b>Ubicazione: </b>" + obj.ubicazione || null);
         $("#json_approvazione").html("<b>Approvazione: </b>" + obj.approvazione || null);
         $("#json_catasto_foglio").html("<b>Catasto foglio: </b>" + obj.catasto_foglio || null);

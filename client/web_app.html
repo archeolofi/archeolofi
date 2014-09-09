@@ -48,17 +48,35 @@
             
             $(document).ready( function() {
                 $("#go_intervento").click( function() {
+                    last_visited_id = id_intervento;
+                    last_visited_type = "intervento";
                     
                     $("#info_json_intervento").show();
                     $("#info_json_ritrovamento").hide();
                     $.mobile.changePage( "#info", 
                                         { allowSamePageTransition: true } );
                     $("#go_intervento").hide();
+                    $("#go_ritrovamento").show();
                     
                     
-                    
+
                 });
             });
+            
+            $(document).ready( function() {
+                $("#go_ritrovamento").click( function() {
+                    last_visited_id = id_ritrovamento;
+                    last_visited_type = "ritrovamento";
+                    $("#info_json_intervento").hide()
+                    $("#info_json_ritrovamento").show()
+                    $.mobile.changePage( "#info", 
+                                        { allowSamePageTransition: true } );
+                    $("#go_ritrovamento").hide();
+                    $("#go_intervento").show();
+
+                });
+            });
+            
             
             
         </script>
@@ -89,14 +107,14 @@
             </div>
 
             <div data role="content">
-                <div data-role="collapsible-set">
-                    
-                    <div data-role="collapsible" data-collapsed="false"  id="info_sito"
-                            data-collapsed-icon="arrow-d" data-expanded-icon="arrow-u" >
-                        <h4>MAGGIORI INFORMAZIONI</h4>
-                        <p class="more_info">
-                       
+                
+                        <h3 class="ui-bar ui-bar-a ">MAGGIORI INFORMAZIONI</h3>
+                        
+                        <div id="info_sito" class="ui-body">
                             <button class="ui-btn ui-corner-all ui-btn-inline ui-btn-d" id="go_intervento" >Intervento</button>
+                            <button class="ui-btn ui-corner-all ui-btn-inline ui-btn-d" id="go_ritrovamento" >Ritrovamento</button>
+                       
+                            
                             <span id="json_ubicazione"></span>
                             
                             <div id="info_json_ritrovamento">
@@ -125,10 +143,10 @@
                                 <h4>Immagini:</h4>
                                 <span id="image"></span>
                             </div>
-                        </p>
-                    </div>
+                        </div>
+                    
+                <div data-role="collapsible-set">
 
-                
                     <div data-role="collapsible" id="layout_contents" data-collapsed-icon="arrow-d" data-expanded-icon="arrow-u">
                         <h4>CONTENUTI UTENTI</h4>
                             
