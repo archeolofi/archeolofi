@@ -173,7 +173,7 @@ function setting_info(data){
     }
     else {
         $("#go_intervento").hide();
-        $("#go_ritrovamento").show();
+        $("#go_ritrovamento").hide();
         $("#json_ubicazione").html("<b>Ubicazione: </b>" + obj.ubicazione || null);
         $("#json_approvazione").html("<b>Approvazione: </b>" + obj.approvazione || null);
         $("#json_catasto_foglio").html("<b>Catasto foglio: </b>" + obj.catasto_foglio || null);
@@ -318,14 +318,14 @@ $(document).on('pageshow', '#info', function() {
         $(".user_unlogged").hide();
     }
 
-    if(last_visited_type == "intervento") {
+    /*if(last_visited_type == "intervento") {
         $("#go_ritrovamento").show();
         $("#go_intervento").hide();
     }
     else {
         $("#go_ritrovamento").hide();
-        $("#go_intervento").show();
-    }
+        $("#go_intervento").show(); */
+     
 });
 
 
