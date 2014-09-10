@@ -185,4 +185,57 @@ span.inte {
     float:right;
 }
 
+#panel_legenda{
+    
+    float: left;
+    background-color: #eeeeee;
+    width: 30%;
 
+}
+
+#panel_legenda h4 {
+    float:left;
+    clear: both;
+    
+}
+
+#panel_legenda p {
+    float:left;
+    clear: both;
+    font-weight: bold;
+    
+}
+
+
+#close_legenda{
+    float:left;
+    clear: both;
+
+}
+
+#prova_legenda{
+    float: left;
+    clear: both;
+}
+
+#ritrovamenti_punti{
+    font-size: 80%;
+    float: left;
+    
+    
+}
+
+.dato_legenda{
+    float:left;
+}
+
+.imm_legenda{
+    
+    
+}
+
+.epoca_legenda{
+    
+    
+    
+}
