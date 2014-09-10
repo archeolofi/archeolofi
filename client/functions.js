@@ -520,6 +520,11 @@ function upload(comment, form_data) {
     var poi = make_poi();
     var file_id = null;
 
+    $.mobile.loading("show", {
+        text: "contattando il server",
+        textVisible: true,
+        theme: "d"
+    });
     // posting announcement
     $.ajax({
         type: "POST",
@@ -549,6 +554,10 @@ function upload(comment, form_data) {
 
 function upload2(poi, file_id, form_data) {
     // actually post the file
+    $.mobile.loading("show", {
+        text: "caricando il file",
+    });
+
     $.ajax({
         type: "POST",
         url: SERVER_URL + "api/file/" + file_id,
@@ -568,6 +577,9 @@ function upload2(poi, file_id, form_data) {
         },
         error: function(x, t, m) {
             console.log(t);
+        },
+        complete: function() {
+            $.mobile.loading("hide");
         }
     });
 }
