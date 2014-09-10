@@ -321,6 +321,10 @@ class IndianaUser(db.Model):
 
 
 class Content(db.Model):
+    """
+    poi > 0 for "ritrovamenti"
+    poi < 0 for "interventi"
+    """
     id_ = db.Column(
         db.Integer,
         primary_key=True

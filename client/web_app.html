@@ -39,10 +39,10 @@
                     var comment = $('#content_form #comment').val();
                     if($('#content_form #file').val()) {
                         var form_data = new FormData($('#content_form')[0]);
-                        upload(last_visited_id, comment, form_data);
+                        upload(comment, form_data);
                     }
                     else
-                        post_a_comment(last_visited_id, comment)
+                        post_a_comment(comment);
                 });
             });
             

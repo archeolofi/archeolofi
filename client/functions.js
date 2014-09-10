@@ -307,7 +307,7 @@ $(document).on('pageshow', '#info', function() {
 
     ask_opengeo(last_visited_type, last_visited_id);
     // TODO: risolvere problema doppi id
-    get_contents(last_visited_id);
+    get_contents();
 
     if(!logged_auth) {
         $(".user_logged").hide();
@@ -330,6 +330,13 @@ $(document).on('pageshow', '#info', function() {
 
 
 // INDIANA SERVER
+function make_poi() {
+    if(last_visited_type == "ritrovamento")
+        return last_visited_id;
+    else
+        return -last_visited_id;
+}
+
 function register(name, psw, email) {
     $.ajax({
         type: "POST",
@@ -382,7 +389,9 @@ function login(name, psw) {
     });
 }
 
-function post_a_comment(poi, comment) {
+function post_a_comment(comment) {
+    var poi = make_poi();
+
     $.ajax({
         type: "POST",
         url: SERVER_URL + "api/content",
@@ -395,7 +404,7 @@ function post_a_comment(poi, comment) {
         success: function() {
             console.log("comment published!");
             $("form#content_form")[0].reset();
-            get_contents(poi);
+            get_contents();      // refresh
             $("#result_comment").html("Commento Aggiunto!" || null)
             
         },
@@ -408,7 +417,10 @@ function post_a_comment(poi, comment) {
     });
 }
 
-function get_contents(poi) {
+function get_contents() {
+    poi = make_poi();
+    console.log("poi: ", poi);
+
     $.ajax({
         type: "GET",
         url: SERVER_URL + "api/content",
@@ -504,7 +516,8 @@ function like(content_id, do_like) {
     });
 }
 
-function upload(poi, comment, form_data) {
+function upload(comment, form_data) {
+    var poi = make_poi();
     var file_id = null;
 
     // posting announcement
@@ -527,8 +540,6 @@ function upload(poi, comment, form_data) {
             file_id = data["filename"];
             $("form#content_form")[0].reset();
             upload2(poi, file_id, form_data);
-            $("#result_comment").html("Commento Aggiunto!" || null)
-            get_contents(poi);
         },
         error: function() {
             console.log("ops, something went wrong..");
@@ -552,8 +563,8 @@ function upload2(poi, file_id, form_data) {
         dataType: 'json',
         success: function() {
             console.log("file uploaded.");
-            
-            //get_contents(poi);
+            $("#result_comment").html("Commento Aggiunto!")
+            get_contents();      // refresh
         },
         error: function(x, t, m) {
             console.log(t);
