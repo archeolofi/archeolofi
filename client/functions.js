@@ -13,17 +13,16 @@ var MONTHS = [
 var logged_name = null;
 var logged_auth = null;
 var last_visited_id = null;
-var last_visited_type = null;
+var last_visited_type = null;   // "ritrovamento" or "intervento"
 var id_ritrovamento = null;
 var id_intervento = null;
 
-function ReloadPage() {
-
-   location.reload();
-
-};
 
 // HTML MANAGEMENT
+function ReloadPage() {
+   location.reload();
+}
+
 function read_form(type) {
     if(type == "login") {
         var name = $("#name_login").val();
@@ -112,10 +111,11 @@ function display_opengeo(data) {
 
     var bibliography = data[0]["bibliografia"];
     if(bibliography) {
+        var content = ""
         for(var i=0, l=bibliography.length; i<l; i++) {
-            var content = bibliography[i]["biblio"] + "&emsp;" + bibliography[i]["pagine"] + "<br />";
+            content += bibliography[i]["biblio"] + "&emsp;" + bibliography[i]["pagine"] + "<br />";
         }
-        $("#biblio").html( content);
+        $("#biblio").html(content);
         $("#bibliography").show();
     }
 
@@ -258,29 +258,73 @@ function display_contents(contents) {
     });
 }
 
+function list_search_result(data) {
+
+    for(var i=0, l=data.length; i<l; i++) {
+        $("#search_result").append(
+            '<table>'
+            +   '<tr>'
+            +   '   <td>definizione</td>'
+            +   '   <td>' + data[i]["def"] + '</td>'
+            +   '   <td rowspan="3">'
+            +   '       <input type="button" data-theme="d" data-icon="arrow-u" data-iconpos="notext"'
+            +   '               name="' + data[i]["id_ritrov"] + '" value="vai" />'
+            +   '   </td>'
+            +   '</tr>'
+            +   '<tr>'
+            +   '   <td>luogo</td>'
+            +   '   <td>' + data[i]["place"] + '</td>'
+            +   '</tr>'
+            +   '<tr>'
+            +   '   <td>tipo</td>'
+            +   '   <td>' + data[i]["tipo"] + '</td>'
+            +   '</tr>'
+            +'</table>'
+        );
+    }
+
+    $("#search_result input").click(function() {
+        last_visited_id = $(this).attr("name");
+        last_visited_type = "ritrovamento";
+        $.mobile.changePage("#info");
+        // $(this).pagecontainer("change", "#info");
+    });
+}
+
 $(document).on('pageshow', '#home', function() {
     if(!logged_auth) {
-        $(".user_logged").hide()
-        $(".user_unlogged").show()
+        $(".user_logged").hide();
+        $(".user_unlogged").show();
     }
     else {
-        $(".user_logged").show()
-        $(".user_unlogged").hide()
+        $(".user_logged").show();
+        $(".user_unlogged").hide();
     }
 });
 
 $(document).on('pageshow', '#info', function() {
+    $("#test").html(last_visited_type + "    " +  last_visited_id);
+
     ask_opengeo(last_visited_type, last_visited_id);
     // TODO: risolvere problema doppi id
     get_contents(last_visited_id);
 
     if(!logged_auth) {
-        $(".user_logged").hide()
-        $(".user_unlogged").show()
+        $(".user_logged").hide();
+        $(".user_unlogged").show();
     }
     else {
-        $(".user_logged").show()
-        $(".user_unlogged").hide()
+        $(".user_logged").show();
+        $(".user_unlogged").hide();
+    }
+
+    if(last_visited_type == "intervento") {
+        $("#go_ritrovamento").show();
+        $("#go_intervento").hide();
+    }
+    else {
+        $("#go_ritrovamento").hide();
+        $("#go_intervento").show();
     }
 });
 
@@ -328,12 +372,12 @@ function login(name, psw) {
 
             $("#login_situation").empty();
             $("#register_error").empty();
-            $.mobile.changePage( "#home" );
-            
+
+            // TODO: andare indietro a back, qui, invece che alla mappa
+            $.mobile.changePage("#home");
         },
         error: function() {
-            //alert("ops, something went wrong..");
-            $("#login_situation").html("Errore durante il Login! Username e/o password errate!" || null)
+            $("#login_situation").html("Errore durante il Login! Username e/o password errate!")
         }
     });
 }
@@ -542,11 +586,31 @@ function ask_opengeo(type, id) {
         var prefix = "interv_id=";
     else
         return;
+
     $.getJSON(
         "http://opengeo.eu/archeofi2/api/archeofi_api.php?" + prefix + id + "&jsoncallback=?",
         function(data) {
             console.log(data);
             display_opengeo(data);
+        }
+    );
+}
+
+function remote_search(type, question) {
+    $("#search_result").html("");
+    console.log(type);
+    if(type == "by_position")
+        var prefix = "ubi";
+    else if(type == "by_type")
+        var prefix = "tipo";
+    else
+        return;
+
+    $.getJSON(
+        "http://opengeo.eu/archeofi2/api/archeofi_api.php?rit_search_" + prefix + "=" + question + "&jsoncallback=?",
+        function(data) {
+            console.log(data);
+            list_search_result(data);
         }
     );
 }

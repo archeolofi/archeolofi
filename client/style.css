@@ -185,6 +185,7 @@ span.inte {
     float:right;
 }
 
+
 #panel_legenda{
     
     float: left;
@@ -239,3 +240,8 @@ span.inte {
     
     
 }
+/* TODO: uncomment
+#test {
+    display: none;
+}
+*/
