@@ -13,7 +13,7 @@ var MONTHS = [
 var logged_name = null;
 var logged_auth = null;
 var last_visited_id = null;
-var last_visited_type = null;   // "ritrovamento" or "intervento"
+var last_visited_type = null;   // "ritrovamento" || "intervento"
 var last_popupped_data = null;
 
 // HTML MANAGEMENT
@@ -49,6 +49,7 @@ function read_form(type) {
         return [name, psw, email];
     }
 }
+
 function pop_the_popup(data, e) {
     var obj = data.features[0].properties;
     last_popupped_data = obj;
@@ -61,6 +62,7 @@ function pop_the_popup(data, e) {
         $("#popup_ritrovamento p").html(obj.descrizione_min || null);
         $("#popup_ritrovamento #periodo").html(obj.periodo_fine || null);
         $("#popup_ritrovamento #tipologia_ritrov").html(obj.tipologia_ritrov || null);
+
         popup.setContent(
             $("#popup_ritrovamento").html()
         );
@@ -342,6 +344,9 @@ function check_log() {
     }
 }
 
+// TODO: $(document).bind("pagebeforechange", function() {})
+// pagechange
+// pagechangefailed
 $(document).on('pagebeforeshow', '#home', function() {
     check_log();
 });
@@ -617,6 +622,8 @@ function upload2(poi, file_id, form_data) {
             console.log("file uploaded.");
             $("#result_comment").html("Contenuto aggiunto!")
             get_contents();      // refresh
+            // TODO: collapsible plugin?!
+            // $( "#layout_contents" ).trigger( "expand" );
         },
         error: function(x, t, m) {
             console.log(t);
