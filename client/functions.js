@@ -124,7 +124,7 @@ function display_opengeo(data) {
         for(var i=0, l=images.length; i<l; i++) {
             var link = opengeo_make_link(images[i]["link"]);
             var thumb = opengeo_make_link(images[i]["thumbnail"]);
-            $("#image").append( "<a href='" + link + "' > \
+            $("#image").append( "<a href='" + link + "' download> \
                     <img src='" + thumb + "'' alt='" + images[i]["descr"] + "'' /> \
                 </a>");
         }
@@ -306,7 +306,6 @@ $(document).on('pagebeforeshow', '#info', function() {
     $("#test").html(last_visited_type + "    " +  last_visited_id);
 
     ask_opengeo(last_visited_type, last_visited_id);
-    // TODO: risolvere problema doppi id
     get_contents();
 
     if(!logged_auth) {
@@ -405,14 +404,12 @@ function post_a_comment(comment) {
             console.log("comment published!");
             $("form#content_form")[0].reset();
             get_contents();      // refresh
-            $("#result_comment").html("Commento Aggiunto!" || null)
-            
+            $("#result_comment").html("Commento aggiunto!")
         },
         error: function() {
             console.log("ops, something went wrong..");
-            $("#result_comment").html("Errore! Commento non pubblicato" || null)
+            $("#result_comment").html("Errore! Commento non pubblicato")
             $("#result_comment").empty();
-            
         }
     });
 }
@@ -572,7 +569,7 @@ function upload2(poi, file_id, form_data) {
         dataType: 'json',
         success: function() {
             console.log("file uploaded.");
-            $("#result_comment").html("Commento Aggiunto!")
+            $("#result_comment").html("Contenuto aggiunto!")
             get_contents();      // refresh
         },
         error: function(x, t, m) {

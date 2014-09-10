@@ -57,9 +57,6 @@
                                         { allowSamePageTransition: true } );
                     $("#go_intervento").hide();
                     $("#go_ritrovamento").show();
-                    
-                    
-
                 });
             });
             
@@ -73,12 +70,9 @@
                                         { allowSamePageTransition: true } );
                     $("#go_ritrovamento").hide();
                     $("#go_intervento").show();
-
                 });
             });
-            
-            
-            
+
         </script>
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -118,7 +112,7 @@
             <div data-role="header" data-position="inline">
                 <a href="#search" data-role="button" class="ui-btn-left" data-icon="search" data-inline="true">cerca</a>
                 <h1>Indiana Mapps</h1>
-                <a href="#login" data-role="button" class="ui-btn-right user_unlogged" data-inline="true">Login</a>
+                <a href="#login" data-role="button" class="ui-btn-right user_unlogged" data-inline="true">login</a>
                 <a href="#login" data-role="button" class="ui-btn-right ui-btn-inline user_logged username" data-inline="true"></a>
                 <a href="#panel_legenda" class="ui-btn-left ui-btn ui-corner-all ui-shadow ui-btn-inline">Legenda</a>
                 
@@ -133,7 +127,7 @@
             <div data-role="header">
                 <h1>Info</h1>
                 <a href="#home" class="ui-btn-left">Mappa</a>
-                <a href="#login" data-role="button" class="ui-btn-right user_unlogged" data-inline="true">Login</a>
+                <a href="#login" data-role="button" class="ui-btn-right user_unlogged" data-inline="true">login</a>
                 <a href="#login" data-role="button" class="ui-btn-right user_logged username" data-inline="true"></a>
             </div>
 
@@ -181,13 +175,11 @@
 
                     <div data-role="collapsible" id="layout_contents" data-collapsed-icon="arrow-d" data-expanded-icon="arrow-u">
                         <h4>CONTENUTI UTENTI</h4>
-                            
-                            <div id="contents"></div>
-                            <p id="important">è importante la tua opinione e esperienza: commenta!</p>
-                  
+                        <div id="contents"></div>
+                        <p id="important">è importante la tua opinione e esperienza: commenta!</p>
                     </div>
                 
-                    <div data-role="collapsible">
+                    <div data-role="collapsible" id="collaps_add_cnt">
                         <h4>AGGIUNGI UN CONTENUTO</h4>
                         
                         <div id="addcontent" class="user_logged">
@@ -204,13 +196,13 @@
                                     
                                 </div>
                                 <div data-role="fieldcontain">
-                                    <button id="upload" type="button" data-icon="comment" data-theme="d" >Pubblica</button>
+                                    <button id="upload" type="button" data-icon="comment" data-theme="d">Pubblica</button>
                                 </div>
                             </form>
                         </div>
                         <div id="login_required" class="user_unlogged">
                             fai login prima di aggiungere un contenuto:
-                            <a href="#login" data-role="button" data-theme="e">Login</a>
+                            <a href="#login" data-role="button" data-theme="e">login</a>
                         </div>
                         <h2 id="result_comment"></h2>
                         
@@ -224,7 +216,7 @@
         <div data-role="page" id="login"  >
             <div data-role="header"  >
                 <a href="#" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-notext"></a>
-                <a href="#register" data-role="button" class="ui-btn-right"  data-inline=”true” >Register</a>
+                <a href="#register" data-role="button" class="ui-btn-right"  data-inline=”true” >registrati</a>
                 <h2>Login</h2>
                 
             </div>
@@ -281,6 +273,7 @@
 
         <!-- =========================== SEARCH =========================== -->
         <script>
+
             function set_search_placeholder(selected) {
                 if(selected.value == "by_position")
                     $("#question").attr(
