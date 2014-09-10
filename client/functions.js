@@ -291,7 +291,7 @@ function list_search_result(data) {
     });
 }
 
-$(document).on('pageshow', '#home', function() {
+$(document).on('pagebeforeshow', '#home', function() {
     if(!logged_auth) {
         $(".user_logged").hide();
         $(".user_unlogged").show();
@@ -302,7 +302,7 @@ $(document).on('pageshow', '#home', function() {
     }
 });
 
-$(document).on('pageshow', '#info', function() {
+$(document).on('pagebeforeshow', '#info', function() {
     $("#test").html(last_visited_type + "    " +  last_visited_id);
 
     ask_opengeo(last_visited_type, last_visited_id);
