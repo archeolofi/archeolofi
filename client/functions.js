@@ -95,16 +95,87 @@ function opengeo_make_link(link) {
     return link.replace("/home/archeofi/homes", "http://opengeo.eu/archeofi2");
 }
 
-function display_opengeo(data) {
+function display_opengeo(data, back_id) {
     // clean-up from the previous info displayed
     
     $("back_ritrovamento").hide();
     
+    $("#basic_info").html("");
     $("#descri").empty();
     $("#bibliography").hide();
     $("#biblio").empty();
     $("#gallery").hide();
     $("#image").empty();
+
+    // basic info
+    if(last_visited_type == "ritrovamento") {
+        $("#basic_info").html(
+            '<table>'
+            + '    <tr>'
+            + '        <td>tipo</td>'
+            + '        <td>' + data[0]["tipo"] + '</td>'
+            + '    </tr>'
+            + '    <tr>'
+            + '        <td>definizione</td>'
+            + '        <td>' + data[0]["def"] + '</td>'
+            + '    </tr>'
+            + '    <tr>'
+            + '        <td>inizio</td>'
+            + '        <td>'
+            +             data[0]["sec_inizio_1"] + data[0]["sec_inizio_2"] + ' ' + data[0]["sec_inizio_3"]
+            + '        </td>'
+            + '    </tr>'
+            + '    <tr>'
+            + '        <td>fine</td>'
+            + '        <td>'
+            +             data[0]["sec_fine_1"] + data[0]["sec_fine_2"] + ' ' + data[0]["sec_fine_3"]
+            + '        </td>'
+            + '    </tr>'
+            + '    <tr>'
+            + '        <td>ubicazione</td>'
+            + '        <td>' + data[0]["ubicaz"] + '</td>'
+            + '    </tr>'
+            + '</table>'
+            + 'vedi l\' <input type="button" data-theme="d" data-icon="arrow-u" data-iconpos="notext"'
+            + '                value="area di intervento" />'
+        );
+
+        $("#basic_info input").click(function() {
+            last_visited_id = data[0]["id_intervento"];
+            last_visited_type = "intervento";
+            prepare_info(data[0]["id_ritrov"]);
+        });
+    }
+    else {
+        $("#basic_info").html(
+            '<table>'
+            + '    <tr>'
+            + '        <td>tipo</td>'
+            + '        <td>' + data[0]["tipo"] + '</td>'
+            + '    </tr>'
+            + '    <tr>'
+            + '        <td>inizio</td>'
+            + '        <td>' + data[0]["inizio"] + '</td>'
+            + '    </tr>'
+            + '    <tr>'
+            + '        <td>fine</td>'
+            + '        <td>' + data[0]["fine"] + '</td>'
+            + '    </tr>'
+            + '</table>'
+        );
+        if(back_id) {
+            $("#basic_info").append(
+                'torna al <input type="button" data-theme="d" data-icon="arrow-u" data-iconpos="notext"'
+            + '                  value="ritrovamento" />'
+            );
+
+            $("#basic_info input").click(function() {
+                last_visited_id = back_id;
+                last_visited_type = "ritrovamento";
+                prepare_info();
+            });
+        }
+    }
 
     // add new infos
     $("#descri").html(data[0]["descr"]);
@@ -172,8 +243,8 @@ function setting_info(data){
         $("#info_json_intervento").hide();
     }
     else {
-        $("#go_intervento").hide();
-        $("#go_ritrovamento").hide();
+        // $("#go_intervento").hide();
+        // $("#go_ritrovamento").hide();
         $("#json_ubicazione").html("<b>Ubicazione: </b>" + obj.ubicazione || null);
         $("#json_approvazione").html("<b>Approvazione: </b>" + obj.approvazione || null);
         $("#json_catasto_foglio").html("<b>Catasto foglio: </b>" + obj.catasto_foglio || null);
@@ -302,10 +373,10 @@ $(document).on('pagebeforeshow', '#home', function() {
     }
 });
 
-$(document).on('pagebeforeshow', '#info', function() {
+function prepare_info(back_id) {
     $("#test").html(last_visited_type + "    " +  last_visited_id);
 
-    ask_opengeo(last_visited_type, last_visited_id);
+    ask_opengeo(last_visited_type, last_visited_id, back_id);
     get_contents();
 
     if(!logged_auth) {
@@ -316,15 +387,10 @@ $(document).on('pagebeforeshow', '#info', function() {
         $(".user_logged").show();
         $(".user_unlogged").hide();
     }
+}
 
-    /*if(last_visited_type == "intervento") {
-        $("#go_ritrovamento").show();
-        $("#go_intervento").hide();
-    }
-    else {
-        $("#go_ritrovamento").hide();
-        $("#go_intervento").show(); */
-     
+$(document).on('pagebeforeshow', '#info', function() {
+    prepare_info();
 });
 
 
@@ -416,7 +482,7 @@ function post_a_comment(comment) {
 
 function get_contents() {
     poi = make_poi();
-    console.log("poi: ", poi);
+    console.log("contents poi: ", poi);
 
     $.ajax({
         type: "GET",
@@ -589,7 +655,7 @@ function wms_proxy(bbox, width, height, x, y, e) {
             console.log("proxied.");
             console.log(data);
             pop_the_popup(data, e);
-            setting_info(data); // aggiunta
+            setting_info(data);
         },
         error: function() {
             console.log("ops, something went wrong..");
@@ -599,7 +665,7 @@ function wms_proxy(bbox, width, height, x, y, e) {
 
 
 // OPENGEO SERVER
-function ask_opengeo(type, id) {
+function ask_opengeo(type, id, back_id) {
     if(type == "ritrovamento")
         var prefix = "rit_id=";
     else if(type == "intervento")
@@ -610,8 +676,8 @@ function ask_opengeo(type, id) {
     $.getJSON(
         "http://opengeo.eu/archeofi2/api/archeofi_api.php?" + prefix + id + "&jsoncallback=?",
         function(data) {
-            console.log(data);
-            display_opengeo(data);
+            console.log("opengeo: ", data);
+            display_opengeo(data, back_id);
         }
     );
 }
