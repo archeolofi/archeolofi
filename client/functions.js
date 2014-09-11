@@ -262,28 +262,31 @@ function list_search_result(data) {
 
     for(var i=0, l=data.length; i<l; i++) {
         $("#search_result").append(
-            '<table>'
-            +   '<tr>'
-            +   '   <td>definizione</td>'
-            +   '   <td>' + data[i]["def"] + '</td>'
-            +   '   <td rowspan="3">'
-            +   '       <input type="button" data-theme="d" data-icon="arrow-u" data-iconpos="notext"'
-            +   '               name="' + data[i]["id_ritrov"] + '" value="vai" />'
-            +   '   </td>'
-            +   '</tr>'
-            +   '<tr>'
-            +   '   <td>luogo</td>'
-            +   '   <td>' + data[i]["place"] + '</td>'
-            +   '</tr>'
-            +   '<tr>'
-            +   '   <td>tipo</td>'
-            +   '   <td>' + data[i]["tipo"] + '</td>'
-            +   '</tr>'
-            +'</table>'
+            '<div class="layout_table">'
+            +   '<table class="table_search" data-role="table" data-mode="reflow" class="ui-responsive">'
+            +       '<tr>'
+            +       '   <td><b>definizione</b></td>'
+            +       '   <td class="date_table">' + data[i]["def"] + '</td>'
+            +       '</tr>'
+            +       '<tr>'
+            +       '   <td><b>luogo</b></td>'
+            +       '   <td class="date_table">' + data[i]["place"] + '</td>'
+            +       '</tr>'
+            +       '<tr>'
+            +       '   <td><b>tipo</b></td>'
+            +       '   <td class="date_table">' + data[i]["tipo"] + '</td>'
+            +       '</tr>'
+            +   '</table>'
+            +   '<button data-icon="arrow-r" class="ui-btn ui-shadow ui-corner-all ui-icon-arrow-r ui-btn-icon-notext "    '
+            +       '               name="' + data[i]["id_ritrov"] + '" value="vai" ></button>'
+            +'</div>'
         );
     }
 
-    $("#search_result input").click(function() {
+    /* '       <button data-icon="arrow-r" class="ui-btn ui-shadow ui-corner-all ui-icon-arrow-r ui-btn-icon-notext "    '
+            +       '               name="' + data[i]["id_ritrov"] + '" value="vai" ></button>' */
+    
+    $("#search_result button").click(function() {
         last_visited_id = $(this).attr("name");
         last_visited_type = "ritrovamento";
         $.mobile.changePage("#info");
@@ -304,6 +307,7 @@ $(document).on('pagebeforeshow', '#home', function() {
 
 $(document).on('pagebeforeshow', '#info', function() {
     $("#test").html(last_visited_type + "    " +  last_visited_id);
+    $("#result_comment").hide();
 
     ask_opengeo(last_visited_type, last_visited_id);
     get_contents();
@@ -317,13 +321,11 @@ $(document).on('pagebeforeshow', '#info', function() {
         $(".user_unlogged").hide();
     }
 
-    /*if(last_visited_type == "intervento") {
-        $("#go_ritrovamento").show();
-        $("#go_intervento").hide();
-    }
-    else {
+    if(last_visited_type == "ritrovamento") {
         $("#go_ritrovamento").hide();
-        $("#go_intervento").show(); */
+        $("#go_intervento").show();
+    }
+    
      
 });
 
@@ -569,7 +571,9 @@ function upload2(poi, file_id, form_data) {
         dataType: 'json',
         success: function() {
             console.log("file uploaded.");
-            $("#result_comment").html("Contenuto aggiunto!")
+            
+            $("#result_comment").html("Contenuto aggiunto!");
+            
             get_contents();      // refresh
         },
         error: function(x, t, m) {

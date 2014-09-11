@@ -35,11 +35,14 @@
 
             $(function() {
                 $('#upload').click(function() {
+                    $("#result_comment").show();
+                    
                     console.log($('#content_form'));
                     var comment = $('#content_form #comment').val();
                     if($('#content_form #file').val()) {
                         var form_data = new FormData($('#content_form')[0]);
                         upload(comment, form_data);
+                        
                     }
                     else
                         post_a_comment(comment);
@@ -81,44 +84,50 @@
     <body>
     <!-- =========================== HOME: MAP! =========================== -->
         <div data-role="page" id="home">
-            
-            
-            <div data-role="panel" id="panel_legenda" data-display="overlay" data-dismissible="false" data-swipe-close="false">
-                <a data-rel="close" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
-                
-
-                <p>Ritrovamenti</p>
-                <div id="ritrovamenti_punti">
-                    <div class="dato_legenda">
-                        <img class="imm_legenda" src="images/X_rossa.png" /><span class="epoca_legenda">età medievale</span>
-                    </div>
-                    <div class="dato_legenda">
-                        <img class="imm_legenda" src="images/X_marrone.png" /><span class="epoca_legenda">età romana</span>
-                    </div>
-                    <div class="dato_legenda">
-                        <img class="imm_legenda" src="images/X_grigia.png" /><span class="epoca_legenda">età pre_romana</span>
-                    </div> 
-                </div>
-                <p>Ritrovamenti</p>
-                <div id="intervento">
-                    <div class="dato_legenda">
-                        <img class="imm_legenda" src="images/area_intervento.png" /><span class="epoca_legenda">area intervento</span>
-                    </div>  
-                </div>
-                
-            </div><!-- /panel -->
-            
-            
-            <div data-role="header" data-position="inline">
+            <div data-role="header" >
                 <a href="#search" data-role="button" class="ui-btn-left" data-icon="search" data-inline="true">cerca</a>
                 <h1>Indiana Mapps</h1>
                 <a href="#login" data-role="button" class="ui-btn-right user_unlogged" data-inline="true">login</a>
                 <a href="#login" data-role="button" class="ui-btn-right ui-btn-inline user_logged username" data-inline="true"></a>
                 
             </div>
-            <div data-role="content">
+            
+            <div data-role="content" id="content_map">
                 <div id="map" class="map" ></div>
-                <a href="#panel_legenda" class="ui-btn-left ui-btn ui-corner-all ui-shadow ui-btn-inline">legenda</a>
+                
+            </div>
+            <div data-theme="a" data-role="footer" data-position="fixed">
+                <div id="legenda_field">
+                    <div class="dato_legenda">
+                        <img class="imm_legenda" src="images/area_intervento.png" /><span class="epoca_legenda">area intervento</span>
+                    </div>  
+                    <div class="dato_legenda">
+                        <img class="imm_legenda" src="images/X_grigia.png" /><span class="epoca_legenda">età pre_romana</span>
+                    </div>
+                </div>
+                <div id="legenda_field">
+                    <div class="dato_legenda">
+                        <img class="imm_legenda" src="images/X_rossa.png" />
+                        <img class="imm_legenda" src="images/linea_rossa.png" />
+                        <span class="epoca_legenda">età medievale</span>
+                    </div>
+                    <div class="dato_legenda">
+                        <img class="imm_legenda" src="images/X_marrone.png" />
+                        <img class="imm_legenda" src="images/linea_marrone.png" />
+                        <span class="epoca_legenda">età romana</span>
+                    </div>
+                </div>
+                <div id="legenda_field">
+                    <div class="dato_legenda">
+                        <img class="imm_legenda" src="images/X_oro.png" /><span class="epoca_legenda">Non Determinabile</span>
+                    </div>
+                    <div class="dato_legenda">
+                        <img class="imm_legenda" src="images/X_grigioscuro.png" />
+                        <img class="imm_legenda" src="images/linea_grigia.png" />
+                        <span class="epoca_legenda">età moderna</span>
+                    </div>
+                </div>
+                
             </div>
         </div>
 
@@ -304,14 +313,14 @@
             <div data-role="content">
                 <form name="search" id="search">
                     <div class="ui-field-contain ui-body ui-br" data-role="fieldcontain">
-                        <label class="select ui-select" for="search_type">
-                            Cerca per:
-                        </label>
-                        <select name="search_type" id="search_type" data-native-menu="false" data-overlay-theme="d"
-                                onchange="set_search_placeholder(this);">
-                            <option value="by_type" selected="selected">tipo</option>
-                            <option value="by_position">ubicazione</option>
-                        </select>
+                        <p>Cerca per:</p>
+                        <div id="search_type">
+                            <select name="search_type"  data-native-menu="false" data-overlay-theme="d"
+                                    onchange="set_search_placeholder(this);">
+                                <option id="option_tipo" value="by_type" selected="selected">tipo</option>
+                                <option value="by_position">ubicazione</option>
+                            </select>
+                        </div>
                         <div data-role="fieldcontain" class="ui-hide-label">
                             <input type="text" name="question" id="question" placeholder="torre, strada..." required/>
                         </div>
@@ -322,6 +331,9 @@
                 </div>
             </div>    
         </div>
+    
+    <!--  prova -->
+    
 
         <!-- =========================== CREDITS =========================== -->
 

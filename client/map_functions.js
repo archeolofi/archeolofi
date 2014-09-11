@@ -16,9 +16,7 @@ map.locate({setView: true, maxZoom: 16});
 function onLocationFound(e) {
     var radius = e.accuracy / 2;
 
-    L.circle(e.latlng, radius).addTo(map).bindPopup(
-        "Sei a circa " + radius + " metri da questo punto"
-    ).openPopup();
+    L.marker(e.latlng).addTo(map);
     console.log(e);
 }
 map.on('locationfound', onLocationFound);

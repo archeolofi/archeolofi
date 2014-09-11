@@ -2,7 +2,7 @@
     height: 100%;
 }
 
-.ui-content {
+#content_map {
     position: absolute;
     top: 40px;
     right: 0;
@@ -27,6 +27,16 @@ span.ritr {
     display: block;
     margin-top: 5px;
 }
+
+/* Login */
+
+#user_data_login{
+    
+    
+}
+
+
+
 
 #addcontent{
     
@@ -190,7 +200,7 @@ span.inte {
     
     float: left;
     background-color: #eeeeee;
-    width: 30%;
+    width: 40%;
 
 }
 
@@ -220,26 +230,70 @@ span.inte {
 }
 
 #ritrovamenti_punti{
-    font-size: 80%;
+    
     float: left;
+    clear:both;
     
     
 }
 
 .dato_legenda{
     float:left;
+    clear:both;
 }
 
 .imm_legenda{
+    float:left;
     
     
 }
 
 .epoca_legenda{
     
+    font-size: 60%;
+    float:left;
+    
+
+}
+#legenda_field{
+    float:left;
+    display:inlin
+}
+
+#search_type{
+    
+}
+
+
+
+
+#search_result button{
+        
+    
+}
+
+
+.table_search{
+    margin-bottom: 3%;
+    
     
     
 }
+
+.date_table{
+    padding-left: 1.3em
+    
+}
+
+.layout_table{
+    
+    border: 1px solid #DDDDDD;
+    padding: 0.4em;
+    margin: 0.2em;
+    border-radius: 10px 10px 10px 10px;
+    
+}
+
 /* TODO: uncomment
 #test {
     display: none;
