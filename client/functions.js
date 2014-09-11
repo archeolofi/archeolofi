@@ -17,10 +17,6 @@ var last_visited_type = null;   // "ritrovamento" || "intervento"
 var last_popupped_data = null;
 
 // HTML MANAGEMENT
-function ReloadPage() {
-   location.reload();
-}
-
 function read_form(type) {
     if(type == "login") {
         var name = $("#name_login").val();
@@ -296,9 +292,6 @@ function list_search_result(data) {
         );
     }
 
-    /* '       <button data-icon="arrow-r" class="ui-btn ui-shadow ui-corner-all ui-icon-arrow-r ui-btn-icon-notext "    '
-            +       '               name="' + data[i]["id_ritrov"] + '" value="vai" ></button>' */
-    
     $("#search_result button").click(function() {
         last_visited_id = $(this).attr("name");
         last_visited_type = "ritrovamento";
