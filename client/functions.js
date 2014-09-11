@@ -13,10 +13,8 @@ var MONTHS = [
 var logged_name = null;
 var logged_auth = null;
 var last_visited_id = null;
-var last_visited_type = null;   // "ritrovamento" or "intervento"
-var id_ritrovamento = null;
-var id_intervento = null;
-
+var last_visited_type = null;   // "ritrovamento" || "intervento"
+var last_popupped_data = null;
 
 // HTML MANAGEMENT
 function ReloadPage() {
@@ -51,10 +49,10 @@ function read_form(type) {
         return [name, psw, email];
     }
 }
+
 function pop_the_popup(data, e) {
     var obj = data.features[0].properties;
-    id_ritrovamento = obj.id_ritrovamento;
-    id_intervento = obj.id_intervento;
+    last_popupped_data = obj;
 
     if(obj.id_ritrovamento != null) {
         last_visited_id = obj.id_ritrovamento;
@@ -64,6 +62,7 @@ function pop_the_popup(data, e) {
         $("#popup_ritrovamento p").html(obj.descrizione_min || null);
         $("#popup_ritrovamento #periodo").html(obj.periodo_fine || null);
         $("#popup_ritrovamento #tipologia_ritrov").html(obj.tipologia_ritrov || null);
+
         popup.setContent(
             $("#popup_ritrovamento").html()
         );
@@ -95,19 +94,61 @@ function opengeo_make_link(link) {
     return link.replace("/home/archeofi/homes", "http://opengeo.eu/archeofi2");
 }
 
-function display_opengeo(data) {
-    // clean-up from the previous info displayed
-    
-    $("back_ritrovamento").hide();
-    
-    $("#descri").empty();
-    $("#bibliography").hide();
-    $("#biblio").empty();
-    $("#gallery").hide();
-    $("#image").empty();
+function display_opengeo(data, back_id) {
+    // basic info
+    if(last_visited_type == "ritrovamento") {
+        $("#basic_info").html(
+              ' <span><b>Tipo:</b> ' + data[0]["tipo"] + '</span>'
+            + ' <span><b>Definizione:</b> ' + data[0]["def"] + '</span>'
+            + ' <span><b>Inizio:</b> ' + data[0]["sec_inizio_1"] + ' '
+            +       data[0]["sec_inizio_2"] + ' ' + data[0]["sec_inizio_3"]
+            + ' </span>'
+            + ' <span><b>Fine:</b> ' + data[0]["sec_fine_1"] + ' '
+            +       data[0]["sec_fine_2"] + ' ' + data[0]["sec_fine_3"]
+            + ' </span>'
+            + ' <span><b>Ubicazione:</b> ' + data[0]["ubicaz"] + '</span>'
+        );
+
+        $("#go_to_other_type").html(
+              '<span>'
+            + '     vedi l\' '
+            + '     <input type="button" data-theme="d" data-icon="arrow-u" data-iconpos="notext" value="area di intervento" />'
+            + '</span>'
+        );
+
+        $("#go_to_other_type input").click(function() {
+            last_visited_id = data[0]["id_intervento"];
+            last_visited_type = "intervento";
+            prepare_info(data[0]["id_ritrov"]);
+        });
+    }
+    else {
+        $("#basic_info").html(
+              ' <span><b>Tipo:</b> ' + data[0]["tipo"] + '</span>'
+            + ' <span><b>Inizio:</b> ' + data[0]["inizio"] + '</span>'
+            + ' <span><b>Fine:</b> ' + data[0]["fine"] + '</span>'
+        );
+        if(back_id) {
+            $("#go_to_other_type").html(
+                  '<span>'
+                + '     torna al '
+                + '     <input type="button" data-theme="d" data-icon="arrow-u" data-iconpos="notext" value="ritrovamento" />'
+                + '</span>'
+            );
+
+            $("#go_to_other_type input").click(function() {
+                last_visited_id = back_id;
+                last_visited_type = "ritrovamento";
+                prepare_info();
+            });
+        }
+    }
 
     // add new infos
-    $("#descri").html(data[0]["descr"]);
+    if("descr" in data[0]) {
+        $("#descri").html(data[0]["descr"]);
+        $("#description").show();
+    }
 
     var bibliography = data[0]["bibliografia"];
     if(bibliography) {
@@ -132,49 +173,19 @@ function display_opengeo(data) {
     }
 }
 
-
-function setting_info(data){
-    //inserimento informazioni base da json
-    $("#descri").empty();
-    $("#json_definizione").empty();
-    $("#json_ubicazione").empty();
-    $("#json_cronologia").empty();
-    
-    $("#json_approvazione").empty();
-    $("#json_catasto_foglio").empty();
-    $("#json_catasto_particella").empty();
-    $("#json_comune").empty();
-    $("#json_data_aggiornamento").empty();
-    $("#json_motiv_intervento").empty();
-    $("#json_nome_compilatore").empty();
-
-    var obj = data.features[0].properties;
-    if(obj.id_ritrovamento != null) {
-        
-        $("#go_intervento").show();
-        $("#go_ritrovamento").hide();
+function setting_info() {
+    /**
+     * Add wms json informations to info page.
+     */
+    var obj = last_popupped_data;
+    if(last_visited_type == "ritrovamento") {
         $("#json_definizione").html(obj.tipologia_ritrov + ": " + obj.definizione);
-        $("#json_ubicazione").html("<b>Ubicazione: </b>" + obj.precisazione_ubicazion || null);
         $("#json_cronologia").html("<b>Cronologia: </b>" +
             obj.data_inizio + " " + obj.cono_ac_dc + " - "
             + obj.data_fine + " " + obj.crono_ac_dc_fine || null
         );
-        
-        var obj = data.features[1].properties;
-        $("#json_ubicazione").html("<b>Ubicazione: </b>" + obj.ubicazione || null);
-        $("#json_approvazione").html("<b>Approvazione: </b>" + obj.approvazione || null);
-        $("#json_catasto_foglio").html("<b>Catasto foglio: </b>" + obj.catasto_foglio || null);
-        $("#json_catasto_particella").html("<b>Catasto particella: </b>" + obj.catasto_particella || null);
-        $("#json_comune").html("<b>Comune: </b>" + obj.comune || null);
-        $("#json_data_aggiornamento").html("<b>Data aggiornamento: </b>" + obj.data_aggiornamento || null);
-        $("#json_motiv_intervento").html("<b>Motivo Intervento: </b>" + obj.motiv_intervento || null);
-        $("#json_nome_compilatore").html("<b>Nome Compilatore: </b>" + obj.nome_compilatore || null);
-        $("#info_json_intervento").hide();
     }
-    else {
-        $("#go_intervento").hide();
-        $("#go_ritrovamento").hide();
-        $("#json_ubicazione").html("<b>Ubicazione: </b>" + obj.ubicazione || null);
+    else if(last_visited_type == "intervento") {
         $("#json_approvazione").html("<b>Approvazione: </b>" + obj.approvazione || null);
         $("#json_catasto_foglio").html("<b>Catasto foglio: </b>" + obj.catasto_foglio || null);
         $("#json_catasto_particella").html("<b>Catasto particella: </b>" + obj.catasto_particella || null);
@@ -182,7 +193,7 @@ function setting_info(data){
         $("#json_data_aggiornamento").html("<b>Data aggiornamento: </b>" + obj.data_aggiornamento || null);
         $("#json_motiv_intervento").html("<b>Motivo Intervento: </b>" + obj.motiv_intervento || null);
         $("#json_nome_compilatore").html("<b>Nome Compilatore: </b>" + obj.nome_compilatore || null);
-
+        $("#json_ubicazione").html("<b>Ubicazione: </b>" + obj.ubicazione || null);
     }
 }
 
@@ -208,9 +219,11 @@ function convert_time(epoch) {
 }
 
 function display_contents(contents) {
-    // 'contents' is a map with keys: 'num_results', 'objects', 'page', 'total_pages'
-    $("#contents").empty();
-
+    /**
+     * User contents.
+     * 'contents' is a map with keys:
+     * 'num_results', 'objects', 'page', 'total_pages'
+     */
     console.log(contents);
 
     contents["objects"].forEach( function(entry) {
@@ -294,7 +307,36 @@ function list_search_result(data) {
     });
 }
 
-$(document).on('pagebeforeshow', '#home', function() {
+function clear_info() {
+    // wms json
+    $("#descri").empty();
+    $("#json_definizione").empty();
+    $("#json_ubicazione").empty();
+    $("#json_cronologia").empty();
+    
+    $("#json_approvazione").empty();
+    $("#json_catasto_foglio").empty();
+    $("#json_catasto_particella").empty();
+    $("#json_comune").empty();
+    $("#json_data_aggiornamento").empty();
+    $("#json_motiv_intervento").empty();
+    $("#json_nome_compilatore").empty();
+
+    // opengeo json
+    $("#basic_info").empty();
+    $("#description").hide();
+    $("#descri").empty();
+    $("#bibliography").hide();
+    $("#biblio").empty();
+    $("#gallery").hide();
+    $("#image").empty();
+    $("#go_to_other_type").empty();
+
+    // user contents
+    $("#contents").empty();
+}
+
+function check_log() {
     if(!logged_auth) {
         $(".user_logged").hide();
         $(".user_unlogged").show();
@@ -303,30 +345,42 @@ $(document).on('pagebeforeshow', '#home', function() {
         $(".user_logged").show();
         $(".user_unlogged").hide();
     }
+}
+
+// TODO: $(document).bind("pagebeforechange", function() {})
+// pagechange
+// pagechangefailed
+$(document).on('pagebeforeshow', '#home', function() {
+    check_log();
 });
 
-$(document).on('pagebeforeshow', '#info', function() {
+function prepare_info(back_id) {
     $("#test").html(last_visited_type + "    " +  last_visited_id);
     $("#result_comment").hide();
 
-    ask_opengeo(last_visited_type, last_visited_id);
+    check_log();
+    clear_info();
+
+    // wms data         (a big and or statement would be nicer, but less clear)
+    if("id_ritrovamento" in last_popupped_data) {
+        if((last_visited_type == "ritrovamento") && (last_visited_id == last_popupped_data["id_ritrovamento"]))
+            setting_info();
+    }
+    else if("id_interv_nuovo" in last_popupped_data) {
+        if((last_visited_type == "intervento") && (last_visited_id == last_popupped_data["id_interv_nuovo"]))
+            setting_info();
+    }
+
+    // opengeo data
+    ask_opengeo(last_visited_type, last_visited_id, back_id);
+
+    // user contents
     get_contents();
+}
 
-    if(!logged_auth) {
-        $(".user_logged").hide();
-        $(".user_unlogged").show();
-    }
-    else {
-        $(".user_logged").show();
-        $(".user_unlogged").hide();
-    }
+$(document).on('pagebeforeshow', '#info', function() {
+    prepare_info();
 
-    if(last_visited_type == "ritrovamento") {
-        $("#go_ritrovamento").hide();
-        $("#go_intervento").show();
-    }
-    
-     
 });
 
 
@@ -418,7 +472,7 @@ function post_a_comment(comment) {
 
 function get_contents() {
     poi = make_poi();
-    console.log("poi: ", poi);
+    console.log("contents poi: ", poi);
 
     $.ajax({
         type: "GET",
@@ -575,6 +629,8 @@ function upload2(poi, file_id, form_data) {
             $("#result_comment").html("Contenuto aggiunto!");
             
             get_contents();      // refresh
+            // TODO: collapsible plugin?!
+            // $( "#layout_contents" ).trigger( "expand" );
         },
         error: function(x, t, m) {
             console.log(t);
@@ -586,14 +642,17 @@ function upload2(poi, file_id, form_data) {
 }
 
 function wms_proxy(bbox, width, height, x, y, e) {
+    /**
+     * Ask to our server to serve as a proxy and send us a json
+     * (getFeatureInfo) from the wms server.
+     */
     $.ajax({
         type: "GET",
         url: SERVER_URL + "api/proxy/" + bbox + '&' + width + '&' + height + '&' + x + '&' + y,
         success: function(data) {
             console.log("proxied.");
-            console.log(data);
+            console.log("wms: ", data);
             pop_the_popup(data, e);
-            setting_info(data); // aggiunta
         },
         error: function() {
             console.log("ops, something went wrong..");
@@ -603,7 +662,7 @@ function wms_proxy(bbox, width, height, x, y, e) {
 
 
 // OPENGEO SERVER
-function ask_opengeo(type, id) {
+function ask_opengeo(type, id, back_id) {
     if(type == "ritrovamento")
         var prefix = "rit_id=";
     else if(type == "intervento")
@@ -614,8 +673,8 @@ function ask_opengeo(type, id) {
     $.getJSON(
         "http://opengeo.eu/archeofi2/api/archeofi_api.php?" + prefix + id + "&jsoncallback=?",
         function(data) {
-            console.log(data);
-            display_opengeo(data);
+            console.log("opengeo: ", data);
+            display_opengeo(data, back_id);
         }
     );
 }

@@ -459,7 +459,6 @@ def datagis_proxy(bbox, width, height, x, y):
         "=archeologia:scavi_archeo&INFO_FORMAT=application/json&I={}&J={}"
         "&FEATURE_COUNT=10"
     ).format(bbox, width, height, x, y)
-    print url
     received = requests.get(url)
     return received.text
 
