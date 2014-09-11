@@ -362,13 +362,15 @@ function prepare_info(back_id) {
     clear_info();
 
     // wms data         (a big and or statement would be nicer, but less clear)
-    if("id_ritrovamento" in last_popupped_data) {
-        if((last_visited_type == "ritrovamento") && (last_visited_id == last_popupped_data["id_ritrovamento"]))
-            setting_info();
-    }
-    else if("id_interv_nuovo" in last_popupped_data) {
-        if((last_visited_type == "intervento") && (last_visited_id == last_popupped_data["id_interv_nuovo"]))
-            setting_info();
+    if(last_popupped_data) {
+        if("id_ritrovamento" in last_popupped_data) {
+            if((last_visited_type == "ritrovamento") && (last_visited_id == last_popupped_data["id_ritrovamento"]))
+                setting_info();
+        }
+        else if("id_interv_nuovo" in last_popupped_data) {
+            if((last_visited_type == "intervento") && (last_visited_id == last_popupped_data["id_interv_nuovo"]))
+                setting_info();
+        }
     }
 
     // opengeo data
