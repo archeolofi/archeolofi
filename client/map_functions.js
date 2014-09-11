@@ -11,6 +11,9 @@ L.tileLayer(
     }
 ).addTo(map);
 
+
+
+
 map.locate({setView: true, maxZoom: 16});
 
 function onLocationFound(e) {
@@ -27,6 +30,18 @@ function onLocationError(e) {
 }
 map.on('locationerror', onLocationError);
 
+var polyline = L.polyline([ [43.763007, 11.267304 ],[43.77225, 11.29374],[43.78755, 11.25015],[43.77846, 11.23801],[43.76484, 11.24234], [43.763007, 11.267304 ]], {color: 'red'}).addTo(map);
+
+var RedIcon = L.Icon.Default.extend({
+            options: {
+            	    iconUrl: 'images\marker_icon_red.png' 
+            }
+});
+var redIcon = new RedIcon();
+
+L.marker([43.77153,11.25441], {icon: redIcon}).addTo(map);
+
+
 
 //////////// INSERIMENTO LAYER WMS SCAVI ARCHEOLOGICI ////////////
 var layer_interventi = L.tileLayer.wms(
@@ -36,7 +51,7 @@ var layer_interventi = L.tileLayer.wms(
         transparent: true,
         attribution: "",
         maxZoom: '25',
-        minZoom: '15'
+        minZoom: '7'
     }
 );
 //////////// INSERIMENTO LAYER WMS SCAVI ARCHEOLOGICI ////////////
