@@ -79,7 +79,7 @@ span.inte {
 }
 
 #info_json_area{
-    color: #964B00;		
+    color: #964B00;
     
 }
 
@@ -116,9 +116,8 @@ span.inte {
     float: left;
     display: block;
     clear: both;
-        
-    
 }
+
 .comment_properties{
     float:right;
     padding: 0.6em;
@@ -201,14 +200,6 @@ span.inte {
 #info_sito span  {
     display: block;
     
-}
-
-#go_intervento{
-    float:right;
-}
-
-#go_ritrovamento{
-    float:right;
 }
 
 
