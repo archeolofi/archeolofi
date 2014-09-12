@@ -1,3 +1,5 @@
+var CENTER = [43.771473, 11.253766]
+
 ///////////////////// INSERIMENTO DELLA MAPPA /////////////////////
 var map = L.map('map')
 
@@ -10,23 +12,6 @@ L.tileLayer(
         maxZoom: 30
     }
 ).addTo(map);
-
-
-map.locate({setView: true, maxZoom: 16});
-
-function onLocationFound(e) {
-    var radius = e.accuracy / 2;
-
-    L.marker(e.latlng).addTo(map);
-    console.log(e);
-}
-map.on('locationfound', onLocationFound);
-
-function onLocationError(e) {
-    map.setView([43.771473, 11.253766], 18);
-    console.log(e.message);
-}
-map.on('locationerror', onLocationError);
 
 
 /////////////////////////// DA LONTANO ///////////////////////////
@@ -46,7 +31,7 @@ var RedIcon = L.Icon.Default.extend(
 );
 var redIcon = new RedIcon();
 var far_marker = L.marker(
-    [43.77153,11.25441],
+    CENTER,
     {icon: redIcon}
 ).bindPopup(introduction);
 
@@ -69,6 +54,28 @@ function onZoomend() {
     }
 };
 map.on('zoomend', onZoomend);
+
+
+///////////////////// LOCALIZZAZIONE INIZIALE /////////////////////
+map.locate({setView: true, maxZoom: 16});
+
+function onLocationFound(e) {
+    var my_position = L.marker(e.latlng)
+    // var my_position = L.marker([46.019853,5.74585]);     testing
+    my_position.bindPopup("sei qui");
+    my_position.addTo(map);
+    var to_be_shown = new L.featureGroup([my_position, far_marker, boundary]);
+    map.fitBounds(to_be_shown.getBounds());
+    console.log(e);
+}
+map.on('locationfound', onLocationFound);
+
+function onLocationError(e) {
+    map.setView(CENTER, 18);
+    console.log(e.message);
+}
+map.on('locationerror', onLocationError);
+
 
 
 //////////// INSERIMENTO LAYER WMS SCAVI ARCHEOLOGICI ////////////
@@ -104,7 +111,6 @@ var layer_ritrovamenti_punti = L.tileLayer.wms(
         minZoom: '19'
     }
 );
-
 
 layer_interventi.addTo(map);
 layer_ritrovamenti_linee.addTo(map);
