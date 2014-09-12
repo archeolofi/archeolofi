@@ -4,7 +4,7 @@ var SERVER_URL = "http://127.0.0.1:5000/";
 // OpenShift
 //var SERVER_URL = "http://archeolofi-feedingaliencat.rhcloud.com/";
 
-var FILE_ICON = "images/document_icon.png"
+var FILE_ICON = "images/icon.png"
 var MONTHS = [
     "gennaio", "febbraio", "marzo", "aprile", "maggio", "giugno",
     "luglio", "agosto", "settembre", "ottobre", "novembre", "dicembre"
@@ -197,8 +197,7 @@ function setting_info() {
 function file_thumb(entry) {
     // TODO: correggere in 'data:image/jpeg;base64,' + entry["photo_thumb"];
     var thumb = (
-            '<br />'
-        +   '<a href="' + SERVER_URL + 'contents/' + entry["filename"] + '" download>'
+            '<a href="' + SERVER_URL + 'contents/' + entry["filename"] + '" download>'
         +   '   <img src="'
         +   (entry["photo_thumb"] ? 'data:image;base64,' + entry["photo_thumb"] : FILE_ICON) + '" '
         +   '" />'
@@ -231,7 +230,7 @@ function display_contents(contents) {
             +   '   <div id="content_id" class="hidden">'
             +           entry["id_"]
             +   '   </div>'
-            +   (entry["comment"] ? '<span class="view_text_comment">' + entry["comment"] + '</span>' : '')
+            +   (entry["comment"] ? '<p class="view_text_comment">' + entry["comment"] + '</p>' : '')
             +   (entry["filename"] ? file_thumb(entry) : '')
             +   '   <div class="info_comment">'
             +   '       <div class="comment_properties">'

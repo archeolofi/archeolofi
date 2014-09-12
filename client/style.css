@@ -84,38 +84,34 @@ span.inte {
 }
 
 
-<!-- SPAZIO COMMENTI -->
-
+/* SPAZIO COMMENTI */
 #contents{
     float:left;
-    
 }
 
 #collapse_contents{
-    
-
-    
 }
 
 .single_comment{
-    
+    width: 95%;
     float:left;
     clear: both;
-    
+
     border: 1px solid #DDDDDD;
     padding: 0.4em;
     margin: 0.2em;
     border-radius: 10px 10px 10px 10px;
 }
 
-.view_text_comment{
+.single_comment img {
     display: block;
-    float: left;
-    
-    
-    
-    
+    margin: auto;
 }
+
+.view_text_comment{
+    margin: 5px;
+}
+
 .info_comment{
     float: left;
     display: block;
