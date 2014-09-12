@@ -2,7 +2,7 @@
 // local
 var SERVER_URL = "http://127.0.0.1:5000/";
 // OpenShift
-//var SERVER_URL = "http://indiana-feedingaliencat.rhcloud.com/";
+//var SERVER_URL = "http://archeolofi-feedingaliencat.rhcloud.com/";
 
 var FILE_ICON = "images/document_icon.png"
 var MONTHS = [
@@ -17,10 +17,6 @@ var last_visited_type = null;   // "ritrovamento" || "intervento"
 var last_popupped_data = null;
 
 // HTML MANAGEMENT
-function ReloadPage() {
-   location.reload();
-}
-
 function read_form(type) {
     if(type == "login") {
         var name = $("#name_login").val();
@@ -296,9 +292,6 @@ function list_search_result(data) {
         );
     }
 
-    /* '       <button data-icon="arrow-r" class="ui-btn ui-shadow ui-corner-all ui-icon-arrow-r ui-btn-icon-notext "    '
-            +       '               name="' + data[i]["id_ritrov"] + '" value="vai" ></button>' */
-    
     $("#search_result button").click(function() {
         last_visited_id = $(this).attr("name");
         last_visited_type = "ritrovamento";
@@ -362,13 +355,15 @@ function prepare_info(back_id) {
     clear_info();
 
     // wms data         (a big and or statement would be nicer, but less clear)
-    if("id_ritrovamento" in last_popupped_data) {
-        if((last_visited_type == "ritrovamento") && (last_visited_id == last_popupped_data["id_ritrovamento"]))
-            setting_info();
-    }
-    else if("id_interv_nuovo" in last_popupped_data) {
-        if((last_visited_type == "intervento") && (last_visited_id == last_popupped_data["id_interv_nuovo"]))
-            setting_info();
+    if(last_popupped_data) {
+        if("id_ritrovamento" in last_popupped_data) {
+            if((last_visited_type == "ritrovamento") && (last_visited_id == last_popupped_data["id_ritrovamento"]))
+                setting_info();
+        }
+        else if("id_interv_nuovo" in last_popupped_data) {
+            if((last_visited_type == "intervento") && (last_visited_id == last_popupped_data["id_interv_nuovo"]))
+                setting_info();
+        }
     }
 
     // opengeo data
@@ -384,7 +379,7 @@ $(document).on('pagebeforeshow', '#info', function() {
 });
 
 
-// INDIANA SERVER
+// OUR SERVER
 function make_poi() {
     if(last_visited_type == "ritrovamento")
         return last_visited_id;
@@ -395,7 +390,7 @@ function make_poi() {
 function register(name, psw, email) {
     $.ajax({
         type: "POST",
-        url: SERVER_URL + "api/indiana_user",
+        url: SERVER_URL + "api/user",
         data: JSON.stringify({ "name": name, "psw": psw, "email": email }),
         dataType: "json",
         contentType: "application/json",

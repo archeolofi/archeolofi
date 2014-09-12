@@ -1,9 +1,9 @@
 ### accesso al database
 sudo -u postgres psql
-\c indiana
+\c archeolofi
 \d
 \q
-SELECT * FROM indiana_user;
+SELECT * FROM user;
 SELECT * FROM "like";
 
 NOTA: se si fanno delle modifiche alla struttura del database, non è escluso che,
@@ -12,8 +12,8 @@ per vederle applicate, si debba prima droppare le cose.
 \list   elenca i database
 
 resettare:
-DROP DATABASE indiana;
-CREATE DATABASE indiana;
+DROP DATABASE archeolofi;
+CREATE DATABASE archeolofi;
 
 rhc app stop indiana
 rhc cartridge start postgresql-9.2
@@ -33,7 +33,7 @@ import json
 import requests
 u = {"name": "Plautino", "psw": "misterious", "email": "email@io.it"}
 r = requests.post(
-    url + "indiana_user",
+    url + "user",
     data=json.dumps(u),
     headers={"content-type":"application/json"}
 )
