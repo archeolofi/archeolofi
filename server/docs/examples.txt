@@ -3,7 +3,8 @@ sudo -u postgres psql
 \c archeolofi
 \d
 \q
-SELECT * FROM user;
+SELECT * FROM "user";
+SELECT * FROM contents;
 SELECT * FROM "like";
 
 NOTA: se si fanno delle modifiche alla struttura del database, non è escluso che,

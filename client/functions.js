@@ -687,7 +687,7 @@ function remote_search(type, question) {
     $.getJSON(
         "http://opengeo.eu/archeofi2/api/archeofi_api.php?rit_search_" + prefix + "=" + question + "&jsoncallback=?",
         function(data) {
-            console.log(data);
+            console.log("research: ", data);
             list_search_result(data);
         }
     );

@@ -17,4 +17,13 @@ rhc app create archeolofiweb php-5.3
 
 
 
+rhc app show
+5406047ae0b8cd8619000529@indiana-feedingaliencat.rhcloud.com
+$OPENSHIFT_DATA_DIR
+/var/lib/openshift/5406047ae0b8cd8619000529/app-root/data/
+scp 5406047ae0b8cd8619000529@indiana-feedingaliencat.rhcloud.com:/var/lib/opens
+    hift/5406047ae0b8cd8619000529/app-root/data/static/* .
+
+
+
 rhc app delete
