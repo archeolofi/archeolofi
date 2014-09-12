@@ -280,14 +280,14 @@ function list_search_result(data) {
             +       '<tr>'
             +       '   <td><b>luogo</b></td>'
             +       '   <td class="date_table">' + data[i]["place"] + '</td>'
+            +       '   <td><button data-icon="arrow-r" class="ui-btn ui-shadow ui-corner-all ui-icon-arrow-r ui-btn-icon-notext "    '
+            +       '               name="' + data[i]["id_ritrov"] + '" value="vai" ></button></td>'
             +       '</tr>'
             +       '<tr>'
             +       '   <td><b>tipo</b></td>'
             +       '   <td class="date_table">' + data[i]["tipo"] + '</td>'
             +       '</tr>'
             +   '</table>'
-            +   '<button data-icon="arrow-r" class="ui-btn ui-shadow ui-corner-all ui-icon-arrow-r ui-btn-icon-notext "    '
-            +       '               name="' + data[i]["id_ritrov"] + '" value="vai" ></button>'
             +'</div>'
         );
     }
