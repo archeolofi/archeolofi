@@ -107,12 +107,12 @@ function display_opengeo(data, back_id) {
 
         $("#go_to_other_type").html(
               '<span>'
-            + '     vedi l\' '
-            + '     <input type="button" data-theme="d" data-icon="arrow-u" data-iconpos="notext" value="area di intervento" />'
+           // + '     vedi l\' '
+            + '     <button data-theme="d" class="ui-btn ui-shadow ui-corner-all " >vedi area di intervento</button>'
             + '</span>'
         );
 
-        $("#go_to_other_type input").click(function() {
+        $("#go_to_other_type button").click(function() {
             last_visited_id = data[0]["id_intervento"];
             last_visited_type = "intervento";
             prepare_info(data[0]["id_ritrov"]);
@@ -127,12 +127,12 @@ function display_opengeo(data, back_id) {
         if(back_id) {
             $("#go_to_other_type").html(
                   '<span>'
-                + '     torna al '
-                + '     <input type="button" data-theme="d" data-icon="arrow-u" data-iconpos="notext" value="ritrovamento" />'
+                //+ '     torna al '
+                + '     <button data-theme="d" class="ui-btn ui-shadow ui-corner-all " >torna al ritrovamento</button>'
                 + '</span>'
             );
 
-            $("#go_to_other_type input").click(function() {
+            $("#go_to_other_type button").click(function() {
                 last_visited_id = back_id;
                 last_visited_type = "ritrovamento";
                 prepare_info();
