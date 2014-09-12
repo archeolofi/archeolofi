@@ -28,6 +28,26 @@ span.ritr {
     margin-top: 5px;
 }
 
+
+#go_to_other_type{
+    float:left;
+    font-size: 80%
+}
+
+/*#description h4{
+    float:left;
+    clear:both;
+    
+} */
+
+#info_approfondite{
+    float:left;
+}
+
+
+
+
+
 /* Login */
 
 #user_data_login{
