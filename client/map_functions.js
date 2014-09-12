@@ -28,18 +28,47 @@ function onLocationError(e) {
 }
 map.on('locationerror', onLocationError);
 
-var polyline = L.polyline([ [43.763007, 11.267304 ],[43.77225, 11.29374],[43.78755, 11.25015],[43.77846, 11.23801],[43.76484, 11.24234], [43.763007, 11.267304 ]], {color: 'red'}).addTo(map);
-polyline.bindPopup("area degli scavi archeologici di firenze");
 
-var RedIcon = L.Icon.Default.extend({
-            options: {
-            	    iconUrl: 'images\marker_icon_red.png' 
-            }
-});
+/////////////////////////// DA LONTANO ///////////////////////////
+var introduction = "area degli scavi archeologici di firenze"
+var boundary = L.polyline(
+    [
+        [43.763007, 11.267304 ],[43.77225, 11.29374],[43.78755, 11.25015],
+        [43.77846, 11.23801],[43.76484, 11.24234], [43.763007, 11.267304 ]
+    ], 
+    {color: 'red'}
+).bindPopup(introduction);
+
+var RedIcon = L.Icon.Default.extend(
+    {
+        options: {iconUrl: 'images/marker_icon_red.png'}
+    }
+);
 var redIcon = new RedIcon();
+var far_marker = L.marker(
+    [43.77153,11.25441],
+    {icon: redIcon}
+).bindPopup(introduction);
 
-L.marker([43.77153,11.25441], {icon: redIcon}).addTo(map);
 
+function onZoomend() {
+    var zoom_now = map.getZoom();
+    console.log("zoom: ", zoom_now);
+
+    if(zoom_now >= 17) {
+        map.removeLayer(boundary);
+        map.removeLayer(far_marker);
+    }
+    else if((zoom_now < 17) && (zoom_now >= 10)) {
+        boundary.addTo(map);
+        map.removeLayer(far_marker);
+    }
+    else if(zoom_now < 10) {
+        map.removeLayer(boundary);
+        far_marker.addTo(map);
+    }
+};
+map.on('zoomend', onZoomend);
 
 
 //////////// INSERIMENTO LAYER WMS SCAVI ARCHEOLOGICI ////////////
