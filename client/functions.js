@@ -604,6 +604,8 @@ function upload2(poi, file_id, form_data) {
     // actually post the file
     $.mobile.loading("show", {
         text: "caricando il file",
+        textVisible: true,
+        theme: "d"
     });
 
     $.ajax({
