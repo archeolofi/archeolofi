@@ -269,53 +269,54 @@ span.inte {
 }
 
 .epoca_legenda{
-    
     font-size: 60%;
     float:left;
-    
-
 }
+
 #legenda_field{
     float:left;
     display:inlin
 }
 
-#search_type{
-    
+
+/* SEARCH */
+#search_type {
 }
 
-
-
-
-#search_result button{
-        margin-left: 30%
-    
+#search_result table {
+    margin-right: 30px;
 }
 
-
-.table_search{
-    margin-bottom: 3%;
-    
-    
-    
+.table_search {
+    margin: 5px;
 }
 
-.date_table{
-    padding-left: 1.3em
-    
+.td_title {
+    width: 15%;
 }
 
-.layout_table{
-    
+.date_table {
+    padding-left: 1.3em;
+    width: 60%;
+    border-bottom: 1px solid rgb(221, 221, 221);
+}
+
+.layout_table {
+    position: relative;
     border: 1px solid #DDDDDD;
     padding: 0.4em;
     margin: 0.2em;
     border-radius: 10px 10px 10px 10px;
-    
 }
 
-/* TODO: uncomment
+.layout_table button {
+    position: absolute;
+    top: 5px;
+    right: 15px;
+}
+
+
+/* TEST */
 #test {
     display: none;
 }
-*/
