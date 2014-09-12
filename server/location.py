@@ -6,7 +6,7 @@ db = {
 	"username" : "indiana",
 	"password" : "astropanza",
 	"host"     : "localhost",
-	"database" : "indiana",
+	"database" : "archeolofi",
 }
 
 

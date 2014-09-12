@@ -52,7 +52,7 @@ def verify_password():
             description='Not authenticated!', code=401
         )
     else:
-        user = IndianaUser.query.get(username)
+        user = User.query.get(username)
         if (not user) or (not sha256_crypt.verify(password, user.psw)):
             raise restless.ProcessingException(
                 description='Invalid username or password!', code=401
@@ -193,7 +193,7 @@ def create_app(config_mode=None, config_file=None):
 
     # Create API endpoints, which will be available at /api/<tablename>
     manager.create_api(
-        IndianaUser,
+        User,
         preprocessors={
             "POST": [
                 validation,
@@ -305,7 +305,7 @@ class FileId(object):
 
 
 # database and Flask classes (RESTless)
-class IndianaUser(db.Model):
+class User(db.Model):
     """
     If user successfully created, return 201.
     If username is already token, return 405.
@@ -335,7 +335,7 @@ class Content(db.Model):
     )
     user = db.Column(
         db.Unicode(30),
-        db.ForeignKey("indiana_user.name"),
+        db.ForeignKey("user.name"),
         nullable=False
     )
     creation_time = db.Column(
@@ -361,7 +361,7 @@ class Content(db.Model):
 class Like(db.Model):
     user = db.Column(
         db.Unicode(30),
-        db.ForeignKey("indiana_user.name"),
+        db.ForeignKey("user.name"),
         primary_key=True
     )
     content_id = db.Column(

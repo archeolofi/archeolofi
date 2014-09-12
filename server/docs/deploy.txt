@@ -1,0 +1,20 @@
+
+
+
+
+rhc app create archeolofi python-2.7
+cd archeolofi
+rhc cartridge add postgresql-9.2
+
+
+rhc ssh
+cd $OPENSHIFT_DATA_DIR
+mkdir static
+
+
+rhc app create archeolofiweb php-5.3
+
+
+
+
+rhc app delete

@@ -2,7 +2,7 @@
 // local
 var SERVER_URL = "http://127.0.0.1:5000/";
 // OpenShift
-//var SERVER_URL = "http://indiana-feedingaliencat.rhcloud.com/";
+//var SERVER_URL = "http://archeolofi-feedingaliencat.rhcloud.com/";
 
 var FILE_ICON = "images/document_icon.png"
 var MONTHS = [
@@ -379,7 +379,7 @@ $(document).on('pagebeforeshow', '#info', function() {
 });
 
 
-// INDIANA SERVER
+// OUR SERVER
 function make_poi() {
     if(last_visited_type == "ritrovamento")
         return last_visited_id;
@@ -390,7 +390,7 @@ function make_poi() {
 function register(name, psw, email) {
     $.ajax({
         type: "POST",
-        url: SERVER_URL + "api/indiana_user",
+        url: SERVER_URL + "api/user",
         data: JSON.stringify({ "name": name, "psw": psw, "email": email }),
         dataType: "json",
         contentType: "application/json",
