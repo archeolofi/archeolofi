@@ -41,7 +41,7 @@ div.ui-controlgroup-label {
 /* Separators
 -----------------------------------------------------------------------------------------------------------*/
 /* Field contain separator (< 28em) */
-.ui-field-contain {
+#search {
 	border-bottom-color: #828282;
 	border-bottom-color: rgba(0,0,0,.15);
 	border-bottom-width: 1px;

@@ -17,15 +17,26 @@ var last_visited_type = null;   // "ritrovamento" || "intervento"
 var last_popupped_data = null;
 
 // HTML MANAGEMENT
+function login_message(text) {
+    $("#login_situation")
+        .html(text)
+        .css("border", "1px solid #DDDDDD");
+}
+
+function register_message(text) {
+    $("#register_error")
+        .html(text)
+        .css("border", "1px solid #DDDDDD");
+}
+
 function read_form(type) {
     if(type == "login") {
         var name = $("#name_login").val();
         var psw = $("#psw_login").val();
         if(!name || !psw) {
-            //alert("Inserisci i campi richiesti");
-            $("#login_situation").html("Errore durante il Login! Inserisci i campi richiesti" || null)
+            login_message("Errore durante il login! Inserisci i campi richiesti");
             return false;
-            }
+        }
         return [name, psw];
     }
     if(type == "register") {
@@ -34,12 +45,12 @@ function read_form(type) {
         var email = $("#email").val();
         if(!name || !psw) {
             //alert("Inserisci i campi richiesti");
-            $("#register_error").html("Errore durante la registrazione! Inserisci i campi richiesti" || null)
+            register_message("Errore durante la registrazione! Inserisci i campi richiesti");
             return false;
             }
         if(! /^.+@.+\..+$/.test(email)) {
             //alert("Email non valida");
-            $("#register_error").html("Errore durante la registrazione! E-mail non valida!");
+            register_message("Errore durante la registrazione! Email non valida");
             return false;
         }
         return [name, psw, email];
@@ -400,15 +411,15 @@ function register(name, psw, email) {
         dataType: "json",
         contentType: "application/json",
         success: function(data) {
-            //alert("Benvenuto " + name + "!\nAdesso puoi accedere");
             $("form#user_data_register")[0].reset();
-            $("#login_situation").html("Registrazione avvenuta! Adesso puoi loggarti!");
-            $("#register_error").empty();
-            $.mobile.changePage( "#login" );
+            login_message("Registrazione avvenuta! Adesso puoi loggarti");
+            $("#register_error")
+                .empty()
+                .css("border", "");
+            $.mobile.changePage("#login");
         },
         error: function() {
-            //alert("ops, something went wrong..");
-            $("#register_error").html("Errore durante la registrazione! Campi errati!");
+           register_message("Errore durante la registrazione! Il nome è già stato scelto");
         }
     });
 }
@@ -432,14 +443,18 @@ function login(name, psw) {
             $(".user_unlogged").hide();
             $(".user_logged").show();
 
-            $("#login_situation").empty();
-            $("#register_error").empty();
+            $("#login_situation")
+                .empty()
+                .css("border", "");
+            $("#register_error")
+                .empty()
+                .css("border", "");
 
             // TODO: andare indietro a back, qui, invece che alla mappa
             $.mobile.changePage("#home");
         },
         error: function() {
-            $("#login_situation").html("Errore durante il Login! Username e/o password errate!")
+            login_message("Errore durante il login!");
         }
     });
 }
@@ -464,7 +479,7 @@ function post_a_comment(comment) {
         },
         error: function() {
             console.log("ops, something went wrong..");
-            $("#result_comment").html("Errore! Commento non pubblicato")
+            register_message("Errore! Commento non pubblicato");
             $("#result_comment").empty();
         }
     });
