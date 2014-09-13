@@ -329,6 +329,11 @@ function clear_info() {
     $("#contents").empty();
 }
 
+function contents_refresh() {
+    $("#contents").empty();
+    get_contents();
+}
+
 function check_log() {
     if(!logged_auth) {
         $(".user_logged").hide();
@@ -454,7 +459,7 @@ function post_a_comment(comment) {
         success: function() {
             console.log("comment published!");
             $("form#content_form")[0].reset();
-            get_contents();      // refresh
+            contents_refresh();
             $("#result_comment").html("Commento aggiunto!")
         },
         error: function() {
@@ -625,7 +630,7 @@ function upload2(poi, file_id, form_data) {
             
             $("#result_comment").html("Contenuto aggiunto!");
             
-            get_contents();      // refresh
+            contents_refresh();
             // TODO: collapsible plugin?!
             // $( "#layout_contents" ).trigger( "expand" );
         },
