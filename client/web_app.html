@@ -315,11 +315,11 @@
             <div data-role="content">
                 <form name="search" id="search">
                     <div class="ui-field-contain ui-body ui-br" data-role="fieldcontain">
-                        <p>Cerca per:</p>
                         <div id="search_type">
-                            <select name="search_type"  data-native-menu="false" data-overlay-theme="d"
+                            <label for="flip-1">Cerca per:</label>
+                            <select name="flip-1" id="search_type" data-role="slider" data-theme="d"
                                     onchange="set_search_placeholder(this);">
-                                <option id="option_tipo" value="by_type" selected="selected">tipo</option>
+                                <option value="by_type" selected:"selected">tipo</option>
                                 <option value="by_position">ubicazione</option>
                             </select>
                         </div>

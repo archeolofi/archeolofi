@@ -267,6 +267,24 @@ span.inte {
 #search_type {
 }
 
+#search_type label {
+    float: left;
+    margin: 10px 20px 0 0;
+}
+
+#search_type select {
+}
+
+#search_type .ui-slider-switch {
+    width: 9em;
+}
+
+#search_type .ui-btn-active {
+    background-color: #e9e9e9;
+    color: black;
+    text-shadow: none;
+}
+
 #search_result table {
     margin-right: 30px;
 }
