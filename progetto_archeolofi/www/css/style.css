@@ -1,0 +1,324 @@
+#map {
+    height: 100%;
+}
+
+#content_map {
+    position: absolute;
+    top: 40px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 0 !important;
+}
+
+.hidden {
+    display: none;
+}
+
+.pop_elem {
+    font-family: 'Lato', Helvetica, sans-serif;
+}
+
+ul.pop_elem {
+    list-style-type: none;
+}
+
+span.ritr {
+    display: block;
+    margin-top: 5px;
+}
+
+
+#go_to_other_type{
+    float:left;
+    font-size: 80%
+}
+
+/*#description h4{
+    float:left;
+    clear:both;
+    
+} */
+
+#info_approfondite{
+    float:left;
+}
+
+
+
+
+
+/* Login */
+
+#user_data_login{
+    
+    
+}
+
+
+
+
+#addcontent{
+    
+}
+    
+
+#layout_contents{
+    
+    
+    
+}
+
+span.inte {
+    margin-left: 5px;
+}
+
+#info_json_punto{
+    color: #C80815;
+    
+}
+
+#info_json_area{
+    color: #964B00;
+    
+}
+
+
+/* SPAZIO COMMENTI */
+#contents{
+    float:left;
+}
+
+#collapse_contents{
+}
+
+.single_comment{
+    width: 95%;
+    float:left;
+    clear: both;
+
+    border: 1px solid #DDDDDD;
+    padding: 0.4em;
+    margin: 0.2em;
+    border-radius: 10px 10px 10px 10px;
+}
+
+.single_comment img {
+    display: block;
+    margin: auto;
+}
+
+.view_text_comment{
+    margin: 5px;
+}
+
+.info_comment{
+    float: left;
+    display: block;
+    clear: both;
+}
+
+.comment_properties{
+    float:right;
+    padding: 0.6em;
+}
+
+.comment_user{
+    font-size:80%;
+    font-weight: bold;
+}
+
+.data_hours{
+    font-size:80%;
+    color: gray;
+}
+.layout_like_dislike{
+    float:left;
+    
+}
+
+.like_button{
+    float: left;
+}
+
+.like_dislike{
+    float: left;
+    font-size:90%;
+    padding: 0.9em;
+    font-weight: bold;
+}
+
+.counter_like{
+    color: #03C03C;
+}
+
+.counter_dislike{
+    color: #D21F1B;
+}
+
+.ui-icon-like:after {
+    background-image: url("images/like_18x18_senza_sfondo.png");
+    background-size: 18px 18px;
+    box-shadow: none;
+}
+
+.ui-icon-dislike:after {
+    background-image: url("images/dislike_18x18_senza_sfondo.png");
+    background-size: 18px 18px;
+    box-shadow: none;
+}
+
+#important{
+    
+    clear:both;
+    
+}
+
+#register_error {
+    text-align: center;
+    padding: 0.4em;
+    margin: 0.2em;
+    border-radius: 10px 10px 10px 10px;
+}
+
+#login_situation {
+    text-align: center;
+    padding: 0.4em;
+    margin: 0.2em;
+    border-radius: 10px 10px 10px 10px;
+}
+
+#result_comment {
+    text-align: center;
+}
+
+
+
+#info_sito span  {
+    display: block;
+    
+}
+
+
+#panel_legenda{
+    
+    float: left;
+    background-color: #eeeeee;
+    width: 40%;
+
+}
+
+#panel_legenda h4 {
+    float:left;
+    clear: both;
+    
+}
+
+#panel_legenda p {
+    float:left;
+    clear: both;
+    font-weight: bold;
+    
+}
+
+
+#close_legenda{
+    float:left;
+    clear: both;
+
+}
+
+#prova_legenda{
+    float: left;
+    clear: both;
+}
+
+#ritrovamenti_punti{
+    
+    float: left;
+    clear:both;
+    
+    
+}
+
+.dato_legenda{
+    float:left;
+    clear:both;
+}
+
+.imm_legenda{
+    float:left;
+    
+    
+}
+
+.epoca_legenda{
+    font-size: 60%;
+    float:left;
+}
+
+#legenda_field{
+    float:left;
+    display:inlin
+}
+
+
+/* SEARCH */
+#search_type {
+}
+
+#search_type label {
+    float: left;
+    margin: 10px 20px 0 0;
+}
+
+#search_type select {
+}
+
+#search_type .ui-slider-switch {
+    width: 9em;
+}
+
+#search_type .ui-btn-active {
+    background-color: #e9e9e9;
+    color: black;
+    text-shadow: none;
+}
+
+#search_result table {
+    margin-right: 30px;
+}
+
+.table_search {
+    margin: 5px;
+}
+
+.td_title {
+    width: 15%;
+}
+
+.date_table {
+    padding-left: 1.3em;
+    width: 60%;
+    border-bottom: 1px solid rgb(221, 221, 221);
+}
+
+.layout_table {
+    position: relative;
+    border: 1px solid #DDDDDD;
+    padding: 0.4em;
+    margin: 0.2em;
+    border-radius: 10px 10px 10px 10px;
+}
+
+.layout_table button {
+    position: absolute;
+    top: 5px;
+    right: 15px;
+}
+
+
+/* TEST */
+#test {
+    display: none;
+}
