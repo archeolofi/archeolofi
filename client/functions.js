@@ -267,9 +267,6 @@ function display_contents(contents) {
         //data-role="fieldcontain"
         $("#contents").append(
                 '<div class="single_comment">'
-            +   '   <div id="content_id" class="hidden">'
-            +           entry["id_"]
-            +   '   </div>'
             +   (entry["user"] == logged_name ? edit_my_content(entry["id_"]) : '')
             +   (entry["comment"] ? '<p class="view_text_comment">' + entry["comment"] + '</p>' : '')
             +   (entry["filename"] ? file_thumb(entry) : '')

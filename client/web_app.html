@@ -48,33 +48,6 @@
                         post_a_comment(comment);
                 });
             });
-            
-            $(document).ready( function() {
-                $("#go_intervento").click( function() {
-                    last_visited_id = id_intervento;
-                    last_visited_type = "intervento";
-                    
-                    $("#info_json_intervento").show();
-                    $("#info_json_ritrovamento").hide();
-                    $.mobile.changePage( "#info", 
-                                        { allowSamePageTransition: true } );
-                    $("#go_intervento").hide();
-                    $("#go_ritrovamento").show();
-                });
-            });
-            
-            $(document).ready( function() {
-                $("#go_ritrovamento").click( function() {
-                    last_visited_id = id_ritrovamento;
-                    last_visited_type = "ritrovamento";
-                    $("#info_json_intervento").hide()
-                    $("#info_json_ritrovamento").show()
-                    $.mobile.changePage( "#info", 
-                                        { allowSamePageTransition: true } );
-                    $("#go_ritrovamento").hide();
-                    $("#go_intervento").show();
-                });
-            });
 
         </script>
 
@@ -223,7 +196,7 @@
             </div>
         </div>
 
-    <!-- ======================== LOGIN  ======================== -->
+    <!-- ============================= LOGIN  ============================= -->
         <div data-role="page" id="login"  >
             <div data-role="header"  >
                 <a href="#" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-notext"></a>
@@ -249,7 +222,6 @@
             </div>
         </div>
 
-        
 
         <!-- =========================== REGISTER =========================== -->
 
@@ -284,7 +256,6 @@
 
         <!-- =========================== SEARCH =========================== -->
         <script>
-
             function set_search_placeholder(selected) {
                 if(selected.value == "by_position")
                     $("#question").attr(
