@@ -269,13 +269,13 @@ function display_contents(contents) {
             +   (entry["user"] == logged_name ? edit_my_content(entry["id_"]) : '') 
             +   '       </div>'
             +   '       <div class="layout_like_dislike">'   
-            +   '           <div class="like_button">'
+            +   '           <div class="like_button" title="' + entry["id_"] + '">'
             +   '               <button class="ui-btn ui-icon-like ui-btn-icon-notext ui-corner-all ui-nodisc-icon ui-btn-inline" '
-            +   '                   onclick="like(' + entry["id_"] + ', true);">'
+            +   '                   name="' + entry["id_"] + '" onclick="like(' + entry["id_"] + ', true);">'
             +   '               mi piace'
             +   '               </button>'
             +   '               <button class="ui-btn ui-icon-dislike ui-btn-icon-notext ui-corner-all ui-nodisc-icon ui-btn-inline" '
-            +   '                   onclick="like(' + entry["id_"] + ', false);">'
+            +   '                   name="' + entry["id_"] + '" onclick="like(' + entry["id_"] + ', false);">'
             +   '               non mi piace'
             +   '               </button>'
             +   '           </div>'
@@ -588,12 +588,13 @@ function like(content_id, do_like) {
         contentType: "application/json",
         success: function() {
             console.log("liked.");
+            contents_refresh();
         },
         error: function() {
+            $(".like_button[title=" + content_id + "]").html(
+                "<p>hai già espresso una preferenza</p>"
+            );
             console.log("ops, something went wrong..");
-        },
-        complete: function(data_response) {
-            return data_response.responseText;
         }
     });
 }

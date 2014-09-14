@@ -148,6 +148,11 @@ span.inte {
     font-weight: bold;
 }
 
+.like_button p {
+    color: red;
+    font-size: 70%;
+}
+
 .counter_like{
     color: #03C03C;
 }
