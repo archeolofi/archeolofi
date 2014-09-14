@@ -335,6 +335,17 @@ span.inte {
 }
 
 
+/* IMAGE */
+.fit { /* set relative picture size */
+    max-width: 100%;
+    max-height: 100%;
+}
+.center {
+    display: block;
+    margin: auto;
+}
+
+
 /* TEST */
 #test {
     display: none;

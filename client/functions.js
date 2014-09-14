@@ -171,12 +171,23 @@ function display_opengeo(data, back_id) {
         for(var i=0, l=images.length; i<l; i++) {
             var link = opengeo_make_link(images[i]["link"]);
             var thumb = opengeo_make_link(images[i]["thumbnail"]);
-            $("#image").append( "<a href='" + link + "' download> \
+            $("#image").append( "<a href='" + link + "'> \
                     <img src='" + thumb + "'' alt='" + images[i]["descr"] + "'' /> \
                 </a>");
         }
         $("#gallery").show();
     }
+
+    $("#image a").click(function() {
+        event.preventDefault();
+        var target = this.href;
+        var description = $(this).children()[0].alt;
+        $("#image_viewer h2").html(description);
+        $("#image_viewer #image_content").attr("src", target);
+
+        $.mobile.changePage("#image_viewer");
+        // $(this).pagecontainer("change", "#info");
+    });
 }
 
 function setting_info() {
@@ -210,16 +221,10 @@ function file_thumb(entry) {
     // TODO: correggere in 'data:image/jpeg;base64,' + entry["photo_thumb"];
     if(entry["photo_thumb"]) {
         var thumb = (
-                '<a href="popup' + entry["id_"] + '" '
-            +   '        data-rel="popup" data-position-to="window" data-transition="fade">'
-            +   '    <img class="popphoto" src="data:image;base64,' + entry["photo_thumb"] + '" style="width:30%">'
+                '<a href="' + SERVER_URL + 'contents/' + entry["filename"] + '" type="image">'
+            +   '    <img class="popphoto" src="data:image;base64,' + entry["photo_thumb"] + '" '
+            +   '         alt="' + entry["file_description"] + '" />'
             +   '</a>\n'
-            +   '<div data-role="popup" id="popup' + entry["id_"] + '" data-overlay-theme="b" data-theme="d" data-corners="false">'
-            +   '    <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">chiudi</a>'
-            +   '    <img class="popphoto" src="' + SERVER_URL + 'contents/' + entry["filename"] + '"'
-            +   '            style="max-height:512px;" '
-            +   '            alt="' + entry["file_description"] + '" />'
-            +   '</div>'
         )
     }
     else {
@@ -300,6 +305,18 @@ function display_contents(contents) {
             +   '   </div>'
             +   '</div>'
         );
+    });
+
+    $(".single_comment a[type='image']").click(function() {
+        event.preventDefault();
+        var target = this.href;
+        var description = $(this).children()[0].alt;
+        console.log("target: ", target);
+        $("#image_viewer h2").html(description);
+        $("#image_viewer #image_content").attr("src", target);
+
+        $.mobile.changePage("#image_viewer");
+        // $(this).pagecontainer("change", "#info");
     });
 
     // $(".edit_buttons .content_edit").click(function() {

@@ -335,7 +335,32 @@
         </div>
 
 
-        <!-- =========================== CREDITS =========================== -->
+        <!-- =========================== IMAGE =========================== -->
+        <script type="text/javascript">
+            function set_body_height() {
+                var wh = $(window).height();
+                $('body').height(wh);
+            }
+
+            $(document).ready(function() {
+                set_body_height();
+                $(window).bind('resize', function() {
+                    set_body_height();
+                });
+            });
+        </script>
+        <div data-role="page" id="image_viewer">
+            <div data-role="header">
+                <a href="#" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-notext"></a>
+                <h2><!-- image description --></h2>
+            </div>
+            <div data-role="content">
+                <img id="image_content" src="#" class="center fit" />
+            </div>
+        </div>
+
+
+        <!-- ========================== CREDITS ========================== -->
 
         <div data-role="page" id="credits"  >
             <div data-role="header"  >
