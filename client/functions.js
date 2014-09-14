@@ -227,7 +227,6 @@ function edit_my_content(content_id) {
 
     $(".edit_buttons .content_delete").click(function() {
         remove_content($(this).attr("name"));
-        contents_refresh();
     });
 
     return edit_buttons;
@@ -358,7 +357,6 @@ function clear_info() {
 }
 
 function contents_refresh() {
-    // TODO: mettere uno sleep e un'iconcina di caricamento
     $("#contents").empty();
     get_contents();
 }
@@ -564,6 +562,7 @@ function remove_content(content_id) {
         contentType: "application/json",
         success: function() {
             console.log("content deleted.");
+            contents_refresh();
         },
         error: function() {
             console.log("ops, something went wrong..");
