@@ -224,11 +224,6 @@ function edit_my_content(content_id) {
         +   '<button class="content_delete" name="' + content_id + '" value="cancella"></button>'
         +'</div>'
     )
-
-    $(".edit_buttons .content_delete").click(function() {
-        remove_content($(this).attr("name"));
-    });
-
     return edit_buttons;
 }
 
@@ -291,6 +286,10 @@ function display_contents(contents) {
             +   '   </div>'
             +   '</div>'
         );
+    });
+
+    $(".edit_buttons .content_delete").click(function() {
+        remove_content($(this).attr("name"));
     });
 }
 
