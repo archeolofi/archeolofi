@@ -203,16 +203,32 @@ function setting_info() {
     }
 }
 
-
 function file_thumb(entry) {
+    /**
+     * Link with a photo or icon related to an user file.
+     */
     // TODO: correggere in 'data:image/jpeg;base64,' + entry["photo_thumb"];
-    var thumb = (
-            '<a href="' + SERVER_URL + 'contents/' + entry["filename"] + '" download>'
-        +   '   <img src="'
-        +   (entry["photo_thumb"] ? 'data:image;base64,' + entry["photo_thumb"] : FILE_ICON) + '" '
-        +   '" />'
-        +   '</a>\n'
-    )
+    if(entry["photo_thumb"]) {
+        var thumb = (
+                '<a href="popup' + entry["id_"] + '" '
+            +   '        data-rel="popup" data-position-to="window" data-transition="fade">'
+            +   '    <img class="popphoto" src="data:image;base64,' + entry["photo_thumb"] + '" style="width:30%">'
+            +   '</a>\n'
+            +   '<div data-role="popup" id="popup' + entry["id_"] + '" data-overlay-theme="b" data-theme="d" data-corners="false">'
+            +   '    <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">chiudi</a>'
+            +   '    <img class="popphoto" src="' + SERVER_URL + 'contents/' + entry["filename"] + '"'
+            +   '            style="max-height:512px;" '
+            +   '            alt="' + entry["file_description"] + '" />'
+            +   '</div>'
+        )
+    }
+    else {
+        var thumb = (
+                '<a href="' + SERVER_URL + 'contents/' + entry["filename"] + '" download>'
+            +   '   <img src="' + FILE_ICON + '" />'
+            +   '</a>\n'
+        )        
+    }
     return thumb;
 }
 
