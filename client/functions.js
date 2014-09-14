@@ -217,6 +217,22 @@ function file_thumb(entry) {
     return thumb;
 }
 
+function edit_my_content(content_id) {
+    var edit_buttons = (
+         '<div class="edit_buttons">'
+        +   '<button class="content_edit" name="' + content_id + '" value="modifica"></button>'
+        +   '<button class="content_delete" name="' + content_id + '" value="cancella"></button>'
+        +'</div>'
+    )
+
+    $(".edit_buttons .content_delete").click(function() {
+        remove_content($(this).attr("name"));
+        contents_refresh();
+    });
+
+    return edit_buttons;
+}
+
 function convert_time(epoch) {
     var date = new Date(1000 * epoch);
     var minutes = date.getMinutes().toString();
@@ -251,6 +267,7 @@ function display_contents(contents) {
             +   '           <span class="data_hours">'
             +                   convert_time(entry["creation_time"])
             +   '           </span>'
+            +   (entry["user"] == logged_name ? edit_my_content(entry["id_"]) : '') 
             +   '       </div>'
             +   '       <div class="layout_like_dislike">'   
             +   '           <div class="like_button">'
@@ -341,6 +358,7 @@ function clear_info() {
 }
 
 function contents_refresh() {
+    // TODO: mettere uno sleep e un'iconcina di caricamento
     $("#contents").empty();
     get_contents();
 }
@@ -549,9 +567,6 @@ function remove_content(content_id) {
         },
         error: function() {
             console.log("ops, something went wrong..");
-        },
-        complete: function(data_response) {
-            return data_response.responseText;
         }
     });
 }
