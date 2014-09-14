@@ -118,7 +118,6 @@ function display_opengeo(data, back_id) {
 
         $("#go_to_other_type").html(
               '<span>'
-           // + '     vedi l\' '
             + '     <button data-theme="d" class="ui-btn ui-shadow ui-corner-all " >vedi area di intervento</button>'
             + '</span>'
         );
@@ -217,6 +216,15 @@ function file_thumb(entry) {
     return thumb;
 }
 
+function edit_my_content(content_id) {
+    var edit_buttons = (
+         '<div class="edit_buttons">'
+        +    '<a href="#" class="content_delete" name="' + content_id + '">x</a>'
+        +'</div>'
+    )
+    return edit_buttons;
+}
+
 function convert_time(epoch) {
     var date = new Date(1000 * epoch);
     var minutes = date.getMinutes().toString();
@@ -237,10 +245,11 @@ function display_contents(contents) {
         console.log(entry);
         //data-role="fieldcontain"
         $("#contents").append(
-                '<div  class="single_comment">'
+                '<div class="single_comment">'
             +   '   <div id="content_id" class="hidden">'
             +           entry["id_"]
             +   '   </div>'
+            +   (entry["user"] == logged_name ? edit_my_content(entry["id_"]) : '')
             +   (entry["comment"] ? '<p class="view_text_comment">' + entry["comment"] + '</p>' : '')
             +   (entry["filename"] ? file_thumb(entry) : '')
             +   '   <div class="info_comment">'
@@ -253,13 +262,13 @@ function display_contents(contents) {
             +   '           </span>'
             +   '       </div>'
             +   '       <div class="layout_like_dislike">'   
-            +   '           <div class="like_button">'
+            +   '           <div class="like_button" title="' + entry["id_"] + '">'
             +   '               <button class="ui-btn ui-icon-like ui-btn-icon-notext ui-corner-all ui-nodisc-icon ui-btn-inline" '
-            +   '                   onclick="like(' + entry["id_"] + ', true);">'
+            +   '                   name="' + entry["id_"] + '" onclick="like(' + entry["id_"] + ', true);">'
             +   '               mi piace'
             +   '               </button>'
             +   '               <button class="ui-btn ui-icon-dislike ui-btn-icon-notext ui-corner-all ui-nodisc-icon ui-btn-inline" '
-            +   '                   onclick="like(' + entry["id_"] + ', false);">'
+            +   '                   name="' + entry["id_"] + '" onclick="like(' + entry["id_"] + ', false);">'
             +   '               non mi piace'
             +   '               </button>'
             +   '           </div>'
@@ -275,6 +284,15 @@ function display_contents(contents) {
             +   '   </div>'
             +   '</div>'
         );
+    });
+
+    // $(".edit_buttons .content_edit").click(function() {
+    //     modify_content($(this).attr("name"));
+    // });
+
+    $(".edit_buttons .content_delete").click(function() {
+        event.preventDefault();
+        remove_content($(this).attr("name"));
     });
 }
 
@@ -546,12 +564,10 @@ function remove_content(content_id) {
         contentType: "application/json",
         success: function() {
             console.log("content deleted.");
+            contents_refresh();
         },
         error: function() {
             console.log("ops, something went wrong..");
-        },
-        complete: function(data_response) {
-            return data_response.responseText;
         }
     });
 }
@@ -574,12 +590,13 @@ function like(content_id, do_like) {
         contentType: "application/json",
         success: function() {
             console.log("liked.");
+            contents_refresh();
         },
         error: function() {
+            $(".like_button[title=" + content_id + "]").html(
+                "<p>hai già espresso una preferenza</p>"
+            );
             console.log("ops, something went wrong..");
-        },
-        complete: function(data_response) {
-            return data_response.responseText;
         }
     });
 }

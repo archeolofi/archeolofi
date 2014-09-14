@@ -170,6 +170,11 @@ def create_app(config_mode=None, config_file=None):
         if content.filename:
             files_to_be_removed[request.url] = content.filename
 
+    def remove_related_likes(instance_id=None, **kw):
+        for l in Like.query.filter_by(content_id=instance_id).all():
+            db.session.delete(l)
+        db.session.commit()
+
     def remove_file(is_deleted=None, **kw):
         if not is_deleted:
             return
@@ -218,7 +223,11 @@ def create_app(config_mode=None, config_file=None):
                 pre_modification,
                 escape_html
             ],
-            "DELETE": [pre_modification, check_files]
+            "DELETE": [
+                pre_modification,
+                remove_related_likes,
+                check_files
+            ]
         },
         postprocessors={
             "GET_MANY": [add_like_fields],
@@ -355,7 +364,10 @@ class Content(db.Model):
         db.Text
     )
 
-    # likes = db.relationship("like", backref=db.backref("content_id"))
+    # likes = db.relationship(
+    #     "like", backref=db.backref("content_id", cascade="delete-orphan")
+    # )
+    # oppure Like invece che "like"
 
 
 class Like(db.Model):

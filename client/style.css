@@ -92,15 +92,22 @@ span.inte {
 #collapse_contents{
 }
 
-.single_comment{
+.single_comment {
     width: 95%;
     float:left;
     clear: both;
+    position: relative;
 
     border: 1px solid #DDDDDD;
     padding: 0.4em;
     margin: 0.2em;
     border-radius: 10px 10px 10px 10px;
+}
+
+.single_comment .edit_buttons {
+    position: absolute;
+    top: 5px;
+    right: 10px;
 }
 
 .single_comment img {
@@ -146,6 +153,16 @@ span.inte {
     font-size:90%;
     padding: 0.9em;
     font-weight: bold;
+}
+
+.like_button p {
+    color: red;
+    font-size: 70%;
+}
+
+.edit_buttons a {
+    color: #660402 !important;
+    text-decoration: none;
 }
 
 .counter_like{
