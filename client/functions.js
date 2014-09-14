@@ -118,7 +118,6 @@ function display_opengeo(data, back_id) {
 
         $("#go_to_other_type").html(
               '<span>'
-           // + '     vedi l\' '
             + '     <button data-theme="d" class="ui-btn ui-shadow ui-corner-all " >vedi area di intervento</button>'
             + '</span>'
         );
@@ -220,8 +219,7 @@ function file_thumb(entry) {
 function edit_my_content(content_id) {
     var edit_buttons = (
          '<div class="edit_buttons">'
-        +   '<button class="content_edit" name="' + content_id + '" value="modifica"></button>'
-        +   '<button class="content_delete" name="' + content_id + '" value="cancella"></button>'
+        +    '<a href="#" class="content_delete" name="' + content_id + '">x</a>'
         +'</div>'
     )
     return edit_buttons;
@@ -247,10 +245,11 @@ function display_contents(contents) {
         console.log(entry);
         //data-role="fieldcontain"
         $("#contents").append(
-                '<div  class="single_comment">'
+                '<div class="single_comment">'
             +   '   <div id="content_id" class="hidden">'
             +           entry["id_"]
             +   '   </div>'
+            +   (entry["user"] == logged_name ? edit_my_content(entry["id_"]) : '')
             +   (entry["comment"] ? '<p class="view_text_comment">' + entry["comment"] + '</p>' : '')
             +   (entry["filename"] ? file_thumb(entry) : '')
             +   '   <div class="info_comment">'
@@ -261,7 +260,6 @@ function display_contents(contents) {
             +   '           <span class="data_hours">'
             +                   convert_time(entry["creation_time"])
             +   '           </span>'
-            +   (entry["user"] == logged_name ? edit_my_content(entry["id_"]) : '') 
             +   '       </div>'
             +   '       <div class="layout_like_dislike">'   
             +   '           <div class="like_button" title="' + entry["id_"] + '">'
@@ -288,7 +286,12 @@ function display_contents(contents) {
         );
     });
 
+    // $(".edit_buttons .content_edit").click(function() {
+    //     modify_content($(this).attr("name"));
+    // });
+
     $(".edit_buttons .content_delete").click(function() {
+        event.preventDefault();
         remove_content($(this).attr("name"));
     });
 }
