@@ -29,7 +29,6 @@
 /home/emilio/Scrivania/indiana/src/client/archeolofi_android/platforms/android/ant-build/res/drawable-ldpi/icon.png \
 /home/emilio/Scrivania/indiana/src/client/archeolofi_android/platforms/android/assets/_where-is-www.txt \
 /home/emilio/Scrivania/indiana/src/client/archeolofi_android/platforms/android/assets/www \
-/home/emilio/Scrivania/indiana/src/client/archeolofi_android/platforms/android/assets/www/functions.js \
 /home/emilio/Scrivania/indiana/src/client/archeolofi_android/platforms/android/assets/www/cordova.js \
 /home/emilio/Scrivania/indiana/src/client/archeolofi_android/platforms/android/assets/www/cordova_plugins.js \
 /home/emilio/Scrivania/indiana/src/client/archeolofi_android/platforms/android/assets/www/libs \
@@ -38,7 +37,6 @@
 /home/emilio/Scrivania/indiana/src/client/archeolofi_android/platforms/android/assets/www/images \
 /home/emilio/Scrivania/indiana/src/client/archeolofi_android/platforms/android/assets/www/img \
 /home/emilio/Scrivania/indiana/src/client/archeolofi_android/platforms/android/assets/www/style.css \
-/home/emilio/Scrivania/indiana/src/client/archeolofi_android/platforms/android/assets/www/map_functions.js \
 /home/emilio/Scrivania/indiana/src/client/archeolofi_android/platforms/android/assets/www/css \
 /home/emilio/Scrivania/indiana/src/client/archeolofi_android/platforms/android/assets/www/js \
 /home/emilio/Scrivania/indiana/src/client/archeolofi_android/platforms/android/assets/www/libs/jquery.mobile-1.4.2 \
@@ -290,5 +288,8 @@
 /home/emilio/Scrivania/indiana/src/client/archeolofi_android/platforms/android/assets/www/images/X_rossa.png \
 /home/emilio/Scrivania/indiana/src/client/archeolofi_android/platforms/android/assets/www/img/logo.png \
 /home/emilio/Scrivania/indiana/src/client/archeolofi_android/platforms/android/assets/www/css/index.css \
+/home/emilio/Scrivania/indiana/src/client/archeolofi_android/platforms/android/assets/www/js/functions.js \
+/home/emilio/Scrivania/indiana/src/client/archeolofi_android/platforms/android/assets/www/js/location.js \
+/home/emilio/Scrivania/indiana/src/client/archeolofi_android/platforms/android/assets/www/js/map_functions.js \
 /home/emilio/Scrivania/indiana/src/client/archeolofi_android/platforms/android/assets/www/js/index.js \
 /home/emilio/Scrivania/indiana/src/client/archeolofi_android/platforms/android/ant-build/AndroidManifest.xml \
