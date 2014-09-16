@@ -25,15 +25,22 @@ var boundary = L.polyline(
     {color: 'red'}
 ).bindPopup(introduction);
 
+
 var cluster = L.polygon(
     [
         [43.763007, 11.267304 ],[43.77225, 11.29374],[43.78755, 11.25015],
         [43.77846, 11.23801],[43.76484, 11.24234], [43.763007, 11.267304 ]
     ],
     {color: 'red'}
-);
+).bindPopup(introduction);
 cluster.on("click", function() {
     map.setView(CENTER, 16);
+});
+cluster.on('mouseover', function (e) {
+    this.openPopup();
+});
+cluster.on('mouseout', function (e) {
+    this.closePopup();
 });
 
 var RedIcon = L.Icon.Default.extend(
@@ -48,6 +55,12 @@ var far_marker = L.marker(
 ).bindPopup(introduction);
 far_marker.on("click",  function() {
     map.setView(CENTER, 16);
+});
+far_marker.on('mouseover', function (e) {
+    this.openPopup();
+});
+far_marker.on('mouseout', function (e) {
+    this.closePopup();
 });
 
 
