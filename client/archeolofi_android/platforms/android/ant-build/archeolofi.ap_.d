@@ -31,6 +31,7 @@
 /home/emilio/Scrivania/indiana/src/client/archeolofi_android/platforms/android/assets/www \
 /home/emilio/Scrivania/indiana/src/client/archeolofi_android/platforms/android/assets/www/cordova.js \
 /home/emilio/Scrivania/indiana/src/client/archeolofi_android/platforms/android/assets/www/cordova_plugins.js \
+/home/emilio/Scrivania/indiana/src/client/archeolofi_android/platforms/android/assets/www/plugins \
 /home/emilio/Scrivania/indiana/src/client/archeolofi_android/platforms/android/assets/www/libs \
 /home/emilio/Scrivania/indiana/src/client/archeolofi_android/platforms/android/assets/www/index.html \
 /home/emilio/Scrivania/indiana/src/client/archeolofi_android/platforms/android/assets/www/buttons.css \

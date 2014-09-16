@@ -11,5 +11,10 @@
         "name": "Apache Cordova Team",
         "url": "http://cordova.io"
     },
+    "permissions": {
+        "geolocation": {
+            "description": "Required for accessing user location."
+        }
+    },
     "icons": {}
 }
