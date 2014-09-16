@@ -1,40 +1,393 @@
 <!DOCTYPE html>
-<!--
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-     KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
--->
 <html>
     <head>
+        <title>archeolofi</title>
+
         <meta charset="utf-8" />
         <meta name="format-detection" content="telephone=no" />
-        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
-        <link rel="stylesheet" type="text/css" href="css/index.css" />
         <meta name="msapplication-tap-highlight" content="no" />
-        <title>Hello World</title>
+
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <link rel="stylesheet" type="text/css" href="libs/jquery.mobile-1.4.2/jquery.mobile-1.4.2.css" />
+        <link rel="stylesheet" type="text/css" href="libs/leaflet-0.7.3/leaflet.css" />
+        <link rel="stylesheet" type="text/css" href="style.css" />
+        <link rel="stylesheet" href="buttons.css" />  
+         
+        <script type="text/javascript" src="libs/jquery-1.11.1.min.js"></script>
+        <script type="text/javascript" src="libs/jquery.mobile-1.4.2/jquery.mobile-1.4.2.js"></script>
+        <script type="text/javascript" src="libs/leaflet-0.7.3/leaflet.js"></script>
+
+        <script type="text/javascript" src="js/functions.js"></script>
+        <script>
+            ///////////////////////////// BUTTONS /////////////////////////////
+            $(document).ready( function() {
+                $("#login_button").click( function() {
+                    data = read_form("login");
+                    if(!data)
+                        return;
+                    login(data[0], data[1]);
+                });
+            });
+
+            $(document).ready( function() {
+                $("#register_button").click( function() {
+                    data = read_form("register");
+                    if(!data)
+                        return;
+                    register(data[0], data[1], data[2]);
+                });
+            });
+
+            $(function() {
+                $('#upload').click(function() {
+                    $("#result_comment").show();
+                    
+                    console.log($('#content_form'));
+                    var comment = $('#content_form #comment').val();
+                    if($('#content_form #file').val()) {
+                        var form_data = new FormData($('#content_form')[0]);
+                        upload(comment, form_data);
+                        
+                    }
+                    else
+                        post_a_comment(comment);
+                });
+            });
+
+        </script>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     </head>
+
     <body>
-        <div class="app">
-            <h1>Apache Cordova</h1>
-            <div id="deviceready" class="blink">
-                <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready</p>
+    <!-- =========================== HOME: MAP! =========================== -->
+        <div data-role="page" id="home">
+            <div data-role="header" >
+                <a href="#search" data-role="button" class="ui-btn-left" data-icon="search" data-inline="true">cerca</a>
+                <h1>archeolofi</h1>
+                <a href="#login" data-role="button" class="ui-btn-right user_unlogged" data-inline="true">login</a>
+                <a href="#login" data-role="button" class="ui-btn-right ui-btn-inline user_logged username" data-inline="true"></a>
+                
+            </div>
+            
+            <div data-role="content" id="content_map">
+                <div id="map" class="map" ></div>
+                
+            </div>
+            <div data-theme="a" data-role="footer" data-position="fixed">
+                <div id="legenda_field">
+                    <div class="dato_legenda">
+                        <img class="imm_legenda" src="images/area_intervento.png" /><span class="epoca_legenda">area intervento</span>
+                    </div>  
+                    <div class="dato_legenda">
+                        <img class="imm_legenda" src="images/X_grigia.png" /><span class="epoca_legenda">età pre_romana</span>
+                    </div>
+                </div>
+                <div id="legenda_field">
+                    <div class="dato_legenda">
+                        <img class="imm_legenda" src="images/X_rossa.png" />
+                        <img class="imm_legenda" src="images/linea_rossa.png" />
+                        <span class="epoca_legenda">età medievale</span>
+                    </div>
+                    <div class="dato_legenda">
+                        <img class="imm_legenda" src="images/X_marrone.png" />
+                        <img class="imm_legenda" src="images/linea_marrone.png" />
+                        <span class="epoca_legenda">età romana</span>
+                    </div>
+                </div>
+                <div id="legenda_field">
+                    <div class="dato_legenda">
+                        <img class="imm_legenda" src="images/X_oro.png" /><span class="epoca_legenda">Non Determinabile</span>
+                    </div>
+                    <div class="dato_legenda">
+                        <img class="imm_legenda" src="images/X_grigioscuro.png" />
+                        <img class="imm_legenda" src="images/linea_grigia.png" />
+                        <span class="epoca_legenda">età moderna</span>
+                    </div>
+                </div>
+                
             </div>
         </div>
+
+    <!-- ============================== INFO ============================== -->
+        <div data-role="page" id="info">
+            <div data-role="header">
+                <h1>Info</h1>
+                <a href="#home" class="ui-btn-left">Mappa</a>
+                <a href="#login" data-role="button" class="ui-btn-right user_unlogged" data-inline="true">login</a>
+                <a href="#login" data-role="button" class="ui-btn-right user_logged username" data-inline="true"></a>
+            </div>
+
+            <div data role="content">
+                <div id="test"></div>
+                
+                <h3 class="ui-bar ui-bar-a ">MAGGIORI INFORMAZIONI</h3>
+                
+                <div id="info_sito" class="ui-body">
+                    <div id="info_json_ritrovamento">
+                        <h3 id="json_definizione"></h3>
+                        <span id="json_cronologia"></span>
+                    </div>
+                        
+                    <div id="info_json_intervento">
+                        <span id="json_approvazione"></span>
+                        <span id="json_catasto_foglio"></span>
+                        <span id="json_catasto_particella"></span>
+                        <span id="json_comune"></span>
+                        <span id="json_data_aggiornamento"></span>
+                        <span id="json_motiv_intervento"></span>
+                        <span id="json_nome_compilatore"></span>
+                    </div>
+
+                    <div id="basic_info"></div>
+                    <span id="json_ubicazione"></span>
+                    <div id="go_to_other_type"></div>
+                    <div id="info_approfondite">
+                        <div id="description">
+                            <h4>Descrizione approfondita:</h4>
+                            <span id="descri"></span>
+                            <hr />
+                        </div>
+                        <div id="bibliography">
+                            <h4>Bibliografia:</h4>
+                            <span id="biblio"></span>
+                        </div>
+                        <div id="gallery">
+                            <hr />
+                            <h4>Immagini:</h4>
+                            <span id="image"></span>
+                        </div>
+                    </div>
+                </div>
+                    
+                <div data-role="collapsible-set">
+
+                    <div data-role="collapsible" id="layout_contents" data-collapsed-icon="arrow-d" data-expanded-icon="arrow-u">
+                        <h4>CONTENUTI UTENTI</h4>
+                        <div id="contents"></div>
+                        <p id="important">è importante la tua opinione e esperienza: commenta!</p>
+                    </div>
+                
+                    <div data-role="collapsible" id="collaps_add_cnt">
+                        <h4>AGGIUNGI UN CONTENUTO</h4>
+                        
+                        <div id="addcontent" class="user_logged">
+                            <form id="content_form" method="post" enctype="multipart/form-data">
+                                <div data-role="fieldcontain">
+                                    <label for="comment">Inserisci un tuo commento:</label>
+                                    <textarea name="comment" id="comment" /></textarea>
+                                </div>
+                                <div data-role="fieldcontain">
+                                    <fieldset>
+                                        <label for="file">Seleziona un file:</label>
+                                        <input name="file" type="file" id="file">
+                                    </fieldset>
+                                    
+                                </div>
+                                <div data-role="fieldcontain">
+                                    <button id="upload" type="button" data-icon="comment" data-theme="d">Pubblica</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div id="login_required" class="user_unlogged">
+                            fai login prima di aggiungere un contenuto:
+                            <a href="#login" data-role="button" data-theme="e">login</a>
+                        </div>
+                        <h2 id="result_comment"></h2>
+                        
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+    <!-- ============================= LOGIN  ============================= -->
+        <div data-role="page" id="login"  >
+            <div data-role="header"  >
+                <a href="#" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-notext"></a>
+                <a href="#register" data-role="button" class="ui-btn-right"  data-inline=”true” >registrati</a>
+                <h2>Login</h2>
+                
+            </div>
+            <div data-role="content">
+                <form name="login" id="user_data_login">
+                    <div data-role="fieldcontain" class="ui-hide-label">
+                        <label for="username">Username:</label>
+                        <input type="text" name="name_login" id="name_login" value="" placeholder="Username" required />
+                    </div>
+
+                    <div data-role="fieldcontain" class="ui-hide-label">
+                        <label for="password">Password:</label>
+                        <input type="password" name="psw_login" id="psw_login" value="" placeholder="Password" required />
+                    </div>
+
+                    <input type="button" id="login_button" data-icon="check" value="Accedi" data-theme="d">
+                    <h2 id="login_situation"></h2>
+                </form>
+            </div>
+        </div>
+
+
+        <!-- =========================== REGISTER =========================== -->
+
+        <div data-role="page" id="register"  >
+            <div data-role="header"  >
+                <a href="#" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-notext"></a>
+                <h2>Register</h2>
+            </div>
+            <div data-role="content">
+                <form name="register" id="user_data_register">
+                    <div data-role="fieldcontain" class="ui-hide-label">
+                        <label for="username">Username:</label>
+                        <input type="text" name="name_register" id="name_register" value="" placeholder="Username" required/>
+                    </div>
+
+                    <div data-role="fieldcontain" class="ui-hide-label">
+                        <label for="password">Password:</label>
+                        <input type="password" name="psw_register" id="psw_register" value="" placeholder="Password" required/>
+                    </div>
+
+                    <div data-role="fieldcontain" class="ui-hide-label">
+                            <label for="email">email:</label>
+                            <input type="text" name="email" id="email" value="" placeholder="email" />
+                    </div>
+
+                        <input type="button" id="register_button" data-icon="edit" data-theme="d" value="Registrati" >
+                    <h2 id="register_error"></h2>
+                </form>
+            </div>    
+        </div>
+
+
+        <!-- =========================== SEARCH =========================== -->
+        <script>
+            function set_search_placeholder(selected) {
+                if(selected.value == "by_position")
+                    $("#question").attr(
+                        "placeholder",
+                        "via dei Brunelleschi, piazza dei Davanzati..."
+                    );
+                else if(selected.value == "by_type")
+                    $("#question").attr(
+                        "placeholder",
+                        "torre, strada..."
+                    );
+            }
+
+            $(document).ready( function() {
+                $("#search_button").click( function() {
+                    var question = $("#question").val();
+                    var type = $("#search_type option:selected").val();
+                    remote_search(type, question);
+                });
+            });
+        </script>
+        <div data-role="page" id="search">
+            <div data-role="header">
+                <a href="#" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-notext"></a>
+                <h2>Ricerca</h2>
+                <a href="#login" data-role="button" class="ui-btn-right user_logged username" data-inline="true"></a>
+            </div>
+            <div data-role="content">
+                <form name="search" id="search">
+                    <div class="ui-field-contain ui-body ui-br" data-role="fieldcontain">
+                        <div id="search_type">
+                            <label for="flip-1">Cerca per:</label>
+                            <select name="flip-1" id="search_type" data-role="slider" data-theme="d"
+                                    onchange="set_search_placeholder(this);">
+                                <option value="by_type" selected:"selected">tipo</option>
+                                <option value="by_position">ubicazione</option>
+                            </select>
+                        </div>
+                        <div data-role="fieldcontain" class="ui-hide-label">
+                            <input type="text" name="question" id="question" placeholder="torre, strada..." required/>
+                        </div>
+                        <input type="button" id="search_button" data-icon="search" data-theme="d" value="Cerca" />
+                    </div>
+                </form>
+                <div id="search_result">
+                </div>
+            </div>    
+        </div>
+
+
+        <!-- =========================== IMAGE =========================== -->
+        <script type="text/javascript">
+            function set_body_height() {
+                var wh = $(window).height();
+                $('body').height(wh);
+            }
+
+            $(document).ready(function() {
+                set_body_height();
+                $(window).bind('resize', function() {
+                    set_body_height();
+                });
+            });
+        </script>
+        <div data-role="page" id="image_viewer">
+            <div data-role="header">
+                <a href="#" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-notext"></a>
+                <h2><!-- image description --></h2>
+            </div>
+            <div data-role="content">
+                <img id="image_content" src="#" class="center fit" />
+            </div>
+        </div>
+
+
+        <!-- ========================== CREDITS ========================== -->
+
+        <div data-role="page" id="credits"  >
+            <div data-role="header"  >
+                <a href="#" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-notext"></a>
+                <h2>Credits</h2>
+            </div>
+            <div data-role="content">
+            </div>
+        </div>
+
+
+        <!-- =========================== POPUP =========================== -->
+        <div class="hidden" id="popup_ritrovamento">
+            <h3 class="pop_elem"><!-- definizione --></h3>
+            <p class="pop_elem"><!-- descrizione_min --></p>
+            <span id="periodo" class="pop_elem ritr"></span>
+            <span id="tipologia_ritrov" class="pop_elem ritr"></span>
+            <a href="#info" id="passinfo"  class="ui-btn ui-icon-plus ui-btn-icon-left" data-icon="plus">
+                Altre informazioni
+            </a>
+        </div>
+        <div class="hidden" id="popup_intervento">
+            <h3 class="pop_elem"><!-- tipo_intervento --></h3>
+            <time id="data_compilazione" class="pop_elem"></time>
+            <ul class="pop_elem">
+                <li>
+                    metodo: <span id="metodo" class="pop_elem inte"></span>
+                </li>
+                <li>
+                    direzione scientifica: <span id="dir_scentifica" class="pop_elem inte"></span>
+                </li>
+                <li>
+                    ente responsabile: <span id="ente_resp" class="pop_elem inte"></span>
+                </li>
+                <li>
+                    ente schedatore: <span id="ente_schedatore" class="pop_elem inte"></span>
+                </li>
+                <li>
+                    esecutore intervento: <span id="esecutore_intervento" class="pop_elem inte"></span>
+                </li>
+                <li>
+                    tipo particella: <span id="tipo_particella" class="pop_elem inte"></span>
+                </li>
+            </ul>
+            <a href="#info" id="passinfo" class="ui-btn ui-icon-plus ui-btn-icon-left" data-icon="plus">
+                Altre informazioni
+            </a>
+        </div>
+
+        <script type="text/javascript" src="js/map_functions.js"></script>
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript">
