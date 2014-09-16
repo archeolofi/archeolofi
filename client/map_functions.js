@@ -16,6 +16,7 @@ L.tileLayer(
 
 /////////////////////////// DA LONTANO ///////////////////////////
 var introduction = "area degli scavi archeologici di firenze"
+
 var boundary = L.polyline(
     [
         [43.763007, 11.267304 ],[43.77225, 11.29374],[43.78755, 11.25015],
@@ -45,6 +46,9 @@ var far_marker = L.marker(
     CENTER,
     {icon: redIcon}
 ).bindPopup(introduction);
+far_marker.on("click",  function() {
+    map.setView(CENTER, 16);
+});
 
 
 function onZoomend() {
