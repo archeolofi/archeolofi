@@ -107,7 +107,7 @@ function onLocationFound(e) {
     // var my_position = L.marker([46.019853,5.74585]);     testing
     my_position.bindPopup("sei qui");
     my_position.addTo(map);
-    var to_be_shown = new L.featureGroup([my_position, far_marker, boundary]);
+    var to_be_shown = new L.featureGroup([my_position, far_marker, cluster, big_line]);
     map.fitBounds(to_be_shown.getBounds());
     console.log(e);
 }
