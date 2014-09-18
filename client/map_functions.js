@@ -9,7 +9,8 @@ var tiles = L.tileLayer(
     // 'http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png',
     {
         attribution: 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
-        maxZoom: 30
+        maxZoom: 30,
+        reuseTiles: true
     }
 )
 tiles.addTo(map);
