@@ -1,4 +1,8 @@
-var CENTER = [43.771473, 11.253766]
+var CENTER = [43.771473, 11.253766];
+var BOUNDARY = [
+    [43.763007, 11.267304],[43.77225, 11.29374],[43.78755, 11.25015],
+    [43.77846, 11.23801],[43.76484, 11.24234], [43.763007, 11.267304]
+];
 
 ///////////////////// INSERIMENTO DELLA MAPPA /////////////////////
 var map = L.map('map')
@@ -27,20 +31,13 @@ $(document).on('pageshow', '#home', function() {
 /////////////////////////// DA LONTANO ///////////////////////////
 var introduction = "area degli scavi archeologici di firenze"
 
-var boundary = L.polyline(
-    [
-        [43.763007, 11.267304 ],[43.77225, 11.29374],[43.78755, 11.25015],
-        [43.77846, 11.23801],[43.76484, 11.24234], [43.763007, 11.267304 ]
-    ], 
+var big_line = L.polyline(
+    BOUNDARY,
     {color: 'red'}
 ).bindPopup(introduction);
 
-
 var cluster = L.polygon(
-    [
-        [43.763007, 11.267304 ],[43.77225, 11.29374],[43.78755, 11.25015],
-        [43.77846, 11.23801],[43.76484, 11.24234], [43.763007, 11.267304 ]
-    ],
+    BOUNDARY,
     {color: 'red'}
 ).bindPopup(introduction);
 cluster.on("click", function() {
@@ -79,22 +76,22 @@ function onZoomend() {
     console.log("zoom: ", zoom_now);
 
     if(zoom_now >= 17) {
-        map.removeLayer(boundary);
+        map.removeLayer(big_line);
         map.removeLayer(far_marker);
         map.removeLayer(cluster);
     }
     else if((zoom_now < 17) && (zoom_now >= 14)) {
-        boundary.addTo(map);
+        big_line.addTo(map);
         map.removeLayer(far_marker);
         map.removeLayer(cluster);
     }
     else if((zoom_now < 13) && (zoom_now >= 10)) {
-        map.removeLayer(boundary);
+        map.removeLayer(big_line);
         map.removeLayer(far_marker);
         cluster.addTo(map);
     }
     else if(zoom_now < 10) {
-        map.removeLayer(boundary);
+        map.removeLayer(big_line);
         far_marker.addTo(map);
         map.removeLayer(cluster);
     }

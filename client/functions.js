@@ -388,7 +388,7 @@ function contents_refresh() {
     get_contents();
 }
 
-function check_log() {
+function check_if_logged_in() {
     if(!logged_auth) {
         $(".user_logged").hide();
         $(".user_unlogged").show();
@@ -403,14 +403,14 @@ function check_log() {
 // pagechange
 // pagechangefailed
 $(document).on('pagebeforeshow', '#home', function() {
-    check_log();
+    check_if_logged_in();
 });
 
 function prepare_info(back_id) {
     $("#test").html(last_visited_type + "    " +  last_visited_id);
     $("#result_comment").hide();
 
-    check_log();
+    check_if_logged_in();
     clear_info();
 
     // wms data         (a big and or statement would be nicer, but less clear)
