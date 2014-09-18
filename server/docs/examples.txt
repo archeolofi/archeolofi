@@ -16,7 +16,7 @@ resettare:
 DROP DATABASE archeolofi;
 CREATE DATABASE archeolofi;
 
-rhc app stop indiana
+rhc app stop archeolofi
 rhc cartridge start postgresql-9.2
 
 

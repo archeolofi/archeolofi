@@ -26,4 +26,23 @@ scp 5406047ae0b8cd8619000529@indiana-feedingaliencat.rhcloud.com:/var/lib/opens
 
 
 
+============================
+resettare:
+DROP DATABASE archeolofi;
+CREATE DATABASE archeolofi;
+
+rhc app stop archeolofi
+rhc cartridge start postgresql-9.2
+rhc ssh
+psql
+\c postgres
+DROP DATABASE archeolofi;
+CREATE DATABASE archeolofi;
+\q
+exit
+rhc app start archeolofi
+
+
+
+================
 rhc app delete
