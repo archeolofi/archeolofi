@@ -7,8 +7,7 @@ import flask.ext.restless as restless
 from passlib.hash import sha256_crypt
 from base64 import b64encode
 import flask.ext.sqlalchemy
-# from PIL import Image
-import Image
+from PIL import Image
 import requests
 import json
 import time
