@@ -4,14 +4,23 @@ var CENTER = [43.771473, 11.253766]
 var map = L.map('map')
 
 // http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
-L.tileLayer(
+var tiles = L.tileLayer(
     'http://otile4.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png',
     // 'http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png',
     {
         attribution: 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
         maxZoom: 30
     }
-).addTo(map);
+)
+tiles.addTo(map);
+
+
+$(document).on('pageshow', '#home', function() {
+    /**
+     * this is needed due to a known bug which causes the map to disappear
+     */
+    tiles.redraw();
+});
 
 
 /////////////////////////// DA LONTANO ///////////////////////////
