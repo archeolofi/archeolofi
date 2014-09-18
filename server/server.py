@@ -479,7 +479,5 @@ if __name__ == "__main__":
     create_app()
     db.create_all()
 
-    # local
-    app.run(host="0.0.0.0", debug=True)
     # Openshift
-    #app.run()
+    app.run()

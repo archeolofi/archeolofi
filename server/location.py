@@ -1,25 +1,16 @@
 #!/usr/bin/env python
 #-*- coding: utf-8 -*-
 
-
-db = {
-	"username" : "indiana",
-	"password" : "astropanza",
-	"host"     : "localhost",
-	"database" : "archeolofi",
-}
+import os
 
 
 DATABASE_URL = ''.join([
     "postgresql://",
-    db["username"],
+    os.environ["OPENSHIFT_POSTGRESQL_DB_HOST"],
     ":",
-    db["password"],
-    "@",
-    db["host"],
-    "/",
-    db["database"]
+    os.environ["OPENSHIFT_POSTGRESQL_DB_PORT"]
 ])
 
-CONTENTS = "static/"
-ID_FILE = "id.ini"
+
+CONTENTS = os.environ["OPENSHIFT_DATA_DIR"] + "static/"
+ID_FILE = os.environ["OPENSHIFT_DATA_DIR"] + "id.ini"
