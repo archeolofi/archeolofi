@@ -39,12 +39,10 @@ function read_form(type) {
         var psw = $("#psw_register").val();
         var email = $("#email").val();
         if(!name || !psw) {
-            //alert("Inserisci i campi richiesti");
             register_message("Errore durante la registrazione! Inserisci i campi richiesti");
             return false;
             }
         if(! /^.+@.+\..+$/.test(email)) {
-            //alert("Email non valida");
             register_message("Errore durante la registrazione! Email non valida");
             return false;
         }
