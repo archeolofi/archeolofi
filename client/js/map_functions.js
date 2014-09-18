@@ -20,7 +20,7 @@ var tiles = L.tileLayer(
 tiles.addTo(map);
 
 
-$(document).on('pageshow', '#home', function() {
+$(document).on('pagebeforeshow', '#home', function() {
     /**
      * this is needed due to a known bug which causes the map to disappear
      */
