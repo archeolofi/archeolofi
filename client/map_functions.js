@@ -60,7 +60,7 @@ var far_marker = L.marker(
     CENTER,
     {icon: redIcon}
 ).bindPopup(introduction);
-far_marker.on("click",  function() {
+far_marker.on("click", function() {
     map.setView(CENTER, 16);
 });
 far_marker.on('mouseover', function (e) {
@@ -123,7 +123,8 @@ map.on('locationerror', onLocationError);
 
 //////////// INSERIMENTO LAYER WMS SCAVI ARCHEOLOGICI ////////////
 var layer_interventi = L.tileLayer.wms(
-    'http://www.opengeo.eu:8080/geoserver/wms?', {
+    'http://www.opengeo.eu:8080/geoserver/wms?',
+    {
         layers: 'topp:interventi',
         format: 'image/png',
         transparent: true,
@@ -134,7 +135,8 @@ var layer_interventi = L.tileLayer.wms(
 );
 //////////// INSERIMENTO LAYER WMS SCAVI ARCHEOLOGICI ////////////
 var layer_ritrovamenti_linee = L.tileLayer.wms(
-    'http://www.opengeo.eu:8080/geoserver/wms?', {
+    'http://www.opengeo.eu:8080/geoserver/wms?',
+    {
         layers: 'topp:view_ritro_line',
         format: 'image/png',
         transparent: true,
@@ -145,7 +147,8 @@ var layer_ritrovamenti_linee = L.tileLayer.wms(
 );
 //////////// INSERIMENTO LAYER WMS SCAVI ARCHEOLOGICI ////////////
 var layer_ritrovamenti_punti = L.tileLayer.wms(
-    'http://www.opengeo.eu:8080/geoserver/wms?', {
+    'http://www.opengeo.eu:8080/geoserver/wms?',
+    {
         layers: 'topp:view_ritro_punti',
         format: 'image/png',
         transparent: true,
