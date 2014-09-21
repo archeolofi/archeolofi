@@ -206,7 +206,7 @@ span.inte {
 
 /* LEGENDA */
 #legenda {
-    padding:3px;
+    padding: 1px;
     min-height: 20px;
     max-height: 60px;
     overflow: scroll;
@@ -214,9 +214,9 @@ span.inte {
 
 #legenda figure {
     float: left;
-    margin: 0 10px;
+    margin: 0;
     position: relative;
-    width: 10em;
+    width: 7em;
 }
 
 #legenda img {
@@ -226,7 +226,9 @@ span.inte {
 #legenda figcaption {
     font-size: 60%;
     position: absolute;
-    left: 45px;
+    left: 35px;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 
