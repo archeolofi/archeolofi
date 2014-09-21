@@ -333,6 +333,12 @@ span.inte {
 }
 
 
+/* CREDITS */
+#credits figure {
+    text-align: center;
+}
+
+
 /* TEST */
 #test {
     display: none;
