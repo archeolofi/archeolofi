@@ -77,38 +77,34 @@
                 <div id="map" class="map" ></div>
                 
             </div>
-            <div data-theme="a" data-role="footer" data-position="fixed">
-                <div id="legenda_field">
-                    <div class="dato_legenda">
-                        <img class="imm_legenda" src="images/area_intervento.png" /><span class="epoca_legenda">area intervento</span>
-                    </div>  
-                    <div class="dato_legenda">
-                        <img class="imm_legenda" src="images/X_grigia.png" /><span class="epoca_legenda">età pre_romana</span>
-                    </div>
-                </div>
-                <div id="legenda_field">
-                    <div class="dato_legenda">
-                        <img class="imm_legenda" src="images/X_rossa.png" />
-                        <img class="imm_legenda" src="images/linea_rossa.png" />
-                        <span class="epoca_legenda">età medievale</span>
-                    </div>
-                    <div class="dato_legenda">
-                        <img class="imm_legenda" src="images/X_marrone.png" />
-                        <img class="imm_legenda" src="images/linea_marrone.png" />
-                        <span class="epoca_legenda">età romana</span>
-                    </div>
-                </div>
-                <div id="legenda_field">
-                    <div class="dato_legenda">
-                        <img class="imm_legenda" src="images/X_oro.png" /><span class="epoca_legenda">Non Determinabile</span>
-                    </div>
-                    <div class="dato_legenda">
-                        <img class="imm_legenda" src="images/X_grigioscuro.png" />
-                        <img class="imm_legenda" src="images/linea_grigia.png" />
-                        <span class="epoca_legenda">età moderna</span>
-                    </div>
-                </div>
-                
+            <div id="legenda" data-theme="a" data-role="footer" data-position="fixed">
+                <figure>
+                    <img src="images/area_intervento.png" />
+                    <figcaption>area intervento</figcaption>
+                </figure>
+                <figure>
+                    <img src="images/X_grigia.png" />
+                    <figcaption>età preromana</figcaption>
+                </figure>
+                <figure>
+                    <img src="images/X_rossa.png" />
+                    <img src="images/linea_rossa.png" />
+                    <figcaption>età medievale</figcaption>
+                </figure>
+                <figure>
+                    <img src="images/X_marrone.png" />
+                    <img src="images/linea_marrone.png" />
+                    <figcaption>età romana</figcaption>
+                </figure>
+                <figure>
+                    <img src="images/X_oro.png" />
+                    <figcaption>indeterminabile</figcaption>
+                </figure>
+                <figure>
+                    <img src="images/X_grigioscuro.png" />
+                    <img src="images/linea_grigia.png" />
+                    <figcaption>età moderna</figcaption>
+                </figure>
             </div>
         </div>
 
@@ -228,6 +224,11 @@
                     <h2 id="login_situation"></h2>
                 </form>
             </div>
+            <div data-role="footer" data-theme="a" data-position="fixed" id="login_footer">
+                <div>
+                    <a href="#credits">credits</a>
+                </div>
+            </div>
         </div>
 
 
@@ -340,13 +341,52 @@
 
 
         <!-- ========================== CREDITS ========================== -->
-
-        <div data-role="page" id="credits"  >
+        <div data-role="page" id="credits">
             <div data-role="header"  >
                 <a href="#" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-notext"></a>
                 <h2>Credits</h2>
             </div>
             <div data-role="content">
+                <p>
+                    Hanno sviluppato questa app archeologica<br />
+                    <b>Francesco Marchetti</b> e <b>Emilio Veloci</b>
+                </p>
+                <p>
+                    Ideazione e supervisione di<br />
+                    <b>Andrea Ferracani</b> e <b>Daniele Pezzatini</b>
+                </p>
+                <p>
+                    Un progetto nato per il corso di Progettazione e produzione multimediale del professor <b>Alberto Del Bimbo</b>.
+                </p>
+                <figure>
+                    <a href="http://micc.unifi.it/">
+                        <img src="images/micc_logo.gif" alt="logo del MICC" />
+                        <figcaption>http://micc.unifi.it/</figcaption>
+                    </a>
+                </figure>
+                <p>
+                    Un ringraziamento speciale a <b>Emiliano Scampoli</b>, archeologo che ha curato, 
+                    assieme a <b>Carlo Francini</b> del Comune di Firenze, la pubblicazione dei dati e la realizzazione 
+                    del sito <a href="archeologia.comune.fi.it">archeologia.comune.fi.it</a> e che ci ha dato 
+                    accesso ai dati aggiornati dei loro server.
+                </p>
+                <dl>
+                    <dt>Contatti:</dt>
+                    <dd>emilioveloci@gmail.com</dd>
+                    <dd>francesco.marchetti@stud.unifi.it</dd>
+                    <dd>scampoli.e@gmail.com</dd>
+                </dl>
+                <p>
+                    I dati archeologici sono scaricabili dal
+                    <a href="http://datigis.comune.fi.it/MapStore/">geocatalogo OpenData</a> 
+                    del Comune di Firenze, cercando la parola chiave 'archeologia'.
+                </p>
+                <p>
+                    Il codice è liberamente scaricabile da
+                    <a href=""></a><br />
+                    Non esitate a segnalare bug o problemi aprendo nuove <i>issue</i> su GitHub.<br />
+                    E, chiaramente, amiamo le pull request ;)
+                </p>
             </div>
         </div>
 
