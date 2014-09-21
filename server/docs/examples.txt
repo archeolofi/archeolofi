@@ -12,16 +12,6 @@ per vederle applicate, si debba prima droppare le cose.
 
 \list   elenca i database
 
-resettare:
-DROP DATABASE archeolofi;
-CREATE DATABASE archeolofi;
-
-rhc app stop indiana
-rhc cartridge start postgresql-9.2
-
-
-
-
 
 ### chiamate con requests
 url = "http://firenzearcheo-feedingaliencat.rhcloud.com/api/"
