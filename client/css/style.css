@@ -48,48 +48,35 @@ span.ritr {
 
 
 
-/* Login */
-
-#user_data_login{
-    
-    
-}
-
-
-
-
-#addcontent{
-    
-}
-    
-
-#layout_contents{
-    
-    
-    
-}
-
+/* LOGIN */
 span.inte {
     margin-left: 5px;
 }
 
-#info_json_punto{
+#info_json_punto {
     color: #C80815;
-    
 }
 
-#info_json_area{
+#info_json_area {
     color: #964B00;
-    
+}
+
+#login_footer {
+    text-align: right;
+    padding: 3px;
+}
+
+#login_footer div {
+    margin-right: 15px;
 }
 
 
 /* SPAZIO COMMENTI */
-#contents{
+#contents {
     float:left;
 }
 
-#collapse_contents{
+#collapse_contents {
 }
 
 .single_comment {
