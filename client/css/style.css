@@ -226,44 +226,33 @@ span.inte {
 }
 
 
+/* LEGENDA */
+#legenda {
+    padding:3px;
+    min-height: 20px;
+    max-height: 60px;
+    overflow: scroll;
 #close_legenda{
     float:left;
     clear: both;
 
 }
 
-#prova_legenda{
+#legenda figure {
     float: left;
-    clear: both;
+    margin: 0 10px;
+    position: relative;
+    width: 10em;
 }
 
-#ritrovamenti_punti{
-    
-    float: left;
-    clear:both;
-    
-    
-}
-
-.dato_legenda{
+#legenda img {
     float:left;
-    clear:both;
 }
 
-.imm_legenda{
-    float:left;
-    
-    
-}
-
-.epoca_legenda{
+#legenda figcaption {
     font-size: 60%;
-    float:left;
-}
-
-#legenda_field{
-    float:left;
-    display:inlin
+    position: absolute;
+    left: 45px;
 }
 
 
