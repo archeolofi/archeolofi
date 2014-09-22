@@ -13,7 +13,8 @@ letting user add contents.
     <b>Andrea Ferracani</b> e <b>Daniele Pezzatini</b>
 </p>
 <p>
-    Un progetto nato per il corso di Progettazione e produzione multimediale del professor <b>Alberto Del Bimbo</b>
+    Un progetto nato per il corso di Progettazione e produzione multimediale del professor <b>Alberto Del Bimbo</b><br />
+    <a href="http://micc.unifi.it/">http://micc.unifi.it/</a>
 </p>
 <p>
     Un ringraziamento speciale a <b>Emiliano Scampoli</b>, archeologo che ha curato, 
@@ -22,7 +23,11 @@ letting user add contents.
     accesso ai dati aggiornati dei loro server.
 </p>
 <p>
-    I dati archeologici sono scaricabili dal
+    È possibile trovare una versione web di prova di questa applicazione qui:<br />
+    <a href="http://archeolofiweb-feedingaliencat.rhcloud.com/">http://archeolofiweb-feedingaliencat.rhcloud.com/</a>
+</p>
+<p>
+    I dati archeologici sono scaricabili dal 
     <a href="http://datigis.comune.fi.it/MapStore/">geocatalogo OpenData</a> 
     del Comune di Firenze, cercando la parola chiave 'archeologia'.
 </p>
