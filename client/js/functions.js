@@ -532,7 +532,7 @@ function post_a_comment(comment) {
     });
 }
 
-function get_contents() {
+function get_contents(page) {
     poi = make_poi();
     console.log("contents poi: ", poi);
 
@@ -540,6 +540,7 @@ function get_contents() {
         type: "GET",
         url: SERVER_URL + "api/content",
         data: {
+            "page": page || 1,
             "q": JSON.stringify({
                 "filters": [{
                     "name": "poi",
