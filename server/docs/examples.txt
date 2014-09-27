@@ -56,6 +56,11 @@ r = requests.get(
     url + "content"
 )
 
+pagina N-esima:
+r = requests.get(
+    url + "content?page=N"
+)
+
 
 # scaricare i contenuti relativi ad un poi
 val = 15
