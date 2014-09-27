@@ -11,6 +11,8 @@ var last_visited_id = null;
 var last_visited_type = null;   // "ritrovamento" || "intervento"
 var last_popupped_data = null;
 
+var supervise = false;
+
 // HTML MANAGEMENT
 function login_message(text) {
     $("#login_situation")
@@ -255,12 +257,12 @@ function display_contents(contents) {
      */
     console.log(contents);
 
-    contents["objects"].forEach( function(entry) {
+    contents["objects"].forEach(function(entry) {
         console.log(entry);
         //data-role="fieldcontain"
         $("#contents").append(
                 '<div class="single_comment">'
-            +   (entry["user"] == logged_name ? edit_my_content(entry["id_"]) : '')
+            +   ((entry["user"] == logged_name) || supervise ? edit_my_content(entry["id_"]) : '')
             +   (entry["comment"] ? '<p class="view_text_comment">' + entry["comment"] + '</p>' : '')
             +   (entry["filename"] ? file_thumb(entry) : '')
             +   '   <div class="info_comment">'
@@ -383,7 +385,14 @@ function clear_info() {
 
 function contents_refresh() {
     $("#contents").empty();
-    get_contents();
+
+    if(!supervise)
+        get_contents();
+    else {
+        $(".page_numbers").empty();
+        // $(".go_to_page").empty();
+        get_every_content();
+    }
 }
 
 function check_if_logged_in() {

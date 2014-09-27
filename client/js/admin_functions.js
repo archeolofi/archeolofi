@@ -1,3 +1,4 @@
+supervise = true;
 
 $(document).on('pagebeforeshow', '#user_contents', function() {
     get_every_content();
