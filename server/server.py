@@ -239,7 +239,8 @@ def create_app(config_mode=None, config_file=None):
             "GET_MANY": [add_like_fields],
             "DELETE": [remove_file]
         },
-        results_per_page=10
+        results_per_page=10,
+        max_results_per_page=20
     )
     manager.create_api(
         Like,
