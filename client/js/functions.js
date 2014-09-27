@@ -258,8 +258,6 @@ function display_contents(contents) {
     console.log(contents);
 
     contents["objects"].forEach(function(entry) {
-        console.log(entry);
-        //data-role="fieldcontain"
         $("#contents").append(
                 '<div class="single_comment">'
             +   ((entry["user"] == logged_name) || supervise ? edit_my_content(entry["id_"]) : '')
@@ -441,7 +439,6 @@ function prepare_info(back_id) {
 
 $(document).on('pagebeforeshow', '#info', function() {
     prepare_info();
-
 });
 
 
