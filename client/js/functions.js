@@ -275,11 +275,11 @@ function display_contents(contents) {
             +   '       <div class="layout_like_dislike">'   
             +   '           <div class="like_button" title="' + entry["id_"] + '">'
             +   '               <button class="ui-btn ui-icon-like ui-btn-icon-notext ui-corner-all ui-nodisc-icon ui-btn-inline" '
-            +   '                   name="' + entry["id_"] + '" onclick="like(' + entry["id_"] + ', true);">'
+            +   '                   name="' + entry["id_"] + '_true">'
             +   '               mi piace'
             +   '               </button>'
             +   '               <button class="ui-btn ui-icon-dislike ui-btn-icon-notext ui-corner-all ui-nodisc-icon ui-btn-inline" '
-            +   '                   name="' + entry["id_"] + '" onclick="like(' + entry["id_"] + ', false);">'
+            +   '                   name="' + entry["id_"] + '_false">'
             +   '               non mi piace'
             +   '               </button>'
             +   '           </div>'
@@ -307,6 +307,15 @@ function display_contents(contents) {
 
         $.mobile.changePage("#image_viewer");
         // $(this).pagecontainer("change", "#info");
+    });
+
+    $(".like_button button").click(function() {
+        event.preventDefault();
+        like(
+            $(this).attr("name").split("_")[0],
+            $(this).attr("name").split("_")[1],
+            $(this).closest(".page").attr("id")
+        );
     });
 
     // $(".edit_buttons .content_edit").click(function() {
@@ -611,7 +620,8 @@ function remove_content(content_id, father_div) {
     });
 }
 
-function like(content_id, do_like) {
+function like(content_id, do_like, father_div) {
+    console.log("like", content_id, do_like, father_div);
     if(!logged_auth) {
         alert("per dire se ti piace o no, prima devi fare login");
         return;
@@ -629,7 +639,7 @@ function like(content_id, do_like) {
         contentType: "application/json",
         success: function() {
             console.log("liked.");
-            contents_refresh();
+            contents_refresh(father_div);
         },
         error: function() {
             $(".like_button[title=" + content_id + "]").html(
