@@ -232,7 +232,7 @@ function file_thumb(entry) {
     return thumb;
 }
 
-function edit_my_content(content_id) {
+function edit_content(content_id) {
     var edit_buttons = (
          '<div class="edit_buttons">'
         +    '<a href="#" class="content_delete" name="' + content_id + '">x</a>'
@@ -258,9 +258,9 @@ function display_contents(contents) {
     console.log(contents);
 
     contents["objects"].forEach(function(entry) {
-        $("#contents").append(
+        $(".contents").append(
                 '<div class="single_comment">'
-            +   ((entry["user"] == logged_name) || supervise ? edit_my_content(entry["id_"]) : '')
+            +   ((entry["user"] == logged_name) || supervise ? edit_content(entry["id_"]) : '')
             +   (entry["comment"] ? '<p class="view_text_comment">' + entry["comment"] + '</p>' : '')
             +   (entry["filename"] ? file_thumb(entry) : '')
             +   '   <div class="info_comment">'
@@ -315,7 +315,7 @@ function display_contents(contents) {
 
     $(".edit_buttons .content_delete").click(function() {
         event.preventDefault();
-        remove_content($(this).attr("name"));
+        remove_content($(this).attr("name"), $(this).closest(".page").attr("id"));
     });
 }
 
@@ -378,18 +378,19 @@ function clear_info() {
     $("#go_to_other_type").empty();
 
     // user contents
-    $("#contents").empty();
+    $(".contents").empty();
 }
 
-function contents_refresh() {
-    $("#contents").empty();
+function contents_refresh(father_div, page) {
+    console.log(father_div);
+    $(".contents").empty();
 
-    if(!supervise)
-        get_contents();
-    else {
+    if(father_div == "user_contents") {
         $(".page_numbers").empty();
-        // $(".go_to_page").empty();
-        get_every_content();
+        get_every_content(page);
+    }
+    else {
+        get_contents();
     }
 }
 
@@ -441,6 +442,10 @@ $(document).on('pagebeforeshow', '#info', function() {
     prepare_info();
 });
 
+$(document).on('pagebeforeshow', '#user_contents', function() {
+    contents_refresh("user_contents");
+});
+
 
 // OUR SERVER
 function make_poi() {
@@ -484,6 +489,10 @@ function login(name, psw) {
             if(logged) {
                 logged_auth = auth;
                 logged_name = name;
+                supervise = false;
+            }
+            if(logged == "hi admin") {
+                supervise = true;
             }
             $("form#user_data_login")[0].reset();
             $(".username.user_logged").html(logged_name);
@@ -584,7 +593,7 @@ function modify_comment(content_id, modified_content) {
     });
 }
 
-function remove_content(content_id) {
+function remove_content(content_id, father_div) {
     $.ajax({
         type: "DELETE",
         url: SERVER_URL + "api/content/" + content_id,
@@ -594,7 +603,7 @@ function remove_content(content_id) {
         contentType: "application/json",
         success: function() {
             console.log("content deleted.");
-            contents_refresh();
+            contents_refresh(father_div);
         },
         error: function() {
             console.log("ops, something went wrong..");

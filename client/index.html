@@ -19,6 +19,7 @@
         <link rel="stylesheet" type="text/css" href="css/style.css" />
         <link rel="stylesheet" type="text/css" href="css/buttons.css" />
         <script type="text/javascript" src="js/functions.js"></script>
+        <script type="text/javascript" src="js/admin_functions.js"></script>
         <script type="text/javascript" src="js/location.js"></script>
 
         <script>
@@ -108,7 +109,7 @@
         </div>
 
     <!-- ============================== INFO ============================== -->
-        <div data-role="page" id="info">
+        <div data-role="page" id="info" class="page">
             <div data-role="header">
                 <h1>Info</h1>
                 <a href="#home" class="ui-btn-left">Mappa</a>
@@ -162,7 +163,7 @@
 
                     <div data-role="collapsible" id="layout_contents" data-collapsed-icon="arrow-d" data-expanded-icon="arrow-u">
                         <h4>CONTENUTI UTENTI</h4>
-                        <div id="contents"></div>
+                        <div class="contents"></div>
                         <p id="important">è importante la tua opinione e esperienza: commenta!</p>
                     </div>
                 
@@ -199,6 +200,24 @@
             </div>
         </div>
 
+
+    <!-- ========================= USER CONTENTS ========================= -->
+        <div data-role="page" id="user_contents" class="page">
+            <div data-role="header">
+                <a href="#" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-notext"></a>
+                <h1>Contenuti degli utenti</h1>
+                <a href="#login" data-role="button" class="ui-btn-right user_unlogged" data-inline="true">login</a>
+                <a href="#login" data-role="button" class="ui-btn-right user_logged username" data-inline="true"></a>
+            </div>
+
+            <div data role="content">
+                <div class="page_numbers"></div>
+                <div class="contents"></div>
+                <div class="page_numbers"></div>
+            </div>
+        </div>
+
+
     <!-- ============================= LOGIN  ============================= -->
         <div data-role="page" id="login"  >
             <div data-role="header"  >
@@ -231,7 +250,6 @@
 
 
         <!-- =========================== REGISTER =========================== -->
-
         <div data-role="page" id="register"  >
             <div data-role="header"  >
                 <a href="#" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-notext"></a>
@@ -288,6 +306,7 @@
             <div data-role="header">
                 <a href="#" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-notext"></a>
                 <h2>Ricerca</h2>
+                <a href="#login" data-role="button" class="ui-btn-right user_unlogged" data-inline="true">login</a>
                 <a href="#login" data-role="button" class="ui-btn-right user_logged username" data-inline="true"></a>
             </div>
             <div data-role="content">

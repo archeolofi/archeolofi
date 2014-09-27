@@ -336,7 +336,7 @@ class User(db.Model):
     # likes = db.relationship("like", backref=db.backref("user", lazy='dynamic'))
 
 
-class Admin(db.Model):
+class Admin(db.Model):      # TODO: include this in User?
     """
     Users who are administrators, too.
     """
@@ -409,6 +409,8 @@ class Like(db.Model):
 @crossdomain(origin='*', headers="Authorization")
 def login():
     if verify_password():
+        if is_admin():
+            return json.dumps("hi admin")
         return json.dumps(True)
 
 

@@ -1,8 +1,3 @@
-supervise = true;
-
-$(document).on('pagebeforeshow', '#user_contents', function() {
-    get_every_content();
-});
 
 function get_every_content(page) {
     $.ajax({
@@ -38,9 +33,6 @@ function display_pagenumbers(received) {
 
     $(".page_numbers .go_to_page").click(function() {
         event.preventDefault();
-        $("#contents").empty();
-        $(".page_numbers").empty();
-        console.log($(this).attr("name"));
-        get_every_content($(this).attr("name"));
+        contents_refresh("user_contents", $(this).attr("name"));
     });
 }
