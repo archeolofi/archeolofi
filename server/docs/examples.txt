@@ -30,6 +30,12 @@ r = requests.post(
 )
 
 
+# rendere un utente amministratore
+sudo -u postgres psql
+\c archeolofi
+INSERT INTO "admin" VALUES('Plautino');
+
+
 # login
 from base64 import b64encode
 def make_basic_auth(user, psw):
