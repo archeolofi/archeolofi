@@ -11,6 +11,8 @@ var last_visited_id = null;
 var last_visited_type = null;   // "ritrovamento" || "intervento"
 var last_popupped_data = null;
 
+var supervise = false;
+
 // HTML MANAGEMENT
 function login_message(text) {
     $("#login_situation")
@@ -230,7 +232,7 @@ function file_thumb(entry) {
     return thumb;
 }
 
-function edit_my_content(content_id) {
+function edit_content(content_id) {
     var edit_buttons = (
          '<div class="edit_buttons">'
         +    '<a href="#" class="content_delete" name="' + content_id + '">x</a>'
@@ -255,12 +257,10 @@ function display_contents(contents) {
      */
     console.log(contents);
 
-    contents["objects"].forEach( function(entry) {
-        console.log(entry);
-        //data-role="fieldcontain"
-        $("#contents").append(
+    contents["objects"].forEach(function(entry) {
+        $(".contents").append(
                 '<div class="single_comment">'
-            +   (entry["user"] == logged_name ? edit_my_content(entry["id_"]) : '')
+            +   ((entry["user"] == logged_name) || supervise ? edit_content(entry["id_"]) : '')
             +   (entry["comment"] ? '<p class="view_text_comment">' + entry["comment"] + '</p>' : '')
             +   (entry["filename"] ? file_thumb(entry) : '')
             +   '   <div class="info_comment">'
@@ -275,11 +275,11 @@ function display_contents(contents) {
             +   '       <div class="layout_like_dislike">'   
             +   '           <div class="like_button" title="' + entry["id_"] + '">'
             +   '               <button class="ui-btn ui-icon-like ui-btn-icon-notext ui-corner-all ui-nodisc-icon ui-btn-inline" '
-            +   '                   name="' + entry["id_"] + '" onclick="like(' + entry["id_"] + ', true);">'
+            +   '                   name="' + entry["id_"] + '_true">'
             +   '               mi piace'
             +   '               </button>'
             +   '               <button class="ui-btn ui-icon-dislike ui-btn-icon-notext ui-corner-all ui-nodisc-icon ui-btn-inline" '
-            +   '                   name="' + entry["id_"] + '" onclick="like(' + entry["id_"] + ', false);">'
+            +   '                   name="' + entry["id_"] + '_false">'
             +   '               non mi piace'
             +   '               </button>'
             +   '           </div>'
@@ -309,13 +309,22 @@ function display_contents(contents) {
         // $(this).pagecontainer("change", "#info");
     });
 
+    $(".like_button button").click(function() {
+        event.preventDefault();
+        like(
+            $(this).attr("name").split("_")[0],
+            $(this).attr("name").split("_")[1],
+            $(this).closest(".page").attr("id")
+        );
+    });
+
     // $(".edit_buttons .content_edit").click(function() {
     //     modify_content($(this).attr("name"));
     // });
 
     $(".edit_buttons .content_delete").click(function() {
         event.preventDefault();
-        remove_content($(this).attr("name"));
+        remove_content($(this).attr("name"), $(this).closest(".page").attr("id"));
     });
 }
 
@@ -378,12 +387,20 @@ function clear_info() {
     $("#go_to_other_type").empty();
 
     // user contents
-    $("#contents").empty();
+    $(".contents").empty();
 }
 
-function contents_refresh() {
-    $("#contents").empty();
-    get_contents();
+function contents_refresh(father_div, page) {
+    console.log(father_div);
+    $(".contents").empty();
+
+    if(father_div == "user_contents") {
+        $(".page_numbers").empty();
+        get_every_content(page);
+    }
+    else {
+        get_contents();
+    }
 }
 
 function check_if_logged_in() {
@@ -432,7 +449,10 @@ function prepare_info(back_id) {
 
 $(document).on('pagebeforeshow', '#info', function() {
     prepare_info();
+});
 
+$(document).on('pagebeforeshow', '#user_contents', function() {
+    contents_refresh("user_contents");
 });
 
 
@@ -478,6 +498,10 @@ function login(name, psw) {
             if(logged) {
                 logged_auth = auth;
                 logged_name = name;
+                supervise = false;
+            }
+            if(logged == "hi admin") {
+                supervise = true;
             }
             $("form#user_data_login")[0].reset();
             $(".username.user_logged").html(logged_name);
@@ -526,7 +550,7 @@ function post_a_comment(comment) {
     });
 }
 
-function get_contents() {
+function get_contents(page) {
     poi = make_poi();
     console.log("contents poi: ", poi);
 
@@ -534,6 +558,7 @@ function get_contents() {
         type: "GET",
         url: SERVER_URL + "api/content",
         data: {
+            "page": page || 1,
             "q": JSON.stringify({
                 "filters": [{
                     "name": "poi",
@@ -577,7 +602,7 @@ function modify_comment(content_id, modified_content) {
     });
 }
 
-function remove_content(content_id) {
+function remove_content(content_id, father_div) {
     $.ajax({
         type: "DELETE",
         url: SERVER_URL + "api/content/" + content_id,
@@ -587,7 +612,7 @@ function remove_content(content_id) {
         contentType: "application/json",
         success: function() {
             console.log("content deleted.");
-            contents_refresh();
+            contents_refresh(father_div);
         },
         error: function() {
             console.log("ops, something went wrong..");
@@ -595,7 +620,8 @@ function remove_content(content_id) {
     });
 }
 
-function like(content_id, do_like) {
+function like(content_id, do_like, father_div) {
+    console.log("like", content_id, do_like, father_div);
     if(!logged_auth) {
         alert("per dire se ti piace o no, prima devi fare login");
         return;
@@ -613,7 +639,7 @@ function like(content_id, do_like) {
         contentType: "application/json",
         success: function() {
             console.log("liked.");
-            contents_refresh();
+            contents_refresh(father_div);
         },
         error: function() {
             $(".like_button[title=" + content_id + "]").html(

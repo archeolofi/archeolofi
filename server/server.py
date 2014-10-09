@@ -61,6 +61,10 @@ def verify_password():
     return True
 
 
+def is_admin():
+    return bool(Admin.query.get(request.authorization["username"]))
+
+
 def verify_owner(content):
     user = request.authorization["username"]
     if user != content.user:
@@ -148,15 +152,16 @@ def create_app(config_mode=None, config_file=None):
 
     def pre_modification(instance_id, data=None, **kw):
         """
-        Check if the user, who wants to modify a content, is the owner of that
-        content.
+        Check if the user, who wants to modify a content, has the right to do
+        that (he is the owner or an administrator).
         An user can modify only the 'comment' and the 'file_description'
         fields.
         """
         verify_password()
 
-        content = Content.query.get(instance_id)
-        verify_owner(content)
+        if not is_admin():
+            content = Content.query.get(instance_id)
+            verify_owner(content)
 
         if data:
             allowed_fields = ["comment", "file_description"]
@@ -234,7 +239,8 @@ def create_app(config_mode=None, config_file=None):
             "GET_MANY": [add_like_fields],
             "DELETE": [remove_file]
         },
-        results_per_page=10
+        results_per_page=10,
+        max_results_per_page=20
     )
     manager.create_api(
         Like,
@@ -330,6 +336,17 @@ class User(db.Model):
     # likes = db.relationship("like", backref=db.backref("user", lazy='dynamic'))
 
 
+class Admin(db.Model):      # TODO: include this in User?
+    """
+    Users who are administrators, too.
+    """
+    name = db.Column(
+        db.Unicode(30),
+        db.ForeignKey("user.name"),
+        primary_key=True
+    )
+
+
 class Content(db.Model):
     """
     poi > 0 for "ritrovamenti"
@@ -392,6 +409,8 @@ class Like(db.Model):
 @crossdomain(origin='*', headers="Authorization")
 def login():
     if verify_password():
+        if is_admin():
+            return json.dumps("hi admin")
         return json.dumps(True)
 
 

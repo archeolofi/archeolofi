@@ -30,6 +30,12 @@ r = requests.post(
 )
 
 
+# rendere un utente amministratore
+sudo -u postgres psql
+\c archeolofi
+INSERT INTO "admin" VALUES('Plautino');
+
+
 # login
 from base64 import b64encode
 def make_basic_auth(user, psw):
@@ -54,6 +60,11 @@ r = requests.post(
 # scaricare TUTTI i commenti (10 per volta)
 r = requests.get(
     url + "content"
+)
+
+pagina N-esima:
+r = requests.get(
+    url + "content?page=N"
 )
 
 
