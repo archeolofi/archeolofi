@@ -780,7 +780,7 @@ function remote_search(type, question) {
             list_search_result(data);
         },
         error: function() {
-            $("#search_result").html("<h2>nessun ritrovamento trovato</h2>");
+            $("#search_result").html("<h2>Nessun ritrovamento trovato</h2>");
         }
     });
 }
