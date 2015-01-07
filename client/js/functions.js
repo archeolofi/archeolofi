@@ -329,7 +329,6 @@ function display_contents(contents) {
 }
 
 function list_search_result(data) {
-
     for(var i=0, l=data.length; i<l; i++) {
         $("#search_result").append(
             '<div class="layout_table">'
@@ -772,11 +771,16 @@ function remote_search(type, question) {
     else
         return;
 
-    $.getJSON(
-        "http://opengeo.eu/archeofi2/api/archeofi_api.php?rit_search_" + prefix + "=" + question + "&jsoncallback=?",
-        function(data) {
+    $.ajax({
+        type: "GET",
+        url: "http://opengeo.eu/archeofi2/api/archeofi_api.php?rit_search_" + prefix + "=" + question + "&jsoncallback=?",
+        dataType: "json",
+        success: function(data) {
             console.log("research: ", data);
             list_search_result(data);
+        },
+        error: function() {
+            $("#search_result").html("<h2>Nessun ritrovamento trovato</h2>");
         }
-    );
+    });
 }
