@@ -66,16 +66,37 @@
     <body>
     <!-- =========================== HOME: MAP! =========================== -->
         <div data-role="page" id="home">
-            <div data-role="header" >
-                <a href="#search" data-role="button" class="ui-btn-left" data-icon="search" data-inline="true">cerca</a>
-                <h1>archeolofi</h1>
-                <a href="#login" data-role="button" class="ui-btn-right user_unlogged" data-inline="true">login</a>
-                <a href="#login" data-role="button" class="ui-btn-right ui-btn-inline user_logged username" data-inline="true"></a>
+
+            <div data-role="panel" id="mypanel" data-display="overlay" data-position="right">
+                <a class="ui-corner-all" data-icon="delete" data-rel="close">
+                    Close
+                </a>
+                <a href="#login" data-role="button" class="ui-corner-all " data-icon="user">
+                    Login
+                </a>
+                <a href="#register" data-role="button" class="ui-corner-all" data-icon="edit">
+                    Register
+                </a>
+                <a href="#user_contents" data-role="button" class="ui-corner-all" data-icon="comment">
+                    Commenti utenti
+                </a>
+                <a href="#credits" data-role="button" class="ui-corner-all" data-icon="info">
+                    Credits
+                </a>
             </div>
-            
+
+            <div data-role="header" >
+                <a href="#search" data-role="button" class="ui-btn-left" data-icon="search" data-inline="true">
+                    cerca
+                </a>
+                <h1>archeolofi</h1>
+                <a href="#mypanel" data-role="button" class="ui-btn-right user_unlogged" data-inline="true" data-icon="bars">
+                    Menù
+                </a>
+            </div>
+
             <div data-role="content" id="content_map">
                 <div id="map" class="map" ></div>
-                
             </div>
             <div id="legenda" data-theme="a" data-role="footer" data-position="fixed">
                 <figure>
