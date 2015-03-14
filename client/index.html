@@ -71,12 +71,17 @@
                 <a class="ui-corner-all" data-icon="delete" data-rel="close">
                     Close
                 </a>
-                <a href="#login" data-role="button" class="ui-corner-all " data-icon="user">
+
+                <!-- Show ('Login' and 'Register') or (username) -->
+                <a href="#login" data-role="button" class="ui-corner-all user_unlogged" data-icon="user">
                     Login
                 </a>
-                <a href="#register" data-role="button" class="ui-corner-all" data-icon="edit">
+                <a href="#register" data-role="button" class="ui-corner-all user_unlogged" data-icon="edit">
                     Register
                 </a>
+                <a href="#login" data-role="button" class="ui-corner-all  user_logged username">
+                </a>
+
                 <a href="#user_contents" data-role="button" class="ui-corner-all" data-icon="comment">
                     Commenti utenti
                 </a>
@@ -90,7 +95,7 @@
                     cerca
                 </a>
                 <h1>archeolofi</h1>
-                <a href="#mypanel" data-role="button" class="ui-btn-right user_unlogged" data-inline="true" data-icon="bars">
+                <a href="#mypanel" data-role="button" class="ui-btn-right" data-inline="true" data-icon="bars">
                     Menù
                 </a>
             </div>
