@@ -32,7 +32,6 @@
                     login(data[0], data[1]);
                 });
             });
-
             $(document).ready( function() {
                 $("#register_button").click( function() {
                     data = read_form("register");
@@ -57,6 +56,27 @@
                         post_a_comment(comment);
                 });
             });
+            $(document).ready( function() { 
+                $(".user_logged").click( function() {
+                    $("#logout").show();
+                });
+            });
+            
+            $(document).ready( function() { 
+                $(".close_logout").click( function() {
+                    $("#logout").hide();
+                });
+            }); 
+            
+            $(document).ready( function() { 
+                $(".yes_logout").click( function() {
+                    $("#logout").hide();
+                    logged_auth = 0;
+                    $(".user_unlogged").show();
+                    $(".user_logged").hide();    
+                });
+            }); 
+            
             
             
 
@@ -81,7 +101,7 @@
                 <a href="#register" data-role="button" class="ui-corner-all user_unlogged" data-icon="edit">
                     Register
                 </a>
-                <a href="#login" data-role="button" class="ui-corner-all  user_logged username">
+                <a href="#" data-role="button" class="ui-corner-all user_logged username">
                 </a>
 
                 <a href="#user_contents" data-role="button" class="ui-corner-all" data-icon="comment">
@@ -90,6 +110,13 @@
                 <a href="#credits" data-role="button" class="ui-corner-all" data-icon="info">
                     Credits
                 </a>
+                <div id="logout">
+                    <h3>Logout?</h3>
+                    <div id="logout_button">
+                        <a href="#" class="ui-btn ui-icon-check ui-btn-icon-notext ui-corner-all yes_logout"></a>
+                        <a href="#" class="ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all close_logout"></a>
+                    </div>
+                </div>
             </div>
 
             <div data-role="header" >
