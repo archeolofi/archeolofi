@@ -417,6 +417,7 @@ function check_if_logged_in() {
 // pagechange
 // pagechangefailed
 $(document).on('pagebeforeshow', '#home', function() {
+    $(".logout_popup").hide();
     check_if_logged_in();
 });
 
