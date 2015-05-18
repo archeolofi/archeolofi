@@ -89,15 +89,15 @@
 
             <div data-role="panel" id="mypanel" data-display="overlay" data-position="right">
                 <a class="ui-corner-all" data-icon="delete" data-rel="close">
-                    Close
+                    chiudi
                 </a>
 
                 <!-- Show ('Login' and 'Register') or (username) -->
                 <a href="#login" data-role="button" class="ui-corner-all user_unlogged" data-icon="user">
-                    Login
+                    Accedi
                 </a>
                 <a href="#register" data-role="button" class="ui-corner-all user_unlogged" data-icon="edit">
-                    Register
+                    Registrati
                 </a>
                 <a href="#" data-role="button" class="ui-corner-all user_logged username">
                     <!-- Button filled when user logs in -->
@@ -107,10 +107,10 @@
                     Commenti utenti
                 </a>
                 <a href="#credits" data-role="button" class="ui-corner-all" data-icon="info">
-                    Credits
+                    Crediti
                 </a>
                 <div class="logout_popup">
-                    <h3>Logout?</h3>
+                    <h3>Vuoi uscire?</h3>
                     <div>
                         <a href="#" class="ui-btn ui-icon-check ui-btn-icon-notext ui-corner-all yes_logout"></a>
                         <a href="#" class="ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all close_logout"></a>
@@ -244,7 +244,7 @@
                         </div>
                         <div id="login_required" class="user_unlogged">
                             fai login prima di aggiungere un contenuto:
-                            <a href="#login" data-role="button" data-theme="e">login</a>
+                            <a href="#login" data-role="button" data-theme="e">accedi</a>
                         </div>
                         <h2 id="result_comment"></h2>
                         
@@ -276,7 +276,7 @@
         <div data-role="page" id="login"  >
             <div data-role="header"  >
                 <a href="#" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-notext"></a>
-                <h2>Login</h2>
+                <h2></h2>
                 <a href="#register" data-role="button" class="ui-btn-right"  data-inline=”true” >registrati</a>
             </div>
             <div data-role="content">
@@ -291,7 +291,7 @@
                         <input type="password" name="psw_login" id="psw_login" value="" placeholder="Password" required />
                     </div>
 
-                    <input type="button" id="login_button" data-icon="check" value="Accedi" data-theme="d">
+                    <input type="button" id="login_button" data-icon="check" value="accedi" data-theme="d">
                     <h2 id="login_situation"></h2>
                 </form>
             </div>
@@ -307,7 +307,7 @@
         <div data-role="page" id="register"  >
             <div data-role="header"  >
                 <a href="#" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-notext"></a>
-                <h2>Register</h2>
+                <h2></h2>
             </div>
             <div data-role="content">
                 <form name="register" id="user_data_register">
@@ -323,10 +323,10 @@
 
                     <div data-role="fieldcontain" class="ui-hide-label">
                             <label for="email">email:</label>
-                            <input type="text" name="email" id="email" value="" placeholder="email" />
+                            <input type="text" name="email" id="email" value="" placeholder="Email" />
                     </div>
 
-                        <input type="button" id="register_button" data-icon="edit" data-theme="d" value="Registrati" >
+                        <input type="button" id="register_button" data-icon="edit" data-theme="d" value="registrati" >
                     <h2 id="register_error"></h2>
                 </form>
             </div>    
