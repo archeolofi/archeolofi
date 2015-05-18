@@ -59,19 +59,19 @@
 
             $(document).ready( function() {
                 $(".user_logged").click( function() {
-                    $("#logout").show();
+                    $(".logout_popup").show();
                 });
             });
 
             $(document).ready( function() {
                 $(".close_logout").click( function() {
-                    $("#logout").hide();
+                    $(".logout_popup").hide();
                 });
             }); 
 
             $(document).ready( function() { 
                 $(".yes_logout").click( function() {
-                    $("#logout").hide();
+                    $(".logout_popup").hide();
                     logged_auth = null;
                     logged_name = null;
                     check_if_logged_in();
@@ -109,9 +109,9 @@
                 <a href="#credits" data-role="button" class="ui-corner-all" data-icon="info">
                     Credits
                 </a>
-                <div id="logout">
+                <div class="logout_popup">
                     <h3>Logout?</h3>
-                    <div id="logout_button">
+                    <div>
                         <a href="#" class="ui-btn ui-icon-check ui-btn-icon-notext ui-corner-all yes_logout"></a>
                         <a href="#" class="ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all close_logout"></a>
                     </div>
