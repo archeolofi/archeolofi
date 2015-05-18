@@ -56,29 +56,27 @@
                         post_a_comment(comment);
                 });
             });
-            $(document).ready( function() { 
+
+            $(document).ready( function() {
                 $(".user_logged").click( function() {
                     $("#logout").show();
                 });
             });
-            
-            $(document).ready( function() { 
+
+            $(document).ready( function() {
                 $(".close_logout").click( function() {
                     $("#logout").hide();
                 });
             }); 
-            
+
             $(document).ready( function() { 
                 $(".yes_logout").click( function() {
                     $("#logout").hide();
-                    logged_auth = 0;
-                    $(".user_unlogged").show();
-                    $(".user_logged").hide();    
+                    logged_auth = null;
+                    logged_name = null;
+                    check_if_logged_in();
                 });
-            }); 
-            
-            
-            
+            });
 
         </script>
 
@@ -102,6 +100,7 @@
                     Register
                 </a>
                 <a href="#" data-role="button" class="ui-corner-all user_logged username">
+                    <!-- Button filled when user logs in -->
                 </a>
 
                 <a href="#user_contents" data-role="button" class="ui-corner-all" data-icon="comment">

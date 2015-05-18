@@ -311,7 +311,6 @@ span.inte {
 }
 
 /* PANEL */
-
 #logout{
     display: none;
     text-align: center;
@@ -322,11 +321,9 @@ span.inte {
 }
 
 #logout h3{
-    float:left;    
+    float: left;
 }
 
 #logout_button a{
     margin: 0 auto;
 }
-
-
