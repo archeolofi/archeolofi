@@ -32,7 +32,6 @@
                     login(data[0], data[1]);
                 });
             });
-
             $(document).ready( function() {
                 $("#register_button").click( function() {
                     data = read_form("register");
@@ -57,8 +56,34 @@
                         post_a_comment(comment);
                 });
             });
-            
-            
+
+            // menu buttons
+            $(document).ready( function() {
+                $(".menu_button").click( function() {
+                    $(".logout_popup").hide();
+                });
+            });
+
+            $(document).ready( function() {
+                $(".user_logged").click( function() {
+                    $(".logout_popup").show();
+                });
+            });
+
+            $(document).ready( function() {
+                $(".close_logout").click( function() {
+                    $(".logout_popup").hide();
+                });
+            });
+
+            $(document).ready( function() { 
+                $(".yes_logout").click( function() {
+                    $(".logout_popup").hide();
+                    logged_auth = null;
+                    logged_name = null;
+                    check_if_logged_in();
+                });
+            });
 
         </script>
 
@@ -71,25 +96,33 @@
 
             <div data-role="panel" id="mypanel" data-display="overlay" data-position="right">
                 <a class="ui-corner-all" data-icon="delete" data-rel="close">
-                    Close
+                    chiudi
                 </a>
 
                 <!-- Show ('Login' and 'Register') or (username) -->
                 <a href="#login" data-role="button" class="ui-corner-all user_unlogged" data-icon="user">
-                    Login
+                    Accedi
                 </a>
                 <a href="#register" data-role="button" class="ui-corner-all user_unlogged" data-icon="edit">
-                    Register
+                    Registrati
                 </a>
-                <a href="#login" data-role="button" class="ui-corner-all  user_logged username">
+                <a href="#" data-role="button" class="ui-corner-all user_logged username">
+                    <!-- Button filled when user logs in -->
                 </a>
 
                 <a href="#user_contents" data-role="button" class="ui-corner-all" data-icon="comment">
                     Commenti utenti
                 </a>
                 <a href="#credits" data-role="button" class="ui-corner-all" data-icon="info">
-                    Credits
+                    Crediti
                 </a>
+                <div class="logout_popup">
+                    <h3>Vuoi uscire?</h3>
+                    <div>
+                        <a href="#" class="ui-btn ui-icon-check ui-btn-icon-notext ui-corner-all yes_logout"></a>
+                        <a href="#" class="ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all close_logout"></a>
+                    </div>
+                </div>
             </div>
 
             <div data-role="header" >
@@ -97,7 +130,7 @@
                     cerca
                 </a>
                 <h1>archeolofi</h1>
-                <a href="#mypanel" data-role="button" class="ui-btn-right" data-inline="true" data-icon="bars">
+                <a href="#mypanel" data-role="button" class="ui-btn-right menu_button" data-inline="true" data-icon="bars">
                     Menù
                 </a>
             </div>
@@ -141,8 +174,6 @@
             <div data-role="header">
                 <h1>Info</h1>
                 <a href="#home" class="ui-btn-left">Mappa</a>
-                <a href="#login" data-role="button" class="ui-btn-right user_unlogged" data-inline="true">login</a>
-                <a href="#login" data-role="button" class="ui-btn-right user_logged username" data-inline="true"></a>
             </div>
 
             <div data role="content">
@@ -218,7 +249,7 @@
                         </div>
                         <div id="login_required" class="user_unlogged">
                             fai login prima di aggiungere un contenuto:
-                            <a href="#login" data-role="button" data-theme="e">login</a>
+                            <a href="#login" data-role="button" data-theme="e">accedi</a>
                         </div>
                         <h2 id="result_comment"></h2>
                         
@@ -234,8 +265,6 @@
             <div data-role="header">
                 <a href="#" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-notext"></a>
                 <h1>Contenuti degli utenti</h1>
-                <a href="#login" data-role="button" class="ui-btn-right user_unlogged" data-inline="true">login</a>
-                <a href="#login" data-role="button" class="ui-btn-right user_logged username" data-inline="true"></a>
             </div>
 
             <div data role="content">
@@ -250,7 +279,7 @@
         <div data-role="page" id="login"  >
             <div data-role="header"  >
                 <a href="#" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-notext"></a>
-                <h2>Login</h2>
+                <h2></h2>
                 <a href="#register" data-role="button" class="ui-btn-right"  data-inline=”true” >registrati</a>
             </div>
             <div data-role="content">
@@ -265,7 +294,7 @@
                         <input type="password" name="psw_login" id="psw_login" value="" placeholder="Password" required />
                     </div>
 
-                    <input type="button" id="login_button" data-icon="check" value="Accedi" data-theme="d">
+                    <input type="button" id="login_button" data-icon="check" value="accedi" data-theme="d">
                     <h2 id="login_situation"></h2>
                 </form>
             </div>
@@ -281,7 +310,7 @@
         <div data-role="page" id="register"  >
             <div data-role="header"  >
                 <a href="#" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-notext"></a>
-                <h2>Register</h2>
+                <h2></h2>
             </div>
             <div data-role="content">
                 <form name="register" id="user_data_register">
@@ -297,10 +326,10 @@
 
                     <div data-role="fieldcontain" class="ui-hide-label">
                             <label for="email">email:</label>
-                            <input type="text" name="email" id="email" value="" placeholder="email" />
+                            <input type="text" name="email" id="email" value="" placeholder="Email" />
                     </div>
 
-                        <input type="button" id="register_button" data-icon="edit" data-theme="d" value="Registrati" >
+                        <input type="button" id="register_button" data-icon="edit" data-theme="d" value="registrati" >
                     <h2 id="register_error"></h2>
                 </form>
             </div>    
@@ -334,8 +363,6 @@
             <div data-role="header">
                 <a href="#" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-notext"></a>
                 <h2>Ricerca</h2>
-                <a href="#login" data-role="button" class="ui-btn-right user_unlogged" data-inline="true">login</a>
-                <a href="#login" data-role="button" class="ui-btn-right user_logged username" data-inline="true"></a>
             </div>
             <div data-role="content">
                 <form name="search" id="search">
