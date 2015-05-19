@@ -57,6 +57,13 @@
                 });
             });
 
+            // menu buttons
+            $(document).ready( function() {
+                $(".menu_button").click( function() {
+                    $(".logout_popup").hide();
+                });
+            });
+
             $(document).ready( function() {
                 $(".user_logged").click( function() {
                     $(".logout_popup").show();
@@ -67,7 +74,7 @@
                 $(".close_logout").click( function() {
                     $(".logout_popup").hide();
                 });
-            }); 
+            });
 
             $(document).ready( function() { 
                 $(".yes_logout").click( function() {
@@ -123,7 +130,7 @@
                     cerca
                 </a>
                 <h1>archeolofi</h1>
-                <a href="#mypanel" data-role="button" class="ui-btn-right" data-inline="true" data-icon="bars">
+                <a href="#mypanel" data-role="button" class="ui-btn-right menu_button" data-inline="true" data-icon="bars">
                     Menù
                 </a>
             </div>
