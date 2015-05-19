@@ -322,8 +322,7 @@ span.inte {
 }
 
 /* PANEL */
-
-#logout{
+.logout_popup{
     display: none;
     text-align: center;
     padding: 0.4em;
@@ -333,6 +332,7 @@ span.inte {
       
     
 }
+
 
 #logout h3{
     float:left;
@@ -363,5 +363,14 @@ span.inte {
 }
 :-ms-input-placeholder { /* Internet Explorer 10+ */
     color:    #646464;
+}
+
+=======
+.logout_popup h3{
+    float: left;
+}
+
+.logout_popup a{
+    margin: 0 auto;
 }
 

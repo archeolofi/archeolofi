@@ -3,8 +3,8 @@
 
 
 db = {
-	"username" : "indiana",
-	"password" : "astropanza",
+	"username" : "archeolofi",
+	"password" : "",
 	"host"     : "localhost",
 	"database" : "archeolofi",
 }
