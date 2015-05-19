@@ -17,8 +17,10 @@
 
         <!-- ours -->
         <link rel="stylesheet" type="text/css" href="css/style.css" />
-        <link rel="stylesheet" type="text/css" href="css/buttons.css" />
+        <link rel="stylesheet" type="text/css" href="css/jquery.mobile.icons.min.css" />
+        <link rel="stylesheet" type="text/css" href="css/ThemeRoller.css" />
         <script type="text/javascript" src="js/functions.js"></script>
+        <script type="text/javascript" src="js/map_functions.js"></script>
         <script type="text/javascript" src="js/admin_functions.js"></script>
         <script type="text/javascript" src="js/location.js"></script>
 
@@ -90,19 +92,27 @@
         <div data-role="page" id="home">
 
             <div data-role="panel" id="mypanel" data-display="overlay" data-position="right">
-                <a class="ui-corner-all" data-icon="delete" data-rel="close">
-                    Close
+                <a class="ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all" data-rel="close">
+                    
                 </a>
 
                 <!-- Show ('Login' and 'Register') or (username) -->
                 <a href="#login" data-role="button" class="ui-corner-all user_unlogged" data-icon="user">
                     Login
                 </a>
+                
                 <a href="#register" data-role="button" class="ui-corner-all user_unlogged" data-icon="edit">
                     Register
                 </a>
                 <a href="#" data-role="button" class="ui-corner-all user_logged username">
                 </a>
+                <div id="logout">
+                    <h3>Logout?</h3>
+                    <div id="logout_button">
+                        <a href="#" class="ui-btn ui-icon-check ui-btn-icon-notext ui-corner-all yes_logout"></a>
+                        <a href="#" class="ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all close_logout"></a>
+                    </div>
+                </div>
 
                 <a href="#user_contents" data-role="button" class="ui-corner-all" data-icon="comment">
                     Commenti utenti
@@ -119,7 +129,7 @@
                 </div>
             </div>
 
-            <div data-role="header" >
+            <div data-role="header" class="header" >
                 <a href="#search" data-role="button" class="ui-btn-left" data-icon="search" data-inline="true">
                     cerca
                 </a>
@@ -130,9 +140,16 @@
             </div>
 
             <div data-role="content" id="content_map">
+                <!-- mettere nuova mappa -->
                 <div id="map" class="map" ></div>
             </div>
-            <div id="legenda" data-theme="a" data-role="footer" data-position="fixed">
+            
+            
+            
+            
+            
+            
+            <div id="legenda" data-theme="c" data-role="footer" data-position="fixed">
                 <figure>
                     <img src="images/area_intervento.png" />
                     <figcaption>area intervento</figcaption>
@@ -164,7 +181,7 @@
         </div>
 
     <!-- ============================== INFO ============================== -->
-        <div data-role="page" id="info" class="page">
+        <div data-role="page" data-theme="f" id="info" class="page">
             <div data-role="header">
                 <h1>Info</h1>
                 <a href="#home" class="ui-btn-left">Mappa</a>
@@ -196,6 +213,25 @@
                     <div id="basic_info"></div>
                     <span id="json_ubicazione"></span>
                     <div id="go_to_other_type"></div>
+                    
+                    
+                    <!-- mettere mappa -->
+                    
+                    <div id="map_luogo" class="content_map">
+                        
+                    
+                    
+                    </div>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
                     <div id="info_approfondite">
                         <div id="description">
                             <h4>Descrizione approfondita:</h4>
@@ -216,13 +252,13 @@
                     
                 <div data-role="collapsible-set">
 
-                    <div data-role="collapsible" id="layout_contents" data-collapsed-icon="arrow-d" data-expanded-icon="arrow-u">
+                    <div data-role="collapsible" data-theme="a"  id="layout_contents" data-collapsed-icon="arrow-d" data-expanded-icon="arrow-u">
                         <h4>CONTENUTI UTENTI</h4>
                         <div class="contents"></div>
                         <p id="important">è importante la tua opinione e esperienza: commenta!</p>
                     </div>
                 
-                    <div data-role="collapsible" id="collaps_add_cnt">
+                    <div data-role="collapsible"  data-theme="a" id="collaps_add_cnt">
                         <h4>AGGIUNGI UN CONTENUTO</h4>
                         
                         <div id="addcontent" class="user_logged">
@@ -296,11 +332,7 @@
                     <h2 id="login_situation"></h2>
                 </form>
             </div>
-            <div data-role="footer" data-theme="a" data-position="fixed" id="login_footer">
-                <div>
-                    <a href="#credits">credits</a>
-                </div>
-            </div>
+            
         </div>
 
 
@@ -357,7 +389,7 @@
                 });
             });
         </script>
-        <div data-role="page" id="search">
+        <div data-role="page" data-theme = 'a' id="search">
             <div data-role="header">
                 <a href="#" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-notext"></a>
                 <h2>Ricerca</h2>
@@ -467,7 +499,7 @@
 
 
         <!-- =========================== POPUP =========================== -->
-        <div class="hidden" id="popup_ritrovamento">
+        <div class="hidden" id="popup_ritrovamento" data-theme="a">
             <h3 class="pop_elem"><!-- definizione --></h3>
             <p class="pop_elem"><!-- descrizione_min --></p>
             <span id="periodo" class="pop_elem ritr"></span>
@@ -476,7 +508,7 @@
                 Altre informazioni
             </a>
         </div>
-        <div class="hidden" id="popup_intervento">
+        <div class="hidden" id="popup_intervento" data-theme="a">
             <h3 class="pop_elem"><!-- tipo_intervento --></h3>
             <time id="data_compilazione" class="pop_elem"></time>
             <ul class="pop_elem">

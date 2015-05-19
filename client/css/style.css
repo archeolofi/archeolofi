@@ -11,6 +11,14 @@
     padding: 0 !important;
 }
 
+#map_luogo{
+    width: 200px;
+    height: 200px;
+    
+    
+    
+}
+
 .hidden {
     display: none;
 }
@@ -44,7 +52,10 @@ span.ritr {
     float:left;
 }
 
+.header{
+    color: lawngreen
 
+}
 
 
 
@@ -317,16 +328,40 @@ span.inte {
     text-align: center;
     padding: 0.4em;
     margin: 0.2em;
-    border: 1px solid #DDDDDD;
-    border-radius: 10px 10px 10px 10px
+    border: 1px solid #801d00;
+    border-radius: 10px 10px 10px 10px;
+      
+    
 }
 
 #logout h3{
-    float:left;    
+    float:left;
+    margin-top: 0.65em;
 }
 
 #logout_button a{
-    margin: 0 auto;
+    display: inline-block;
+    margin-left: 2px;
+    
+    
 }
 
+#logout_button{
+    
+}
+
+/* colore place_holder */
+
+::-webkit-input-placeholder { /* WebKit browsers */
+    color:    #646464;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color:    #646464;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color:    #646464;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color:    #646464;
+}
 
