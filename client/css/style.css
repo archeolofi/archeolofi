@@ -333,20 +333,20 @@ span.inte {
     
 }
 
-
-#logout h3{
+.logout_popup{
+    
+    
+}
+.logout_popup h4{
     float:left;
-    margin-top: 0.65em;
+    margin-top: 0.4em
+    
 }
 
-#logout_button a{
+.logout_popup a{
     display: inline-block;
-    margin-left: 2px;
     
     
-}
-
-#logout_button{
     
 }
 
