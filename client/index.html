@@ -10,6 +10,8 @@
         <!-- jQuery Mobile -->
         <link rel="stylesheet" type="text/css" href="libs/jquery.mobile-1.4.2/jquery.mobile-1.4.2.min.css">
         <script type="text/javascript" src="libs/jquery.mobile-1.4.2/jquery.mobile-1.4.2.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/jquery.mobile.icons.min.css" />
+        <link rel="stylesheet" type="text/css" href="css/ThemeRoller.css" />
 
         <!-- Leaflet -->
         <link rel="stylesheet" type="text/css" href="libs/leaflet-0.7.3/leaflet.css" />
@@ -17,8 +19,6 @@
 
         <!-- ours -->
         <link rel="stylesheet" type="text/css" href="css/style.css" />
-        <link rel="stylesheet" type="text/css" href="css/jquery.mobile.icons.min.css" />
-        <link rel="stylesheet" type="text/css" href="css/ThemeRoller.css" />
         <script type="text/javascript" src="js/functions.js"></script>
         <script type="text/javascript" src="js/map_functions.js"></script>
         <script type="text/javascript" src="js/admin_functions.js"></script>
@@ -104,7 +104,7 @@
                 <a href="#login" data-role="button" class="ui-corner-all user_unlogged" data-icon="user">
                     Accedi
                 </a>
-                
+
                 <a href="#register" data-role="button" class="ui-corner-all user_unlogged" data-icon="edit">
                     Registrati
                 </a>
@@ -125,7 +125,7 @@
                 <a href="#credits" data-role="button" class="ui-corner-all" data-icon="info">
                     Crediti
                 </a>
-                
+
             </div>
 
             <div data-role="header" class="header" >
@@ -142,12 +142,7 @@
                 <!-- mettere nuova mappa -->
                 <div id="map" class="map" ></div>
             </div>
-            
-            
-            
-            
-            
-            
+
             <div id="legenda" data-theme="c" data-role="footer" data-position="fixed">
                 <figure>
                     <img src="images/area_intervento.png" />
@@ -196,7 +191,7 @@
                         <h3 id="json_definizione"></h3>
                         <span id="json_cronologia"></span>
                     </div>
-                        
+
                     <div id="info_json_intervento">
                         <span id="json_approvazione"></span>
                         <span id="json_catasto_foglio"></span>
@@ -210,25 +205,12 @@
                     <div id="basic_info"></div>
                     <span id="json_ubicazione"></span>
                     <div id="go_to_other_type"></div>
-                    
-                    
+
                     <!-- mettere mappa -->
-                    
+
                     <div id="map_luogo" class="content_map">
-                        
-                    
-                    
                     </div>
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
+
                     <div id="info_approfondite">
                         <div id="description">
                             <h4>Descrizione approfondita:</h4>
@@ -254,10 +236,10 @@
                         <div class="contents"></div>
                         <p id="important">è importante la tua opinione e esperienza: commenta!</p>
                     </div>
-                
+
                     <div data-role="collapsible"  data-theme="a" id="collaps_add_cnt">
                         <h4>AGGIUNGI UN CONTENUTO</h4>
-                        
+
                         <div id="addcontent" class="user_logged">
                             <form id="content_form" method="post" enctype="multipart/form-data">
                                 <div data-role="fieldcontain">
@@ -281,7 +263,6 @@
                             <a href="#login" data-role="button" data-theme="e">accedi</a>
                         </div>
                         <h2 id="result_comment"></h2>
-                        
                     </div>
                 </div>
                 
@@ -306,11 +287,13 @@
 
     <!-- ============================= LOGIN  ============================= -->
         <div data-role="page" id="login"  >
+
             <div data-role="header"  >
                 <a href="#" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-notext"></a>
                 <h2></h2>
                 <a href="#register" data-role="button" class="ui-btn-right"  data-inline=”true” >registrati</a>
             </div>
+
             <div data-role="content">
                 <form name="login" id="user_data_login">
                     <div data-role="fieldcontain" class="ui-hide-label">
@@ -327,7 +310,7 @@
                     <h2 id="login_situation"></h2>
                 </form>
             </div>
-            
+
         </div>
 
 

@@ -11,12 +11,9 @@
     padding: 0 !important;
 }
 
-#map_luogo{
+#map_luogo {
     width: 200px;
     height: 200px;
-    
-    
-    
 }
 
 .hidden {
@@ -36,27 +33,18 @@ span.ritr {
     margin-top: 5px;
 }
 
-
-#go_to_other_type{
+#go_to_other_type {
     float:left;
     font-size: 80%
 }
 
-/*#description h4{
-    float:left;
-    clear:both;
-    
-} */
-
-#info_approfondite{
+#info_approfondite {
     float:left;
 }
 
-.header{
+.header {
     color: lawngreen
-
 }
-
 
 
 /* LOGIN */
@@ -113,40 +101,41 @@ span.inte {
     margin: auto;
 }
 
-.view_text_comment{
+.view_text_comment {
     margin: 5px;
 }
 
-.info_comment{
+.info_comment {
     float: left;
     display: block;
     clear: both;
 }
 
-.comment_properties{
+.comment_properties {
     float:right;
     padding: 0.6em;
 }
 
-.comment_user{
+.comment_user {
     font-size:80%;
     font-weight: bold;
 }
 
-.data_hours{
+.data_hours {
     font-size:80%;
     color: gray;
 }
-.layout_like_dislike{
+
+.layout_like_dislike {
     float:left;
     
 }
 
-.like_button{
+.like_button {
     float: left;
 }
 
-.like_dislike{
+.like_dislike {
     float: left;
     font-size:90%;
     padding: 0.9em;
@@ -322,36 +311,31 @@ span.inte {
 }
 
 /* PANEL */
-.logout_popup{
+.logout_popup {
     display: none;
     text-align: center;
     padding: 0.4em;
     margin: 0.2em;
     border: 1px solid #801d00;
     border-radius: 10px 10px 10px 10px;
-      
-    
 }
 
-.logout_popup{
-    
-    
+.logout_popup h3 {
+    float: left;
 }
-.logout_popup h4{
+
+.logout_popup h4 {
     float:left;
     margin-top: 0.4em
-    
 }
 
-.logout_popup a{
+.logout_popup a {
+    margin: 0 auto;
     display: inline-block;
-    
-    
-    
 }
 
-/* colore place_holder */
 
+/* place_holder color */
 ::-webkit-input-placeholder { /* WebKit browsers */
     color:    #646464;
 }
@@ -364,13 +348,3 @@ span.inte {
 :-ms-input-placeholder { /* Internet Explorer 10+ */
     color:    #646464;
 }
-
-=======
-.logout_popup h3{
-    float: left;
-}
-
-.logout_popup a{
-    margin: 0 auto;
-}
-
