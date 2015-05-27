@@ -175,8 +175,8 @@
         </div>
 
     <!-- ============================== INFO ============================== -->
-        <div data-role="page" data-theme="f" id="info" class="page">
-            <div data-role="header">
+        <div data-role="page"  id="info" class="page">
+            <div data-role="header" data-theme="a">
                 <h1>Info</h1>
                 <a href="#home" class="ui-btn-left">Mappa</a>
             </div>
@@ -231,13 +231,13 @@
                     
                 <div data-role="collapsible-set">
 
-                    <div data-role="collapsible" data-theme="a"  id="layout_contents" data-collapsed-icon="arrow-d" data-expanded-icon="arrow-u">
+                    <div data-role="collapsible" id="layout_contents" data-collapsed-icon="arrow-d" data-expanded-icon="arrow-u">
                         <h4>CONTENUTI UTENTI</h4>
                         <div class="contents"></div>
                         <p id="important">è importante la tua opinione e esperienza: commenta!</p>
                     </div>
 
-                    <div data-role="collapsible"  data-theme="a" id="collaps_add_cnt">
+                    <div data-role="collapsible" id="collaps_add_cnt">
                         <h4>AGGIUNGI UN CONTENUTO</h4>
 
                         <div id="addcontent" class="user_logged">
@@ -253,8 +253,8 @@
                                     </fieldset>
                                     
                                 </div>
-                                <div data-role="fieldcontain">
-                                    <button id="upload" type="button" data-icon="comment" data-theme="d">Pubblica</button>
+                                <div data-role="fieldcontain" >
+                                    <button id="upload" type="button" data-icon="comment" >Pubblica</button>
                                 </div>
                             </form>
                         </div>
@@ -306,7 +306,7 @@
                         <input type="password" name="psw_login" id="psw_login" value="" placeholder="Password" required />
                     </div>
 
-                    <input type="button" id="login_button" data-icon="check" value="accedi" data-theme="d">
+                    <input type="button" id="login_button" data-icon="check" value="accedi">
                     <h2 id="login_situation"></h2>
                 </form>
             </div>
@@ -337,7 +337,7 @@
                             <input type="text" name="email" id="email" value="" placeholder="Email" />
                     </div>
 
-                        <input type="button" id="register_button" data-icon="edit" data-theme="d" value="registrati" >
+                        <input type="button" id="register_button" data-icon="edit" value="registrati" >
                     <h2 id="register_error"></h2>
                 </form>
             </div>    
@@ -374,10 +374,10 @@
             </div>
             <div data-role="content">
                 <form name="search" id="search">
-                    <div class="ui-field-contain ui-body ui-br" data-role="fieldcontain">
+                    <div class="ui-field-contain ui-body ui-br" data-role="fieldcontain" data-theme="a">
                         <div id="search_type">
                             <label for="flip-1">Cerca per:</label>
-                            <select name="flip-1" id="search_type" data-role="slider" data-theme="d"
+                            <select name="flip-1" id="search_type" data-role="slider" 
                                     onchange="set_search_placeholder(this);">
                                 <option value="by_type" selected:"selected">tipo</option>
                                 <option value="by_position">ubicazione</option>
@@ -386,7 +386,7 @@
                         <div data-role="fieldcontain" class="ui-hide-label">
                             <input type="text" name="question" id="question" placeholder="torre, strada..." required/>
                         </div>
-                        <input type="button" id="search_button" data-icon="search" data-theme="d" value="Cerca" />
+                        <input type="button" id="search_button" data-icon="search"  value="Cerca" />
                     </div>
                 </form>
                 <div id="search_result">
