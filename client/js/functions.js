@@ -14,6 +14,18 @@ var last_popupped_data = null;
 var supervise = false;
 
 // HTML MANAGEMENT
+
+function startLoader() {
+    setTimeout(function(){
+        $('#startLoader').fadeOut();
+        $('body').css({'overflow':'auto'});
+    }, 3000);
+}
+ 
+$(window).on('load', function() {
+    startLoader();
+});
+
 function login_message(text) {
     $("#login_situation")
         .html(text)
