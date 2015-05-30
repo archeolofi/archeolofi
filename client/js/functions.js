@@ -14,6 +14,18 @@ var last_popupped_data = null;
 var supervise = false;
 
 // HTML MANAGEMENT
+
+function startLoader() {
+    setTimeout(function(){
+        $('#startLoader').fadeOut();
+        $('body').css({'overflow':'auto'});
+    }, 3000);
+}
+ 
+$(window).on('load', function() {
+    startLoader();
+});
+
 function login_message(text) {
     $("#login_situation")
         .html(text)
@@ -274,11 +286,11 @@ function display_contents(contents) {
             +   '       </div>'
             +   '       <div class="layout_like_dislike">'   
             +   '           <div class="like_button" title="' + entry["id_"] + '">'
-            +   '               <button class="ui-btn ui-icon-like ui-btn-icon-notext ui-corner-all ui-nodisc-icon ui-btn-inline" '
+            +   '               <button class="ui-btn ui-icon-like ui-btn-icon-notext ui-corner-all ui-nodisc-icon ui-btn-inline ui-btn-f" '
             +   '                   name="' + entry["id_"] + '_true">'
             +   '               mi piace'
             +   '               </button>'
-            +   '               <button class="ui-btn ui-icon-dislike ui-btn-icon-notext ui-corner-all ui-nodisc-icon ui-btn-inline" '
+            +   '               <button class="ui-btn ui-icon-dislike ui-btn-icon-notext ui-corner-all ui-nodisc-icon ui-btn-inline ui-btn-f" '
             +   '                   name="' + entry["id_"] + '_false">'
             +   '               non mi piace'
             +   '               </button>'

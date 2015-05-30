@@ -10,6 +10,8 @@
         <!-- jQuery Mobile -->
         <link rel="stylesheet" type="text/css" href="libs/jquery.mobile-1.4.2/jquery.mobile-1.4.2.min.css">
         <script type="text/javascript" src="libs/jquery.mobile-1.4.2/jquery.mobile-1.4.2.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/jquery.mobile.icons.min.css" />
+        <link rel="stylesheet" type="text/css" href="css/ThemeRoller.css" />
 
         <!-- Leaflet -->
         <link rel="stylesheet" type="text/css" href="libs/leaflet-0.7.3/leaflet.css" />
@@ -17,13 +19,14 @@
 
         <!-- ours -->
         <link rel="stylesheet" type="text/css" href="css/style.css" />
-        <link rel="stylesheet" type="text/css" href="css/buttons.css" />
         <script type="text/javascript" src="js/functions.js"></script>
+        <script type="text/javascript" src="js/map_functions.js"></script>
         <script type="text/javascript" src="js/admin_functions.js"></script>
         <script type="text/javascript" src="js/location.js"></script>
 
         <script>
             ///////////////////////////// BUTTONS /////////////////////////////
+            
             $(document).ready( function() {
                 $("#login_button").click( function() {
                     data = read_form("login");
@@ -93,22 +96,29 @@
     <body>
     <!-- =========================== HOME: MAP! =========================== -->
         <div data-role="page" id="home">
-
+            <img id="startLoader" src="images/archeolofi.jpg" />
             <div data-role="panel" id="mypanel" data-display="overlay" data-position="right">
-                <a class="ui-corner-all" data-icon="delete" data-rel="close">
-                    chiudi
-                </a>
+
+                <a class="ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all" data-rel="close"></a>
 
                 <!-- Show ('Login' and 'Register') or (username) -->
                 <a href="#login" data-role="button" class="ui-corner-all user_unlogged" data-icon="user">
                     Accedi
                 </a>
+
                 <a href="#register" data-role="button" class="ui-corner-all user_unlogged" data-icon="edit">
                     Registrati
                 </a>
                 <a href="#" data-role="button" class="ui-corner-all user_logged username">
                     <!-- Button filled when user logs in -->
                 </a>
+                <div class="logout_popup">
+                    <h4>Vuoi uscire?</h4>
+                    <div>
+                        <a href="#" class="ui-btn ui-icon-check ui-btn-icon-notext ui-corner-all yes_logout"></a>
+                        <a href="#" class="ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all close_logout"></a>
+                    </div>
+                </div>
 
                 <a href="#user_contents" data-role="button" class="ui-corner-all" data-icon="comment">
                     Commenti utenti
@@ -116,16 +126,10 @@
                 <a href="#credits" data-role="button" class="ui-corner-all" data-icon="info">
                     Crediti
                 </a>
-                <div class="logout_popup">
-                    <h3>Vuoi uscire?</h3>
-                    <div>
-                        <a href="#" class="ui-btn ui-icon-check ui-btn-icon-notext ui-corner-all yes_logout"></a>
-                        <a href="#" class="ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all close_logout"></a>
-                    </div>
-                </div>
+
             </div>
 
-            <div data-role="header" >
+            <div data-role="header" class="header" >
                 <a href="#search" data-role="button" class="ui-btn-left" data-icon="search" data-inline="true">
                     cerca
                 </a>
@@ -136,9 +140,11 @@
             </div>
 
             <div data-role="content" id="content_map">
+                <!-- mettere nuova mappa -->
                 <div id="map" class="map" ></div>
             </div>
-            <div id="legenda" data-theme="a" data-role="footer" data-position="fixed">
+
+            <div id="legenda" data-theme="c" data-role="footer" data-position="fixed">
                 <figure>
                     <img src="images/area_intervento.png" />
                     <figcaption>area intervento</figcaption>
@@ -170,8 +176,8 @@
         </div>
 
     <!-- ============================== INFO ============================== -->
-        <div data-role="page" id="info" class="page">
-            <div data-role="header">
+        <div data-role="page"  id="info" class="page">
+            <div data-role="header" data-theme="a">
                 <h1>Info</h1>
                 <a href="#home" class="ui-btn-left">Mappa</a>
             </div>
@@ -186,7 +192,7 @@
                         <h3 id="json_definizione"></h3>
                         <span id="json_cronologia"></span>
                     </div>
-                        
+
                     <div id="info_json_intervento">
                         <span id="json_approvazione"></span>
                         <span id="json_catasto_foglio"></span>
@@ -200,6 +206,12 @@
                     <div id="basic_info"></div>
                     <span id="json_ubicazione"></span>
                     <div id="go_to_other_type"></div>
+
+                    <!-- mettere mappa -->
+
+                    <div id="map_luogo" class="content_map">
+                    </div>
+
                     <div id="info_approfondite">
                         <div id="description">
                             <h4>Descrizione approfondita:</h4>
@@ -225,10 +237,10 @@
                         <div class="contents"></div>
                         <p id="important">è importante la tua opinione e esperienza: commenta!</p>
                     </div>
-                
+
                     <div data-role="collapsible" id="collaps_add_cnt">
                         <h4>AGGIUNGI UN CONTENUTO</h4>
-                        
+
                         <div id="addcontent" class="user_logged">
                             <form id="content_form" method="post" enctype="multipart/form-data">
                                 <div data-role="fieldcontain">
@@ -242,8 +254,8 @@
                                     </fieldset>
                                     
                                 </div>
-                                <div data-role="fieldcontain">
-                                    <button id="upload" type="button" data-icon="comment" data-theme="d">Pubblica</button>
+                                <div data-role="fieldcontain" >
+                                    <button id="upload" type="button" data-icon="comment" >Pubblica</button>
                                 </div>
                             </form>
                         </div>
@@ -252,7 +264,6 @@
                             <a href="#login" data-role="button" data-theme="e">accedi</a>
                         </div>
                         <h2 id="result_comment"></h2>
-                        
                     </div>
                 </div>
                 
@@ -261,7 +272,7 @@
 
 
     <!-- ========================= USER CONTENTS ========================= -->
-        <div data-role="page" id="user_contents" class="page">
+        <div data-role="page" data-theme="f" id="user_contents" class="page">
             <div data-role="header">
                 <a href="#" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-notext"></a>
                 <h1>Contenuti degli utenti</h1>
@@ -277,11 +288,13 @@
 
     <!-- ============================= LOGIN  ============================= -->
         <div data-role="page" id="login"  >
+
             <div data-role="header"  >
                 <a href="#" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-notext"></a>
                 <h2></h2>
                 <a href="#register" data-role="button" class="ui-btn-right"  data-inline=”true” >registrati</a>
             </div>
+
             <div data-role="content">
                 <form name="login" id="user_data_login">
                     <div data-role="fieldcontain" class="ui-hide-label">
@@ -294,15 +307,11 @@
                         <input type="password" name="psw_login" id="psw_login" value="" placeholder="Password" required />
                     </div>
 
-                    <input type="button" id="login_button" data-icon="check" value="accedi" data-theme="d">
+                    <input type="button" id="login_button" data-icon="check" value="accedi">
                     <h2 id="login_situation"></h2>
                 </form>
             </div>
-            <div data-role="footer" data-theme="a" data-position="fixed" id="login_footer">
-                <div>
-                    <a href="#credits">credits</a>
-                </div>
-            </div>
+
         </div>
 
 
@@ -329,7 +338,7 @@
                             <input type="text" name="email" id="email" value="" placeholder="Email" />
                     </div>
 
-                        <input type="button" id="register_button" data-icon="edit" data-theme="d" value="registrati" >
+                        <input type="button" id="register_button" data-icon="edit" value="registrati" >
                     <h2 id="register_error"></h2>
                 </form>
             </div>    
@@ -359,17 +368,17 @@
                 });
             });
         </script>
-        <div data-role="page" id="search">
+        <div data-role="page" data-theme = 'a' id="search">
             <div data-role="header">
                 <a href="#" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-notext"></a>
                 <h2>Ricerca</h2>
             </div>
             <div data-role="content">
                 <form name="search" id="search">
-                    <div class="ui-field-contain ui-body ui-br" data-role="fieldcontain">
+                    <div class="ui-field-contain ui-body ui-br" data-role="fieldcontain" data-theme="a">
                         <div id="search_type">
                             <label for="flip-1">Cerca per:</label>
-                            <select name="flip-1" id="search_type" data-role="slider" data-theme="d"
+                            <select name="flip-1" id="search_type" data-role="slider" 
                                     onchange="set_search_placeholder(this);">
                                 <option value="by_type" selected:"selected">tipo</option>
                                 <option value="by_position">ubicazione</option>
@@ -378,7 +387,7 @@
                         <div data-role="fieldcontain" class="ui-hide-label">
                             <input type="text" name="question" id="question" placeholder="torre, strada..." required/>
                         </div>
-                        <input type="button" id="search_button" data-icon="search" data-theme="d" value="Cerca" />
+                        <input type="button" id="search_button" data-icon="search"  value="Cerca" />
                     </div>
                 </form>
                 <div id="search_result">
@@ -467,7 +476,7 @@
 
 
         <!-- =========================== POPUP =========================== -->
-        <div class="hidden" id="popup_ritrovamento">
+        <div class="hidden" id="popup_ritrovamento" data-theme="a">
             <h3 class="pop_elem"><!-- definizione --></h3>
             <p class="pop_elem"><!-- descrizione_min --></p>
             <span id="periodo" class="pop_elem ritr"></span>
@@ -476,7 +485,7 @@
                 Altre informazioni
             </a>
         </div>
-        <div class="hidden" id="popup_intervento">
+        <div class="hidden" id="popup_intervento" data-theme="a">
             <h3 class="pop_elem"><!-- tipo_intervento --></h3>
             <time id="data_compilazione" class="pop_elem"></time>
             <ul class="pop_elem">
